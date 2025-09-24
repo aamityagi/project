@@ -2,23 +2,15 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { LayoutDashboard, Search, Globe, ChevronDown, ChevronRight, Menu, X } from "lucide-react";
+import { LayoutDashboard, Search, Globe, Menu, X, ChevronDown, ChevronRight } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 const menu = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-  {
-    name: "SEO",
-    href: "/seo",
-    icon: Search,
-    sub: [
-      { name: "Keyword Finder", href: "/seo/keyword-finder" },
-      { name: "Domain Overview", href: "/seo/domain-overview" },
-    ],
-  },
+  { name: "SEO", href: "/seo", icon: Search },
   {
     name: "Website Builder",
-    href: "/dashboard/website-builder",
+    href: "/website-builder",
     icon: Globe,
     sub: [
       { name: "Blog", href: "/website-builder/blog" },
@@ -35,10 +27,15 @@ interface SidebarProps {
   setMobileOpen: (open: boolean) => void;
 }
 
-export default function Sidebar({ sidebarOpen, setSidebarOpen, mobileOpen, setMobileOpen }: SidebarProps) {
-  const [openSub, setOpenSub] = useState<string | null>(null);
+export default function Sidebar({
+  sidebarOpen,
+  setSidebarOpen,
+  mobileOpen,
+  setMobileOpen,
+}: SidebarProps) {
   const sidebarRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
+  const [openSub, setOpenSub] = useState<string | null>(null);
 
   // Close mobile sidebar on click outside
   useEffect(() => {
@@ -66,27 +63,32 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen, mobileOpen, setMo
           className={`flex items-center justify-between p-2 rounded cursor-pointer hover:bg-gray-700 ${
             isCurrent ? "bg-gray-800" : ""
           }`}
-          onClick={() =>
-            hasSub
-              ? setOpenSub(isActive ? null : item.name)
-              : isMobile
-              ? setMobileOpen(false)
-              : undefined
-          }
         >
-          <div className="flex items-center">
+          {/* Icon + Text */}
+          <Link
+            href={item.href}
+            className="flex items-center flex-1"
+            onClick={() => isMobile && setMobileOpen(false)}
+          >
             <item.icon className="w-5 h-5" />
-            {sidebarOpen || isMobile ? <span className="ml-2">{item.name}</span> : null}
-          </div>
+            {(sidebarOpen || isMobile) && <span className="ml-2">{item.name}</span>}
+          </Link>
+
+          {/* Dropdown toggle for submenus */}
           {hasSub && (sidebarOpen || isMobile) && (
-            isActive ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />
+            <button
+              className="p-1 hover:bg-gray-600 rounded"
+              onClick={() => setOpenSub(isActive ? null : item.name)}
+            >
+              {isActive ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
+            </button>
           )}
         </div>
 
         {/* Submenu for expanded sidebar */}
         {hasSub && (sidebarOpen || isMobile) && isActive && (
           <div className="ml-8 mt-1 space-y-1 cursor-pointer">
-            {item.sub.map((sub) => (
+            {item.sub!.map((sub) => (
               <Link
                 key={sub.name}
                 href={sub.href}
@@ -102,7 +104,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen, mobileOpen, setMo
         {/* Floating submenu for collapsed sidebar */}
         {hasSub && !sidebarOpen && !isMobile && (
           <div className="absolute left-full top-0 ml-2 bg-gray-800 text-white shadow-lg rounded p-2 w-44 z-50 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-auto">
-            {item.sub.map((sub) => (
+            {item.sub!.map((sub) => (
               <Link
                 key={sub.name}
                 href={sub.href}

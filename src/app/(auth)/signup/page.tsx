@@ -52,12 +52,12 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="min-h-screen flex">
+    <div className="min-h-screen flex bg-gray-100">
       {/* Left side slider */}
       <ImageSlider/>
 
       {/* Right side form */}
-      <div className="flex-1 flex flex-col justify-center items-center p-6">
+      <div className="flex-1 flex flex-col justify-center items-center p-6 bg-white shadow-lg">
         {/* Logo */}
         <div className="mb-6">
           <Image src="/logo.png" alt="Logo" width={120} height={40} />
@@ -148,18 +148,17 @@ export default function SignupPage() {
 
           <Button type="submit" className="w-full mt-2 cursor-pointer">Sign Up</Button>
           {message && <p className="mt-2 text-center text-red-500">{message}</p>}
+          <div className="flex justify-between w-full">
+            <Link href="/login" className="text-blue-600 hover:underline">
+              Login
+            </Link>
+            <Link href="/forgot-password" className="text-blue-600 hover:underline">
+              Forgot Password?
+            </Link>
+          </div>
+
         </form>
-        <div className="flex gap-4 w-full">
-                <Link href="/login" className="text-blue-600 hover:underline">
-                  Login
-                </Link>
-                <Link
-                  href="/forgot-password"
-                  className="text-blue-600 hover:underline"
-                >
-                  Forgot Password?
-                </Link>
-              </div>
+        
       </div>
     </div>
   );
