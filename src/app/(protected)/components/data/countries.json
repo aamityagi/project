@@ -1,0 +1,17 @@
+[
+  { "name": "India", "code": "IN", "flag": "https://flagcdn.com/in.svg" },
+  { "name": "United States", "code": "US", "flag": "https://flagcdn.com/us.svg" },
+  { "name": "Canada", "code": "CA", "flag": "https://flagcdn.com/ca.svg" },
+  { "name": "United Kingdom", "code": "GB", "flag": "https://flagcdn.com/gb.svg" },
+  { "name": "Australia", "code": "AU", "flag": "https://flagcdn.com/au.svg" },
+  { "name": "Germany", "code": "DE", "flag": "https://flagcdn.com/de.svg" },
+  { "name": "France", "code": "FR", "flag": "https://flagcdn.com/fr.svg" },
+  { "name": "Japan", "code": "JP", "flag": "https://flagcdn.com/jp.svg" },
+  { "name": "China", "code": "CN", "flag": "https://flagcdn.com/cn.svg" },
+  { "name": "Brazil", "code": "BR", "flag": "https://flagcdn.com/br.svg" },
+  { "name": "South Africa", "code": "ZA", "flag": "https://flagcdn.com/za.svg" },
+  { "name": "Russia", "code": "RU", "flag": "https://flagcdn.com/ru.svg" },
+  { "name": "Italy", "code": "IT", "flag": "https://flagcdn.com/it.svg" },
+  { "name": "Mexico", "code": "MX", "flag": "https://flagcdn.com/mx.svg" },
+  { "name": "Singapore", "code": "SG", "flag": "https://flagcdn.com/sg.svg" }
+]

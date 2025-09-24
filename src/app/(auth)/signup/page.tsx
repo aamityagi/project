@@ -221,18 +221,18 @@ export default function SignupPage() {
           {message && (
             <p className="mt-2 text-center text-red-500">{message}</p>
           )}
+          <div className="flex justify-between w-full">
+            <Link href="/login" className="text-blue-600 hover:underline">
+              Login
+            </Link>
+            <Link
+              href="/forgot-password"
+              className="text-blue-600 hover:underline"
+            >
+              Forgot Password?
+            </Link>
+          </div>
         </form>
-        <div className="flex gap-4 w-full">
-          <Link href="/login" className="text-blue-600 hover:underline">
-            Login
-          </Link>
-          <Link
-            href="/forgot-password"
-            className="text-blue-600 hover:underline"
-          >
-            Forgot Password?
-          </Link>
-        </div>
       </div>
     </div>
   );

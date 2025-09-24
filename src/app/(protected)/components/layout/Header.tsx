@@ -36,7 +36,7 @@ export default function Header({ onMobileMenuClick }: HeaderProps) {
   };
 
   return (
-    <header className="flex items-center justify-between p-4 bg-white shadow-[0_2px_4px_rgba(0,0,0,0.08)]">
+    <header className="flex items-center justify-between p-4 shadow-md z-10 bg-white">
       <div className="flex items-center gap-3 cursor-pointer">
         <Image src="/logo.png" alt="Logo" width={32} height={32} className="object-contain" />
 
