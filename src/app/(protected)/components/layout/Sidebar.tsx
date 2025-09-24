@@ -113,7 +113,6 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen, mobileOpen, setMo
             ))}
           </div>
         )}
-
       </div>
     );
   };
