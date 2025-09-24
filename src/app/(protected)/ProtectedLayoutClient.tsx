@@ -8,15 +8,24 @@ import Header from "./components/layout/Header";
 import Sidebar from "./components/layout/Sidebar";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
-const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
 
-export default function ProtectedLayoutClient({ children }: { children: ReactNode }) {
+export default function ProtectedLayoutClient({
+  children,
+}: {
+  children: ReactNode;
+}) {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
     <SessionProvider>
-      <div className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen bg-gray-100`}>
+      <div
+        className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen bg-gray-100 text-gray-800`}
+      >
         {/* Header */}
         <Header onMobileMenuClick={() => setMobileOpen(true)} />
 

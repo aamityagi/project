@@ -31,26 +31,34 @@ export default function CountrySelect({
       {/* Selected country */}
       <button
         type="button"
-        className="flex items-center border p-1 rounded-md bg-white min-w-[80px]"
+        className="flex items-center border p-2 bg-white"
         onClick={() => setOpen(!open)}
       >
         {selected ? (
           <>
-            <img src={selected.flag} alt={selected.code} className="w-4 h-4 mr-1" />
+            <img
+              src={selected.flag}
+              alt={selected.code}
+              className="w-4 h-4 mr-1"
+            />
             <span className="text-sm font-medium">{selected.code}</span>
           </>
         ) : (
           <span className="text-sm">Select</span>
         )}
 
-        {/* Dropdown arrow */}
         <svg
           className="w-3 h-3 ml-1"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
         >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M19 9l-7 7-7-7"
+          />
         </svg>
       </button>
 
