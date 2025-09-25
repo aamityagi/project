@@ -61,7 +61,7 @@ export default function ProtectedLayoutClient({
             <aside className="relative w-64 bg-gray-900 text-white h-full shadow-lg flex flex-col">
               <div className="flex items-center justify-between p-4 border-b border-gray-800">
                 <Image
-                  fill
+                   width={180} height={100}
                   src="/logo.png"
                   alt="Logo"
                   className="h-8 w-8 object-contain"

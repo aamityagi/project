@@ -69,7 +69,7 @@ export default function LoginPage() {
       <div className="flex-1 flex items-center justify-center bg-gray-50 px-4">
         <div className="w-full max-w-md bg-white p-8 shadow-lg space-y-6">
           <div className="flex justify-center">
-            <Image fill src="/logo.svg" alt="Logo" className="h-12" />
+            <Image width={180} height={100} src="/logo.svg" alt="Logo" className="h-12" />
           </div>
 
           <div className="text-center space-y-1">
