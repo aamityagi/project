@@ -1,33 +1,31 @@
 import React from "react";
 
-interface TableProps {
+interface TableProps<T extends Record<string, unknown>> {
   columns: string[];
-  data: Array<Record<string, any>>;
+  data: T[];
 }
 
-export const Table: React.FC<TableProps> = ({ columns, data }) => {
+
+export default function Table<T extends Record<string, unknown>>({ columns, data }: TableProps<T>) {
   return (
-    <table className="w-full border border-gray-200 rounded">
-      <thead className="bg-gray-100">
+    <table className="min-w-full border">
+      <thead>
         <tr>
           {columns.map((col) => (
-            <th key={col} className="border px-3 py-2 text-left">
-              {col}
-            </th>
+            <th key={col} className="border px-4 py-2">{col}</th>
           ))}
         </tr>
       </thead>
       <tbody>
-        {data.map((row, idx) => (
-          <tr key={idx} className="even:bg-gray-50">
+        {data.map((row, rowIndex) => (
+          <tr key={rowIndex}>
             {columns.map((col) => (
-              <td key={col} className="border px-3 py-2">
-                {row[col]}
-              </td>
+              <td key={col} className="border px-4 py-2">{row[col] as React.ReactNode}</td>
             ))}
           </tr>
         ))}
       </tbody>
     </table>
   );
-};
+}
+

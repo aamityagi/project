@@ -1,27 +1,21 @@
-import { Card, CardHeader, CardContent } from "../components/ui/card";
-import { Button } from "../components/ui/button";
-import { Table } from "../components/ui/table";
-import { Dialog } from "../components/ui/dialog";
+import AffiliateBanner from "../../components/AffiliateBanner";
+import { getServerAuthSession } from "../../../../lib/getServerAuthSession";
+import { redirect } from "next/navigation";
 
-export default function DashboardPage() {
-  const data = [
-    { Name: "Salt", Price: 50, Stock: "Yes" },
-    { Name: "Sugar", Price: 30, Stock: "No" },
-  ];
+export default async function Dashboard() {
+  const session = await getServerAuthSession();
+  if (!session) redirect("/api/auth/signin");
 
   return (
-    <div className="p-6 space-y-6">
-      <Card>
-        <CardHeader>Products</CardHeader>
-        <CardContent>
-          <Table columns={["Name", "Price", "Stock"]} data={data} />
-        </CardContent>
-      </Card>
+    <div className="p-6 max-w-4xl mx-auto space-y-6">
+      {/* Show affiliate opportunity */}
+      <AffiliateBanner />
 
-      <Dialog title="Add Product" triggerText="Add New Product">
-        <p>Form goes here...</p>
-        <Button className="mt-2">Submit</Button>
-      </Dialog>
+      {/* Your normal dashboard content */}
+      <h1 className="text-2xl font-bold">Welcome, {session.user?.name}</h1>
+      <p className="text-sm text-gray-600">
+        Your account overview goes here.
+      </p>
     </div>
   );
 }

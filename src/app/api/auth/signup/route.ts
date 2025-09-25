@@ -9,7 +9,17 @@ export async function POST(req: Request) {
   try {
     await connectMongo();
     const body = await req.json();
-    const { fullName, email, phone, password, confirmPassword, extraInfo, terms, profession, professionLink } = body;
+    const {
+      fullName,
+      email,
+      phone,
+      password,
+      confirmPassword,
+      extraInfo,
+      terms,
+      profession,
+      professionLink,
+    } = body;
 
     // Basic validation
     if (!fullName || !email || !phone || !password || !confirmPassword || !profession) {
@@ -20,13 +30,21 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Passwords do not match" }, { status: 400 });
     }
 
-    if ((profession === "business" || profession === "social" || profession === "company") && !professionLink) {
-      return NextResponse.json({ error: "Please enter the required link for your profession" }, { status: 400 });
+    if (
+      (profession === "business" || profession === "social" || profession === "company") &&
+      !professionLink
+    ) {
+      return NextResponse.json(
+        { error: "Please enter the required link for your profession" },
+        { status: 400 }
+      );
     }
 
     // Check if user already exists
     const existing = await User.findOne({ $or: [{ email }, { phone }] });
-    if (existing) return NextResponse.json({ error: "Email or phone already exists" }, { status: 400 });
+    if (existing) {
+      return NextResponse.json({ error: "Email or phone already exists" }, { status: 400 });
+    }
 
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -55,9 +73,12 @@ export async function POST(req: Request) {
       message: "Signup successful! Verification email sent to your email address.",
       userId: user.id,
     });
+  } catch (error) {
+    console.error("Signup API error:", error);
 
-  } catch (err: any) {
-    console.error(err);
-    return NextResponse.json({ error: "Server error" }, { status: 500 });
+    // ✅ Type-safe error handling
+    const message = error instanceof Error ? error.message : "Server error";
+
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

@@ -9,6 +9,7 @@ import { Checkbox } from "../../(protected)/components/ui/checkbox";
 import Link from "next/link";
 import ImageSlider from "../components/ImageSlider";
 import SocialAuth from "../components/SocialAuth";
+import Image from "next/image";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -68,7 +69,7 @@ export default function LoginPage() {
       <div className="flex-1 flex items-center justify-center bg-gray-50 px-4">
         <div className="w-full max-w-md bg-white p-8 shadow-lg space-y-6">
           <div className="flex justify-center">
-            <img src="/logo.svg" alt="Logo" className="h-12" />
+            <Image fill src="/logo.svg" alt="Logo" className="h-12" />
           </div>
 
           <div className="text-center space-y-1">

@@ -21,9 +21,5 @@ export async function GET(req: Request, { params }: Params) {
   await user.save();
 
   // ✅ Redirect with absolute URL
-<<<<<<< HEAD
   return NextResponse.redirect(new URL("/login", req.url));
-=======
-  return NextResponse.redirect(new URL("/auth/login", req.url));
->>>>>>> d05cb469b413225b78a2150c0235ba3120036f4c
 }

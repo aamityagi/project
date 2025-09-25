@@ -58,7 +58,7 @@ export default function SignupPage() {
       } else {
         setMessage(result.error);
       }
-    } catch (err) {
+    } catch {
       setMessage("Server error");
     }
   };

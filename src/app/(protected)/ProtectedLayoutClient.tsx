@@ -6,6 +6,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { X } from "lucide-react";
 import Header from "./components/layout/Header";
 import Sidebar from "./components/layout/Sidebar";
+import Image from "next/image";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({
@@ -59,7 +60,8 @@ export default function ProtectedLayoutClient({
             {/* Sidebar */}
             <aside className="relative w-64 bg-gray-900 text-white h-full shadow-lg flex flex-col">
               <div className="flex items-center justify-between p-4 border-b border-gray-800">
-                <img
+                <Image
+                  fill
                   src="/logo.png"
                   alt="Logo"
                   className="h-8 w-8 object-contain"

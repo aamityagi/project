@@ -1,17 +1,22 @@
-import Link from "next/link";
+import { getServerAuthSession } from "../../../../lib/getServerAuthSession";
+import { redirect } from 'next/navigation';
 
-        export default function Affiliation() {
-  return (
-    <section id="affiliation" className="py-20 px-6 text-center">
-      <h2 className="text-3xl font-bold mb-6">Affiliation Program</h2>
-      <p className="max-w-3xl mx-auto text-gray-700 mb-6">
-        Join our affiliate program and earn rewards by referring users to our platform.
-      </p>
-      <Link href={"/signup"}>
-        <button className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 cursor-pointer">
-          Sign Up as Affiliate
-        </button>
-      </Link>
-    </section>
-  );
+
+export default async function AffiliateLanding() {
+const session = await getServerAuthSession();
+if (session) {
+// If already signed in, send to onboarding directly
+redirect('/onboarding/affiliation');
+}
+
+
+return (
+<div className="p-8 max-w-4xl mx-auto">
+    <h1 className="text-2xl font-bold">Partner with us</h1>
+    <p className="mt-2 text-gray-600">Earn commissions by sharing our product. Sign up to apply and receive a promo link.</p>
+    <div className="mt-6">
+        <a href={`/api/auth/signin?callbackUrl=/onboarding/affiliation`} className="inline-flex items-center rounded bg-[#d2ab67] px-4 py-2 text-black">Sign up / Login to apply</a>
+    </div>
+</div>
+);
 }

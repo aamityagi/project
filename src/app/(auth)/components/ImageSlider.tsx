@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import Image from "next/image";
 
 const images = ["/images/slide1.jpg", "/images/slide2.jpg", "/images/slide3.jpg"];
 
@@ -15,10 +16,11 @@ export default function ImageSlider() {
 
   return (
     <div className="relative w-1/2 h-screen hidden md:block">
-      <img
+      <Image
         src={images[current]}
         alt="Slide"
         className="w-full h-full object-cover transition-all duration-500"
+        fill
       />
       {/* Arrows */}
       <button

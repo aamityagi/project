@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import countriesDataJson from "../components/data/countries.json"; // adjust path
+import Image from "next/image";
 
 interface Country {
   name: string;
@@ -36,7 +37,8 @@ export default function CountrySelect({
       >
         {selected ? (
           <>
-            <img
+            <Image
+              fill
               src={selected.flag}
               alt={selected.code}
               className="w-4 h-4 mr-1"
@@ -87,7 +89,7 @@ export default function CountrySelect({
               }}
               className="flex items-center p-2 cursor-pointer hover:bg-gray-100 text-sm"
             >
-              <img src={c.flag} alt={c.code} className="w-4 h-4 mr-2" />
+              <Image fill src={c.flag} alt={c.code} className="w-4 h-4 mr-2" />
               <span>{c.name}</span>
             </div>
           ))}
