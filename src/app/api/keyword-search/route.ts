@@ -4,15 +4,43 @@ import { connectMongo } from "../../../../lib/mongoose";
 import Keyword from "../../../../models/Keyword";
 import fs from "fs";
 
+interface KeywordItem {
+  Keyword: string;
+  Intent: string;
+  Volume: number;
+  KD: number;
+  CPC: number;
+  SF: number;
+  UpdateDate: Date;
+}
+
+// Type for SerpApi response (simplified)
+interface SerpApiResult {
+  title?: string;
+  position?: number;
+}
+
+interface SerpApiResponse {
+  organic_results?: SerpApiResult[];
+}
+
+// Type for OpenAI API response
+interface OpenAIChoice {
+  message: {
+    content: string;
+  };
+}
+
+interface OpenAIResponse {
+  choices: OpenAIChoice[];
+}
+
 export async function POST(req: Request) {
   await connectMongo();
   const { keyword, country } = await req.json();
 
   if (!keyword || !country) {
-    return NextResponse.json(
-      { error: "Keyword and country required" },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: "Keyword and country required" }, { status: 400 });
   }
 
   try {
@@ -25,7 +53,7 @@ export async function POST(req: Request) {
       console.log("❌ Not found in MongoDB");
     }
 
-    let combinedData: any[] = [];
+    const combinedData: KeywordItem[] = [];
 
     // 2️⃣ Keyword API (SerpApi example)
     try {
@@ -34,23 +62,26 @@ export async function POST(req: Request) {
           `https://serpapi.com/search.json?q=${keyword}&location=${country}&api_key=${process.env.SERPAPI_KEY}`
         );
 
-        if (!apiRes.ok) throw new Error(`Keyword API failed with status ${apiRes.status}`);
+        if (apiRes.ok) {
+          const apiJson: SerpApiResponse = await apiRes.json();
 
-        const apiJson = await apiRes.json();
-        if (apiJson?.organic_results?.length) {
-          const formatted = apiJson.organic_results.map((r: any) => ({
-            Keyword: r.title || keyword,
-            Intent: "Informational",
-            Volume: r.position || 0,
-            KD: Math.floor(Math.random() * 100),
-            CPC: Number((Math.random() * 2).toFixed(2)),
-            SF: Math.floor(Math.random() * 10),
-            UpdateDate: new Date(),
-          }));
-          console.log(`✅ Found ${formatted.length} from Keyword API`);
-          combinedData.push(...formatted);
+          if (apiJson?.organic_results?.length) {
+            const formatted: KeywordItem[] = apiJson.organic_results.map((r) => ({
+              Keyword: r.title || keyword,
+              Intent: "Informational",
+              Volume: r.position || 0,
+              KD: Math.floor(Math.random() * 100),
+              CPC: Number((Math.random() * 2).toFixed(2)),
+              SF: Math.floor(Math.random() * 10),
+              UpdateDate: new Date(),
+            }));
+            console.log(`✅ Found ${formatted.length} from Keyword API`);
+            combinedData.push(...formatted);
+          } else {
+            console.log("❌ No data from keyword API");
+          }
         } else {
-          console.log("❌ No data from keyword API");
+          console.log(`❌ Keyword API failed with status ${apiRes.status}`);
         }
       } else {
         console.log("⚠️ SERPAPI_KEY not set, skipping keyword API");
@@ -78,15 +109,17 @@ export async function POST(req: Request) {
           }),
         });
 
-        if (!aiRes.ok) throw new Error(`AI API failed with status ${aiRes.status}`);
-
-        const aiData = await aiRes.json();
-        const aiJson = JSON.parse(aiData.choices?.[0]?.message?.content || "[]");
-        if (aiJson.length) {
-          console.log(`✅ Found ${aiJson.length} from AI`);
-          combinedData.push(...aiJson);
+        if (aiRes.ok) {
+          const aiData: OpenAIResponse = await aiRes.json();
+          const aiJson: KeywordItem[] = JSON.parse(aiData.choices[0].message.content || "[]");
+          if (aiJson.length) {
+            console.log(`✅ Found ${aiJson.length} from AI`);
+            combinedData.push(...aiJson);
+          } else {
+            console.log("❌ No data available from AI");
+          }
         } else {
-          console.log("❌ No data available from AI");
+          console.log(`❌ AI API failed with status ${aiRes.status}`);
         }
       } else if (!process.env.OPENAI_API_KEY) {
         console.log("⚠️ OPENAI_API_KEY not set, skipping AI fallback");
@@ -103,8 +136,8 @@ export async function POST(req: Request) {
     }
 
     // 5️⃣ Deduplicate
-    const uniqueDataMap = new Map();
-    combinedData.forEach((item: any) => {
+    const uniqueDataMap = new Map<string, KeywordItem>();
+    combinedData.forEach((item) => {
       if (!uniqueDataMap.has(item.Keyword)) uniqueDataMap.set(item.Keyword, item);
     });
     const finalData = Array.from(uniqueDataMap.values());
