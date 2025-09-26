@@ -5,11 +5,22 @@ import CountrySelect from "../../../components/CountrySelector";
 
 export default function KeywordMagicTool() {
   const [keyword, setKeyword] = useState("");
-  const [domain, setDomain] = useState("");
   const [country, setCountry] = useState("IN"); // default India
 
-  const handleSearch = () => {
-    console.log("Searching with:", { keyword, domain, country });
+  const handleSearch = async () => {
+    // Send request to API
+    try {
+      const res = await fetch("/api/keyword-search", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ keyword, country }),
+      });
+
+      const data = await res.json();
+      console.log("API response:", data);
+    } catch (err) {
+      console.error("API error:", err);
+    }
   };
 
   return (
@@ -24,14 +35,6 @@ export default function KeywordMagicTool() {
           value={keyword}
           onChange={(e) => setKeyword(e.target.value)}
           placeholder="Enter keyword"
-          className="flex-1 border rounded-md p-2 w-full"
-        />
-
-        <input
-          type="text"
-          value={domain}
-          onChange={(e) => setDomain(e.target.value)}
-          placeholder="Enter domain (optional)"
           className="flex-1 border rounded-md p-2 w-full"
         />
 

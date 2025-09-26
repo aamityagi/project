@@ -38,7 +38,8 @@ export default function CountrySelect({
         {selected ? (
           <>
             <Image
-              fill
+              width={60}
+              height={60}
               src={selected.flag}
               alt={selected.code}
               className="w-4 h-4 mr-1"
@@ -89,7 +90,7 @@ export default function CountrySelect({
               }}
               className="flex items-center p-2 cursor-pointer hover:bg-gray-100 text-sm"
             >
-              <Image fill src={c.flag} alt={c.code} className="w-4 h-4 mr-2" />
+              <Image width={60} height={60} src={c.flag} alt={c.code} className="w-4 h-4 mr-2" />
               <span>{c.name}</span>
             </div>
           ))}

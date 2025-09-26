@@ -16,7 +16,7 @@ export default function ResetPasswordPage() {
     setError("");
     setMessage("");
 
-    const res = await fetch(`/api/auth/reset-password/${token}`, {
+    const res = await fetch(`/api/reset-password/${token}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ password, confirmPassword }),

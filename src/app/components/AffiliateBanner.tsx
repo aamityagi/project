@@ -50,6 +50,7 @@ export default function AffiliateBanner() {
         >
           Apply now
         </a>
+
       </div>
     </div>
   );

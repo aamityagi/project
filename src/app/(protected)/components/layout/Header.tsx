@@ -64,7 +64,7 @@ export default function Header({ onMobileMenuClick }: HeaderProps) {
               <ChevronDown className="w-4 h-4 text-gray-500" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-48 border bg-white shadow-md p-0" align="end">
+          <DropdownMenuContent className="w-48 border bg-white shadow-md p-0 z-50" align="end">
             <div className="flex items-center gap-2 px-3 py-2 text-sm text-gray-600 border-b">
               <Mail className="w-4 h-4 text-gray-500" />
               <span>{session.user?.email}</span>
