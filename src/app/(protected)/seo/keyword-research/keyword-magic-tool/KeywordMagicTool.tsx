@@ -5,15 +5,15 @@ import CountrySelect from "../../../components/CountrySelector";
 
 export default function KeywordMagicTool() {
   const [keyword, setKeyword] = useState("");
-  const [country, setCountry] = useState("IN"); // default India
+  const [country, setCountry] = useState("IN"); // store country code
+  const [locationCode, setLocationCode] = useState(2840); // store DataForSEO location_code
 
   const handleSearch = async () => {
-    // Send request to API
     try {
       const res = await fetch("/api/keyword-search", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ keyword, country }),
+        body: JSON.stringify({ keyword, country, location_code: locationCode }),
       });
 
       const data = await res.json();
@@ -35,10 +35,16 @@ export default function KeywordMagicTool() {
           value={keyword}
           onChange={(e) => setKeyword(e.target.value)}
           placeholder="Enter keyword"
-          className="flex-1 border rounded-md p-2 w-full"
+          className="flex-1 border p-2 w-full"
         />
 
-        <CountrySelect value={country} onChange={setCountry} />
+        <CountrySelect
+          value={country}
+          onChange={({ code, location_code }) => {
+            setCountry(code); // update country code
+            setLocationCode(location_code); // update location_code
+          }}
+        />
 
         <button
           onClick={handleSearch}

@@ -8,6 +8,7 @@ interface Country {
   name: string;
   code: string;
   flag: string;
+  location_code: number; // added for DataForSEO
 }
 
 const countriesData: Country[] = countriesDataJson;
@@ -17,7 +18,7 @@ export default function CountrySelect({
   onChange,
 }: {
   value: string;
-  onChange: (code: string) => void;
+  onChange: (selection: { code: string; location_code: number }) => void; // return code + location
 }) {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
@@ -84,13 +85,19 @@ export default function CountrySelect({
             <div
               key={c.code}
               onClick={() => {
-                onChange(c.code);
+                onChange({ code: c.code, location_code: c.location_code }); // return code + location_code
                 setOpen(false);
                 setSearch("");
               }}
               className="flex items-center p-2 cursor-pointer hover:bg-gray-100 text-sm"
             >
-              <Image width={60} height={60} src={c.flag} alt={c.code} className="w-4 h-4 mr-2" />
+              <Image
+                width={60}
+                height={60}
+                src={c.flag}
+                alt={c.code}
+                className="w-4 h-4 mr-2"
+              />
               <span>{c.name}</span>
             </div>
           ))}

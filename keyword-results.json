@@ -1,0 +1,82 @@
+[
+  {
+    "Keyword": "United Arab Emirates - U.S. Export Controls",
+    "Intent": "Informational",
+    "Volume": 1,
+    "KD": 73,
+    "CPC": 0.76,
+    "SF": 5,
+    "UpdateDate": "2025-09-26T11:23:57.595Z",
+    "Source": "SerpApi"
+  },
+  {
+    "Keyword": "UAE Imports & Exports Guide",
+    "Intent": "Transactional",
+    "Volume": 2,
+    "KD": 4,
+    "CPC": 0.94,
+    "SF": 8,
+    "UpdateDate": "2025-09-26T11:23:57.595Z",
+    "Source": "SerpApi"
+  },
+  {
+    "Keyword": "United Arab Emirates (ARE) Exports, Imports, and Trade ...",
+    "Intent": "Informational",
+    "Volume": 3,
+    "KD": 63,
+    "CPC": 0.09,
+    "SF": 0,
+    "UpdateDate": "2025-09-26T11:23:57.595Z",
+    "Source": "SerpApi"
+  },
+  {
+    "Keyword": "Dubai Exporters - Dubai UAE Directory of Exporters ...",
+    "Intent": "Navigational",
+    "Volume": 4,
+    "KD": 86,
+    "CPC": 0.91,
+    "SF": 7,
+    "UpdateDate": "2025-09-26T11:23:57.595Z",
+    "Source": "SerpApi"
+  },
+  {
+    "Keyword": "United Arab Emirates - Import Requirements and ...",
+    "Intent": "Informational",
+    "Volume": 5,
+    "KD": 65,
+    "CPC": 1.04,
+    "SF": 9,
+    "UpdateDate": "2025-09-26T11:23:57.595Z",
+    "Source": "SerpApi"
+  },
+  {
+    "Keyword": "Export Cars for Sale in Dubai",
+    "Intent": "Commercial",
+    "Volume": 6,
+    "KD": 77,
+    "CPC": 1.28,
+    "SF": 6,
+    "UpdateDate": "2025-09-26T11:23:57.595Z",
+    "Source": "SerpApi"
+  },
+  {
+    "Keyword": "Dubai Export & Manufacturing Support | Business Incentives",
+    "Intent": "Navigational",
+    "Volume": 7,
+    "KD": 46,
+    "CPC": 0.43,
+    "SF": 3,
+    "UpdateDate": "2025-09-26T11:23:57.595Z",
+    "Source": "SerpApi"
+  },
+  {
+    "Keyword": "Exporting to Dubai",
+    "Intent": "Commercial",
+    "Volume": 8,
+    "KD": 35,
+    "CPC": 1.03,
+    "SF": 6,
+    "UpdateDate": "2025-09-26T11:23:57.595Z",
+    "Source": "SerpApi"
+  }
+]
