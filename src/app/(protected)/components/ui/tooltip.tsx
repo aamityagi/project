@@ -2,10 +2,10 @@
 
 import * as React from "react";
 import * as TooltipPrimitive from "@radix-ui/react-tooltip";
-import { cn } from "../../../../../lib/utils"; // optional: a className merge helper
+import { cn } from "../../../../../lib/utils";
 
+const TooltipProvider = TooltipPrimitive.Provider;
 const Tooltip = TooltipPrimitive.Root;
-
 const TooltipTrigger = TooltipPrimitive.Trigger;
 
 const TooltipContent = React.forwardRef<
@@ -18,6 +18,7 @@ const TooltipContent = React.forwardRef<
       sideOffset={sideOffset}
       className={cn(
         "z-50 rounded-md bg-gray-800 px-2 py-1 text-xs text-white shadow-md animate-in fade-in-80",
+        "max-w-xs sm:max-w-sm pointer-events-auto select-text", // allow text selection
         className
       )}
       {...props}
@@ -25,7 +26,5 @@ const TooltipContent = React.forwardRef<
   </TooltipPrimitive.Portal>
 ));
 TooltipContent.displayName = "TooltipContent";
-
-const TooltipProvider = TooltipPrimitive.Provider;
 
 export { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider };

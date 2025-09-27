@@ -3,13 +3,17 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Button } from "../ui/button";
 import { Info } from "lucide-react";
+import InfoTooltip from "../InfoTooltip";
 
 export type FilterType = "single" | "multi" | "range";
 
 export interface FilterOption {
   label: string;
   value?: string;
+  range?: string;   // e.g. "85–100%"
+  tooltip?: string; // e.g. "Very hard keywords are highly competitive"
 }
+
 
 // Different output types based on filter type
 type FilterValue<T extends FilterType> =
@@ -95,22 +99,32 @@ export default function FilterDropdown<T extends FilterType>({
         <div className="absolute top-full mt-1 w-60 bg-white border shadow-md z-50 p-3 flex flex-col gap-2">
           {/* Single Select */}
           {type === "single" &&
-            options.map((opt) => {
-              const value = opt.value || opt.label;
-              const isSelected = selectedValue === value;
-              return (
+            options.map((opt) => (
                 <div
-                  key={opt.label}
-                  className={`flex items-center gap-2 p-1 rounded cursor-pointer ${
-                    isSelected ? "bg-blue-100 font-semibold" : "hover:bg-gray-100"
-                  }`}
-                  onClick={() => handleSingleSelect(value)}
+                key={opt.label}
+                className={`flex items-center justify-between cursor-pointer px-2 py-1 rounded ${
+                    selectedValue === (opt.value || opt.label)
+                    ? "bg-blue-100 font-semibold"
+                    : "hover:bg-gray-100"
+                }`}
+                onClick={() => handleSingleSelect(opt.value || opt.label)}
                 >
-                  <span>{opt.label}</span>
-                  <Info className="w-4 h-4 text-gray-400 ml-auto" />
+                {/* Label on the left */}
+                <span>{opt.label}</span>
+
+                {/* Range + Info on the right */}
+                <div className="flex items-center gap-1">
+                    {opt.range && (
+                    <span className="text-sm text-gray-600">{opt.range}</span>
+                    )}
+
+                    {opt.tooltip && (
+                    <InfoTooltip content={opt.tooltip} />
+                    )}
                 </div>
-              );
-            })}
+                </div>
+            ))}
+
 
           {/* Multi Select */}
           {type === "multi" &&

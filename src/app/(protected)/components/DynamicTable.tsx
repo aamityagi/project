@@ -221,12 +221,12 @@ export default function DynamicTable({ data }: DynamicTableProps) {
           title="KD"
           type="single"
           options={[
-            { label: "Very hard", value: "85-100" },
-            { label: "Hard", value: "70-84" },
-            { label: "Difficult", value: "50-69" },
-            { label: "Possible", value: "30-49" },
-            { label: "Easy", value: "15-29" },
-            { label: "Very easy", value: "0-14" },
+            { label: "Very hard", value: "85-100", range: "85–100%", tooltip: "Extremely difficult, highly competitive keywords" },
+            { label: "Hard", value: "70-84", range: "70–84%", tooltip: "Hard competition, strong SEO needed" },
+            { label: "Difficult", value: "50-69", range: "50–69%", tooltip: "Moderately competitive keywords" },
+            { label: "Possible", value: "30-49", range: "30–49%", tooltip: "Possible to rank with good SEO strategy" },
+            { label: "Easy", value: "15-29", range: "15–29%", tooltip: "Relatively easy to rank" },
+            { label: "Very easy", value: "0-14", range: "0–14%", tooltip: "Very low competition keywords" },
             { label: "Custom Range", value: "custom" },
           ]}
           onApply={(value) => {
@@ -234,6 +234,8 @@ export default function DynamicTable({ data }: DynamicTableProps) {
             setPage(1);
           }}
         />
+
+
 
         <FilterDropdown
           title="Intent"
