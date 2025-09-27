@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
-import { cn } from "../../../../../lib/utils"; // optional: your classNames helper
+import { cn } from "../../../../../lib/utils";
 
 const DropdownMenu = DropdownMenuPrimitive.Root;
 const DropdownMenuTrigger = DropdownMenuPrimitive.Trigger;
@@ -14,8 +14,7 @@ const DropdownMenuContent = React.forwardRef<
       ref={ref}
       sideOffset={sideOffset}
       className={cn(
-        // ✅ Removed border, kept shadow subtle
-        "bg-white shadow-md rounded-none min-w-[180px] focus:outline-none",
+        "bg-white shadow-md rounded-none min-w-[180px] focus:outline-none z-50",
         className
       )}
       {...props}
@@ -24,6 +23,7 @@ const DropdownMenuContent = React.forwardRef<
 ));
 DropdownMenuContent.displayName = "DropdownMenuContent";
 
+// ✅ Add standard item
 const DropdownMenuItem = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.Item>,
   React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Item>
@@ -31,7 +31,6 @@ const DropdownMenuItem = React.forwardRef<
   <DropdownMenuPrimitive.Item
     ref={ref}
     className={cn(
-      // ✅ Professional clean style with hover background
       "px-3 py-2 text-sm flex items-center gap-2 cursor-pointer select-none outline-none hover:bg-gray-100",
       className
     )}
@@ -40,13 +39,28 @@ const DropdownMenuItem = React.forwardRef<
 ));
 DropdownMenuItem.displayName = "DropdownMenuItem";
 
+// ✅ Checkbox item already exists
+const DropdownMenuCheckboxItem = React.forwardRef<
+  React.ElementRef<typeof DropdownMenuPrimitive.CheckboxItem>,
+  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.CheckboxItem>
+>(({ className, ...props }, ref) => (
+  <DropdownMenuPrimitive.CheckboxItem
+    ref={ref}
+    className={cn(
+      "px-3 py-2 text-sm flex items-center gap-2 cursor-pointer select-none outline-none hover:bg-gray-100",
+      className
+    )}
+    {...props}
+  />
+));
+DropdownMenuCheckboxItem.displayName = "DropdownMenuCheckboxItem";
+
 const DropdownMenuSeparator = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.Separator>,
   React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Separator>
 >(({ className, ...props }, ref) => (
   <DropdownMenuPrimitive.Separator
     ref={ref}
-    // ✅ Lighter separator line
     className={cn("h-px bg-gray-100 my-1", className)}
     {...props}
   />
@@ -58,5 +72,6 @@ export {
   DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuCheckboxItem,
   DropdownMenuSeparator,
 };

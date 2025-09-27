@@ -2,11 +2,18 @@
 
 import { useState } from "react";
 import CountrySelect from "../../../components/CountrySelector";
+import DynamicTable from "../../../components/DynamicTable";
+
+// ✅ Define a type for table rows
+export interface TableRow {
+  [key: string]: string | number | boolean | Date | undefined;
+}
 
 export default function KeywordMagicTool() {
   const [keyword, setKeyword] = useState("");
-  const [country, setCountry] = useState("IN"); // store country code
-  const [locationCode, setLocationCode] = useState(2840); // store DataForSEO location_code
+  const [country, setCountry] = useState("IN");
+  const [locationCode, setLocationCode] = useState(2840);
+  const [tableData, setTableData] = useState<TableRow[]>([]); // ✅ type-safe
 
   const handleSearch = async () => {
     try {
@@ -16,20 +23,20 @@ export default function KeywordMagicTool() {
         body: JSON.stringify({ keyword, country, location_code: locationCode }),
       });
 
-      const data = await res.json();
-      console.log("API response:", data);
+      const json = await res.json();
+      setTableData(json.data || []);
     } catch (err) {
       console.error("API error:", err);
     }
   };
 
   return (
-    <div className="p-6 max-w-4xl mx-auto">
+    <div className="p-6 max-w-6xl mx-auto">
       <h1 className="text-2xl md:text-3xl font-bold text-center mb-4">
         Keyword Magic Tool
       </h1>
 
-      <div className="flex flex-col md:flex-row gap-3 items-center justify-center">
+      <div className="flex flex-col md:flex-row gap-3 items-center justify-center mb-6">
         <input
           type="text"
           value={keyword}
@@ -41,8 +48,8 @@ export default function KeywordMagicTool() {
         <CountrySelect
           value={country}
           onChange={({ code, location_code }) => {
-            setCountry(code); // update country code
-            setLocationCode(location_code); // update location_code
+            setCountry(code);
+            setLocationCode(location_code);
           }}
         />
 
@@ -53,6 +60,9 @@ export default function KeywordMagicTool() {
           Search
         </button>
       </div>
+
+      {/* Table */}
+      {tableData.length > 0 && <DynamicTable data={tableData} />}
     </div>
   );
 }
