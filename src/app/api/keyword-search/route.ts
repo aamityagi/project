@@ -32,8 +32,18 @@ interface OpenAIResponse {
   choices: OpenAIChoice[];
 }
 
-// Random intent generator
-function getIntentForKeyword(_keyword: string): string {
+interface AIGeneratedKeyword {
+  Keyword?: string;
+  Intent?: string;
+  Volume?: number;
+  KD?: number;
+  CPC?: number;
+  SF?: number;
+  UpdateDate?: string;
+}
+
+// Random intent generator (keyword not used → removed param)
+function getIntentForKeyword(): string {
   const intents = ["Informational", "Transactional", "Navigational", "Commercial"];
   return intents[Math.floor(Math.random() * intents.length)];
 }
@@ -65,8 +75,8 @@ interface DataForSEOResponse {
 export async function POST(req: Request) {
   await connectMongo();
 
-  // Destructure with _location_code to avoid unused variable warning
-  const { keyword, country, location_code: _location_code } = await req.json();
+  // Only keep fields actually used
+  const { keyword, country } = await req.json();
 
   if (!keyword || !country) {
     return NextResponse.json(
@@ -83,7 +93,7 @@ export async function POST(req: Request) {
     if (dbDataFromMongo.length > 0) {
       const dbData: KeywordItem[] = dbDataFromMongo.map(item => ({
         Keyword: item.keyword,
-        Intent: item.Intent || getIntentForKeyword(item.keyword),
+        Intent: item.Intent || getIntentForKeyword(),
         Volume: item.Volume || 0,
         KD: item.KD || 0,
         CPC: item.CPC || 0,
@@ -98,14 +108,16 @@ export async function POST(req: Request) {
     if (process.env.SERPAPI_KEY) {
       try {
         const serpRes = await fetch(
-          `https://serpapi.com/search.json?q=${encodeURIComponent(keyword)}&location=${encodeURIComponent(country)}&api_key=${process.env.SERPAPI_KEY}`
+          `https://serpapi.com/search.json?q=${encodeURIComponent(keyword)}&location=${encodeURIComponent(
+            country
+          )}&api_key=${process.env.SERPAPI_KEY}`
         );
         const serpJson: SerpApiResponse = await serpRes.json();
 
         if (serpJson?.organic_results?.length) {
           const serpData: KeywordItem[] = serpJson.organic_results.map(r => ({
             Keyword: r.title || keyword,
-            Intent: getIntentForKeyword(r.title || keyword),
+            Intent: getIntentForKeyword(),
             Volume: r.position || 0,
             KD: Math.floor(Math.random() * 100),
             CPC: Number((Math.random() * 2).toFixed(2)),
@@ -116,7 +128,7 @@ export async function POST(req: Request) {
           combinedData.push(...serpData);
         }
       } catch (err: unknown) {
-        console.log("SerpApi error:", err instanceof Error ? err.message : err);
+        console.error("SerpApi error:", err);
       }
     }
 
@@ -138,9 +150,7 @@ export async function POST(req: Request) {
             headers: {
               Authorization:
                 "Basic " +
-                Buffer.from(
-                  `${process.env.DATAFORSEO_KEY}:${process.env.DATAFORSEO_SECRET}`
-                ).toString("base64"),
+                Buffer.from(`${process.env.DATAFORSEO_KEY}:${process.env.DATAFORSEO_SECRET}`).toString("base64"),
               "Content-Type": "application/json",
             },
             body: JSON.stringify(tasks),
@@ -154,7 +164,7 @@ export async function POST(req: Request) {
             Array.isArray(task.result)
               ? task.result.map((r: DataForSEOTaskResult) => ({
                   Keyword: r.keyword || keyword,
-                  Intent: getIntentForKeyword(r.keyword || keyword),
+                  Intent: getIntentForKeyword(),
                   Volume: r.search_volume || 0,
                   KD: r.competition || Math.floor(Math.random() * 100),
                   CPC: r.cpc || Number((Math.random() * 2).toFixed(2)),
@@ -168,7 +178,7 @@ export async function POST(req: Request) {
           combinedData.push(...dfsData);
         }
       } catch (err: unknown) {
-        console.log("DataForSEO error:", err instanceof Error ? err.message : err);
+        console.error("DataForSEO error:", err);
       }
     }
 
@@ -192,20 +202,22 @@ export async function POST(req: Request) {
 
         const aiData: OpenAIResponse = await aiRes.json();
 
-        const aiJson: KeywordItem[] = JSON.parse(aiData.choices[0].message.content || "[]").map((item: any) => ({
+        const aiParsed: AIGeneratedKeyword[] = JSON.parse(aiData.choices[0].message.content || "[]");
+
+        const aiJson: KeywordItem[] = aiParsed.map(item => ({
           Keyword: item.Keyword || keyword,
-          Intent: getIntentForKeyword(item.Keyword || keyword),
-          Volume: item.Volume || 0,
-          KD: item.KD || 0,
-          CPC: item.CPC || 0,
-          SF: item.SF || 0,
+          Intent: getIntentForKeyword(),
+          Volume: item.Volume ?? 0,
+          KD: item.KD ?? 0,
+          CPC: item.CPC ?? 0,
+          SF: item.SF ?? 0,
           UpdateDate: item.UpdateDate ? new Date(item.UpdateDate) : new Date(),
           Source: "AI",
         }));
 
         if (aiJson.length) combinedData.push(...aiJson);
       } catch (err: unknown) {
-        console.log("AI error:", err instanceof Error ? err.message : err);
+        console.error("AI error:", err);
       }
     }
 
@@ -234,6 +246,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ source: "combined", data: finalData });
   } catch (err: unknown) {
+    console.error("Server error:", err);
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }
