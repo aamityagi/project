@@ -2,7 +2,15 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { LayoutDashboard, Search, Globe, Menu, X, ChevronDown, ChevronRight } from "lucide-react";
+import {
+  LayoutDashboard,
+  Search,
+  Globe,
+  Menu,
+  X,
+  ChevronDown,
+  ChevronRight,
+} from "lucide-react";
 import { usePathname } from "next/navigation";
 
 const menu = [
@@ -52,7 +60,7 @@ export default function Sidebar({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [mobileOpen, setMobileOpen]);
 
-  const renderMenuItem = (item: typeof menu[number], isMobile = false) => {
+  const renderMenuItem = (item: (typeof menu)[number], isMobile = false) => {
     const hasSub = !!item.sub;
     const isActive = openSub === item.name;
     const isCurrent = pathname.startsWith(item.href);
@@ -60,27 +68,35 @@ export default function Sidebar({
     return (
       <div key={item.name} className="relative group mb-2">
         <div
-          className={`flex items-center justify-between p-2 rounded cursor-pointer hover:bg-gray-700 ${
-            isCurrent ? "bg-gray-800" : ""
+          className={`flex items-center p-2 rounded cursor-pointer hover:bg-gradient-to-r from-purple-600 to-indigo-600 hover:text-white ${
+            isCurrent
+              ? "bg-gradient-to-r from-purple-600 to-indigo-600 text-white"
+              : ""
           }`}
         >
           {/* Icon + Text */}
           <Link
             href={item.href}
-            className="flex items-center flex-1"
+            className={`flex items-center w-full ${
+              sidebarOpen ? "justify-start" : "justify-center"
+            }`}
             onClick={() => isMobile && setMobileOpen(false)}
           >
             <item.icon className="w-5 h-5" />
-            {(sidebarOpen || isMobile) && <span className="ml-2">{item.name}</span>}
+            {sidebarOpen && <span className="ml-2">{item.name}</span>}
           </Link>
 
-          {/* Dropdown toggle for submenus */}
-          {hasSub && (sidebarOpen || isMobile) && (
+          {/* Dropdown toggle for submenus - only when sidebar is open */}
+          {hasSub && sidebarOpen && (
             <button
-              className="p-1 hover:bg-gray-600 rounded"
+              className="ml-2 p-1 hover:bg-gray-600 rounded flex-shrink-0"
               onClick={() => setOpenSub(isActive ? null : item.name)}
             >
-              {isActive ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
+              {isActive ? (
+                <ChevronDown className="w-4 h-4" />
+              ) : (
+                <ChevronRight className="w-4 h-4" />
+              )}
             </button>
           )}
         </div>
@@ -124,7 +140,7 @@ export default function Sidebar({
       {/* Desktop toggle button */}
       <div className="flex justify-end p-2 lg:block hidden">
         <button
-          className="p-1 text-gray-300 hover:text-white cursor-pointer"
+          className="p-1 text-gray-700 hover:text-gray-900 cursor-pointer"
           onClick={() => setSidebarOpen(!sidebarOpen)}
         >
           {sidebarOpen ? <X /> : <Menu />}

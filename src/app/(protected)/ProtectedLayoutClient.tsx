@@ -33,7 +33,7 @@ export default function ProtectedLayoutClient({
         <div className="flex flex-1 overflow-hidden">
           {/* Desktop Sidebar */}
           <aside
-            className={`hidden lg:flex flex-col bg-gray-900 text-white transition-all duration-300 shadow-md h-screen ${
+            className={`hidden lg:flex flex-col bg-white text-gray-900 transition-all duration-300 shadow-md h-screen ${
               sidebarOpen ? "w-64" : "w-16"
             }`}
           >
@@ -58,18 +58,16 @@ export default function ProtectedLayoutClient({
             />
 
             {/* Sidebar */}
-            <aside className="relative w-64 bg-gray-900 text-white h-full shadow-lg flex flex-col">
-              <div className="flex items-center justify-between p-4 border-b border-gray-800">
+            <aside className="relative w-64 text-gray-900 bg-white h-full shadow-lg flex flex-col">
+              <div className="flex items-center p-4 border-b border-gray-800">
                 <Image
-                   width={180} height={100}
+                  width={180}
+                  height={100}
                   src="/logo.png"
                   alt="Logo"
                   className="h-8 w-8 object-contain"
                 />
-                <button
-                  onClick={() => setMobileOpen(false)}
-                  className="text-white p-2 hover:bg-gray-800 rounded"
-                >
+                <button onClick={() => setMobileOpen(false)} className="p-2">
                   <X className="w-6 h-6" />
                 </button>
               </div>
@@ -84,8 +82,8 @@ export default function ProtectedLayoutClient({
           </div>
 
           {/* Main Content */}
-          <main className="flex-1 overflow-auto p-6 transition-all duration-300 shadow-inner bg-gray-50 flex flex-col">
-            <div className="flex-1">{children}</div>
+          <main className="flex-1 overflow-auto transition-all duration-300 shadow-inner bg-gray-200 flex flex-col">
+            <div className="flex-1 bg-white m-6 shadow-xl">{children}</div>
 
             {/* Footer inside main */}
             <footer className="bg-white p-4 text-center text-sm text-gray-500 shadow-inner mt-4">

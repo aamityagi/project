@@ -3,6 +3,8 @@
 import { useState } from "react";
 import countriesDataJson from "../components/data/countries.json"; // adjust path
 import Image from "next/image";
+import { Button } from "./ui/button";
+import { Input } from "./ui/input";
 
 interface Country {
   name: string;
@@ -31,9 +33,9 @@ export default function CountrySelect({
   return (
     <div className="relative min-w-[80px]">
       {/* Selected country */}
-      <button
+      <Button
         type="button"
-        className="flex items-center border p-2 bg-white"
+        className="flex items-center border bg-white bg-gray-800 hover:bg-white"
         onClick={() => setOpen(!open)}
       >
         {selected ? (
@@ -45,14 +47,16 @@ export default function CountrySelect({
               alt={selected.code}
               className="w-4 h-4 mr-1"
             />
-            <span className="text-sm font-medium">{selected.code}</span>
+            <span className="text-sm text-gray-800 font-medium">
+              {selected.code}
+            </span>
           </>
         ) : (
           <span className="text-sm">Select</span>
         )}
 
         <svg
-          className="w-3 h-3 ml-1"
+          className="w-3 h-3 ml-1 text-gray-800"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -64,14 +68,14 @@ export default function CountrySelect({
             d="M19 9l-7 7-7-7"
           />
         </svg>
-      </button>
+      </Button>
 
       {/* Dropdown list */}
       {open && (
         <div className="absolute mt-1 w-48 bg-white border rounded-md shadow-lg z-50 max-h-60 overflow-y-auto">
           {/* Search input */}
           <div className="p-2 border-b">
-            <input
+            <Input
               type="text"
               placeholder="Search country..."
               value={search}

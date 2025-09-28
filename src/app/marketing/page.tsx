@@ -6,7 +6,7 @@ import Affiliation from "./components/Affiliation";
 
 export default function MarketingPage() {
   return (
-    <main className="bg-gray-50">
+    <main className="bg-gray-50 text-gray-800">
       <Header />
       <Hero />
       <About />

@@ -17,7 +17,11 @@ export default function LoginPage() {
   const [remember, setRemember] = useState(false);
   const [error, setError] = useState("");
   const router = useRouter();
-
+  // Image Slider Json
+  const sliderImages = [
+    "/assets/login-banner/launch.jpg",
+    "/assets/login-banner/automat.jpg",
+  ];
   // Load remembered credentials
   useEffect(() => {
     const savedEmail = localStorage.getItem("rememberEmail");
@@ -61,20 +65,27 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex min-h-screen">
-      {/* Left side */}
-      <ImageSlider />
+    <div className="min-h-screen flex bg-gray-200 text-gray-800">
+      {/* Left side slider (hidden on mobile) */}
+      <div className="hidden lg:flex w-1/2 h-screen">
+        <ImageSlider images={sliderImages} interval={3000} />
+      </div>
 
-      {/* Right side */}
-      <div className="flex-1 flex items-center justify-center bg-gray-50 px-4">
-        <div className="w-full max-w-md bg-white p-8 shadow-lg space-y-6">
-          <div className="flex justify-center">
-            <Image width={180} height={100} src="/logo.svg" alt="Logo" className="h-12" />
+      {/* Right side form */}
+      <div className="w-full lg:w-1/2 h-screen overflow-y-auto flex flex-col items-center p-6 bg-gray-200">
+        <div className="w-full relative max-w-md bg-white p-8 shadow-lg space-y-6">
+          <div className="flex justify-center ">
+            <Image
+              width={40}
+              height={40}
+              src="/logo.png"
+              alt="Logo"
+              className="h-10 w-10"
+            />
           </div>
 
           <div className="text-center space-y-1">
             <h1 className="text-2xl font-bold">Welcome Back</h1>
-            <p className="text-gray-500 text-sm">Login to continue</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -99,7 +110,8 @@ export default function LoginPage() {
               Login
             </Button>
 
-            <div className="flex items-center justify-between text-sm mt-2">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between text-sm mt-2 gap-3 sm:gap-0">
+              {/* Top: Remember me (always full width on mobile) */}
               <label className="flex items-center gap-2 cursor-pointer">
                 <Checkbox
                   checked={remember}
@@ -108,13 +120,14 @@ export default function LoginPage() {
                 <span>Remember me</span>
               </label>
 
-              <div className="flex gap-4">
+              {/* Links section */}
+              <div className="flex justify-between sm:justify-end w-full sm:w-auto">
                 <Link href="/signup" className="text-blue-600 hover:underline">
                   Get Started
                 </Link>
                 <Link
                   href="/forgot-password"
-                  className="text-blue-600 hover:underline"
+                  className="text-blue-600 hover:underline ml-4"
                 >
                   Forgot Password?
                 </Link>

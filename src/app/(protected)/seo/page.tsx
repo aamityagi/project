@@ -13,8 +13,17 @@ import OrganicResearch from "./competitive-research/organic-research/OrganicRese
 import BacklinkAnalytics from "./link-building/backlink-analytics/BacklinkAnalytics";
 // On Page & Tech Seo
 import SiteAudit from "./on-page-tech-seo/site-audit/SiteAudit";
+import { Button } from "../components/ui/button";
 
 const seoTabs = [
+  {
+    name: "Competitive Research",
+    secondary: [
+      { name: "Domain Overview", component: <DomainOverview /> },
+      { name: "Organic Research", component: <OrganicResearch /> },
+      // Add other Competitive Research components here
+    ],
+  },
   {
     name: "Keyword Research",
     secondary: [
@@ -24,11 +33,11 @@ const seoTabs = [
     ],
   },
   {
-    name: "Competitive Research",
+    name: "Content Writing",
     secondary: [
-      { name: "Domain Overview", component: <DomainOverview /> },
-      { name: "Organic Research", component: <OrganicResearch /> },
-      // Add other Competitive Research components here
+      { name: "Create Url", component: <BacklinkAnalytics /> },
+      { name: "Keyword Stuffing", component: <BacklinkAnalytics /> },
+      { name: "Genrate Content", component: <BacklinkAnalytics /> },
     ],
   },
   {
@@ -56,18 +65,25 @@ export default function SeoPage() {
 
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">SEO Dashboard</h1>
+      <h1 className="text-2xl font-bold mb-4 uppercase">
+        We are Here to Help you For on Page SEO.
+      </h1>
 
       {/* Primary Tabs */}
-      <div className="flex flex-wrap gap-2 mb-4 border-b border-gray-300">
+      {/* Primary Tabs */}
+      <div className="flex mb-4 border-b border-gray-300 overflow-x-auto whitespace-nowrap scrollbar-hide">
         {seoTabs.map((tab, index) => (
           <button
             key={tab.name}
-            className={`px-3 py-1 rounded-t-md text-sm ${
-              activePrimary === index
-                ? "bg-white border-t border-l border-r border-gray-300 font-semibold"
-                : "bg-gray-100 hover:bg-gray-200"
-            }`}
+            className={`
+        px-3 py-1 text-sm font-medium transition-all duration-200 flex-shrink-0
+        ${
+          activePrimary === index
+            ? "bg-gradient-to-r from-purple-600 to-indigo-600 text-white"
+            : "bg-gray-100 text-gray-800 hover:bg-gradient-to-r hover:from-purple-600 hover:to-indigo-600 hover:text-white"
+        }
+        ${index !== seoTabs.length - 1 ? "border-r border-gray-300" : ""}
+      `}
             onClick={() => {
               setActivePrimary(index);
               setActiveSecondary(0); // Reset secondary tab on primary change
@@ -79,15 +95,23 @@ export default function SeoPage() {
       </div>
 
       {/* Secondary Tabs */}
-      <div className="flex flex-wrap gap-2 mb-4">
+      <div className="flex border-b border-gray-300">
         {primary.secondary.map((tab, index) => (
           <button
             key={tab.name}
-            className={`px-2 py-1 rounded text-sm ${
-              activeSecondary === index
-                ? "bg-blue-600 text-white font-medium"
-                : "bg-gray-100 hover:bg-gray-200"
-            }`}
+            className={`
+        px-2 py-1 text-sm font-medium transition-all duration-200
+        ${
+          activeSecondary === index
+            ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white"
+            : "bg-gray-100 text-gray-800 hover:bg-gradient-to-r hover:from-indigo-600 hover:to-purple-600 hover:text-white"
+        }
+        ${
+          index !== primary.secondary.length - 1
+            ? "border-r border-gray-300"
+            : ""
+        }
+      `}
             onClick={() => setActiveSecondary(index)}
           >
             {tab.name}
@@ -96,9 +120,7 @@ export default function SeoPage() {
       </div>
 
       {/* Content */}
-      <div className="bg-white p-4 rounded shadow">
-        {secondary.component}
-      </div>
+      <div className="bg-gray-100 p-4">{secondary.component}</div>
     </div>
   );
 }

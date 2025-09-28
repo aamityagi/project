@@ -10,7 +10,14 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { ChevronDown, User, CreditCard, LogOut, Mail, Menu } from "lucide-react";
+import {
+  ChevronDown,
+  User,
+  CreditCard,
+  LogOut,
+  Mail,
+  Menu,
+} from "lucide-react";
 
 type MenuItem =
   | { label: string; icon: React.ElementType; route: string }
@@ -36,9 +43,15 @@ export default function Header({ onMobileMenuClick }: HeaderProps) {
   };
 
   return (
-    <header className="flex items-center justify-between p-4 shadow-md z-10 bg-white">
+    <header className="flex items-center justify-between p-2 shadow-md z-10 bg-white">
       <div className="flex items-center gap-3 cursor-pointer">
-        <Image src="/logo.png" alt="Logo" width={32} height={32} className="object-contain" />
+        <Image
+          src="/logo.png"
+          alt="Logo"
+          width={40}
+          height={40}
+          className="object-contain"
+        />
 
         {/* Mobile menu button */}
         <button
@@ -47,8 +60,6 @@ export default function Header({ onMobileMenuClick }: HeaderProps) {
         >
           <Menu className="w-6 h-6 text-gray-700" />
         </button>
-
-        <span className="font-bold text-lg">My Dashboard</span>
       </div>
 
       {/* Profile dropdown */}
@@ -64,7 +75,10 @@ export default function Header({ onMobileMenuClick }: HeaderProps) {
               <ChevronDown className="w-4 h-4 text-gray-500" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-48 border bg-white shadow-md p-0 z-50" align="end">
+          <DropdownMenuContent
+            className="w-48 border bg-white shadow-md p-0 z-50"
+            align="end"
+          >
             <div className="flex items-center gap-2 px-3 py-2 text-sm text-gray-600 border-b">
               <Mail className="w-4 h-4 text-gray-500" />
               <span>{session.user?.email}</span>
@@ -77,7 +91,9 @@ export default function Header({ onMobileMenuClick }: HeaderProps) {
                 <DropdownMenuItem
                   key={item.label}
                   onClick={
-                    "action" in item ? handleLogout : () => router.push(item.route)
+                    "action" in item
+                      ? handleLogout
+                      : () => router.push(item.route)
                   }
                   className={`flex items-center gap-2 px-3 py-2 text-sm cursor-pointer hover:bg-gray-100 ${
                     !isLast ? "border-b" : ""
