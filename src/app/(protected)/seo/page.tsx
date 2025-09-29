@@ -73,7 +73,7 @@ export default function SeoPage() {
       {/* Primary Tabs */}
       <div className="flex mb-4 border-b border-gray-300 overflow-x-auto whitespace-nowrap scrollbar-hide">
         {seoTabs.map((tab, index) => (
-          <button
+          <Button
             key={tab.name}
             className={`
         px-3 py-1 text-sm font-medium transition-all duration-200 flex-shrink-0
@@ -90,14 +90,14 @@ export default function SeoPage() {
             }}
           >
             {tab.name}
-          </button>
+          </Button>
         ))}
       </div>
 
       {/* Secondary Tabs */}
       <div className="flex border-b border-gray-300">
         {primary.secondary.map((tab, index) => (
-          <button
+          <Button
             key={tab.name}
             className={`
         px-2 py-1 text-sm font-medium transition-all duration-200
@@ -115,7 +115,7 @@ export default function SeoPage() {
             onClick={() => setActiveSecondary(index)}
           >
             {tab.name}
-          </button>
+          </Button>
         ))}
       </div>
 
