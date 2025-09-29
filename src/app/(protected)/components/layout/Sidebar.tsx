@@ -68,7 +68,7 @@ export default function Sidebar({
     return (
       <div key={item.name} className="relative group mb-2">
         <div
-          className={`flex items-center p-2 rounded cursor-pointer hover:bg-gradient-to-r from-purple-600 to-indigo-600 hover:text-white ${
+          className={`flex items-center p-2 cursor-pointer hover:bg-gradient-to-r from-purple-600 to-indigo-600 hover:text-white ${
             isCurrent
               ? "bg-gradient-to-r from-purple-600 to-indigo-600 text-white"
               : ""
@@ -89,7 +89,7 @@ export default function Sidebar({
           {/* Dropdown toggle for submenus - only when sidebar is open */}
           {hasSub && sidebarOpen && (
             <button
-              className="ml-2 p-1 hover:bg-gray-600 rounded flex-shrink-0"
+              className="ml-2 p-1 hover:bg-gray-600 flex-shrink-0"
               onClick={() => setOpenSub(isActive ? null : item.name)}
             >
               {isActive ? (
@@ -119,7 +119,7 @@ export default function Sidebar({
 
         {/* Floating submenu for collapsed sidebar */}
         {hasSub && !sidebarOpen && !isMobile && (
-          <div className="absolute left-full top-0 ml-2 bg-gray-800 text-white shadow-lg rounded p-2 w-44 z-50 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-auto">
+          <div className="absolute left-full top-0 ml-2 bg-gray-800 text-white shadow-lg p-2 w-44 z-50 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-auto">
             {item.sub!.map((sub) => (
               <Link
                 key={sub.name}

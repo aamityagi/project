@@ -16,6 +16,7 @@ import SiteAudit from "./on-page-tech-seo/site-audit/SiteAudit";
 import { Button } from "../components/ui/button";
 
 const seoTabs = [
+  // Competitive Research
   {
     name: "Competitive Research",
     secondary: [
@@ -24,6 +25,7 @@ const seoTabs = [
       // Add other Competitive Research components here
     ],
   },
+  // Keyword Research
   {
     name: "Keyword Research",
     secondary: [
@@ -32,6 +34,7 @@ const seoTabs = [
       // Add other Keyword Research components here
     ],
   },
+  // Content Writing
   {
     name: "Content Writing",
     secondary: [
@@ -40,18 +43,20 @@ const seoTabs = [
       { name: "Genrate Content", component: <BacklinkAnalytics /> },
     ],
   },
-  {
-    name: "Link Building",
-    secondary: [
-      { name: "Backlink Analytics", component: <BacklinkAnalytics /> },
-      // Add other Link Building components here
-    ],
-  },
+  // On Page & Tech Seo
   {
     name: "On Page & Tech SEO",
     secondary: [
       { name: "Site Audit", component: <SiteAudit /> },
       // Add other On Page & Tech SEO components here
+    ],
+  },
+  // Link Building
+  {
+    name: "Link Building",
+    secondary: [
+      { name: "Backlink Analytics", component: <BacklinkAnalytics /> },
+      // Add other Link Building components here
     ],
   },
 ];
@@ -66,7 +71,7 @@ export default function SeoPage() {
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-4 uppercase">
-        We are Here to Help you For on Page SEO.
+        We are Here to Help you For Page SEO.
       </h1>
 
       {/* Primary Tabs */}
@@ -106,9 +111,7 @@ export default function SeoPage() {
             : "bg-gray-100 text-gray-800 hover:bg-gradient-to-r hover:from-indigo-600 hover:to-purple-600 hover:text-white"
         }
         ${
-          index !== primary.secondary.length - 1
-            ? "border-r border-gray-300"
-            : ""
+          index !== primary.secondary.length - 1 ? "border border-gray-300" : ""
         }
       `}
             onClick={() => setActiveSecondary(index)}
