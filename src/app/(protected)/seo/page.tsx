@@ -70,7 +70,6 @@ export default function SeoPage() {
       </h1>
 
       {/* Primary Tabs */}
-      {/* Primary Tabs */}
       <div className="flex mb-4 border-b border-gray-300 overflow-x-auto whitespace-nowrap scrollbar-hide">
         {seoTabs.map((tab, index) => (
           <Button
@@ -120,7 +119,9 @@ export default function SeoPage() {
       </div>
 
       {/* Content */}
-      <div className="bg-gray-100 p-4">{secondary.component}</div>
+      <div className="bg-gray-100 p-4 shadow-xl border-r border-l border-b border-gray-300">
+        {secondary.component}
+      </div>
     </div>
   );
 }

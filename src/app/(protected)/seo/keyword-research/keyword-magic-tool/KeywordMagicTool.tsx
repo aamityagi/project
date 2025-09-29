@@ -35,7 +35,7 @@ export default function KeywordMagicTool() {
   return (
     <div className="max-w-6xl mx-auto">
       <h1 className="text-2xl md:text-3xl font-bold text-center mb-4">
-        Keyword Magic Tool
+        Keyword Re-Search.
       </h1>
 
       <div className="flex flex-col md:flex-row gap-3 items-center justify-center mb-6">
@@ -55,7 +55,10 @@ export default function KeywordMagicTool() {
           }}
         />
 
-        <Button onClick={handleSearch} className="">
+        <Button
+          onClick={handleSearch}
+          className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:bg-gradient-to-r hover:from-purple-600 hover:to-indigo-600"
+        >
           Search
         </Button>
       </div>

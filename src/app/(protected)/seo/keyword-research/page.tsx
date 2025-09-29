@@ -3,10 +3,22 @@ import { usePathname, useRouter } from "next/navigation";
 
 const keywordTabs = [
   { name: "Keyword Overview", href: "/seo/keyword-research/keyword-overview" },
-  { name: "Keyword Magic Tool", href: "/seo/keyword-research/keyword-magic-tool" },
-  { name: "Keyword Strategy Builder", href: "/seo/keyword-research/keyword-strategy-builder" },
-  { name: "Position Tracking", href: "/seo/keyword-research/position-tracking" },
-  { name: "Organic Traffic Insights", href: "/seo/keyword-research/organic-traffic-insights" },
+  {
+    name: "Keyword Magic Tool",
+    href: "/seo/keyword-research/keyword-magic-tool",
+  },
+  {
+    name: "Keyword Strategy Builder",
+    href: "/seo/keyword-research/keyword-strategy-builder",
+  },
+  {
+    name: "Position Tracking",
+    href: "/seo/keyword-research/position-tracking",
+  },
+  {
+    name: "Organic Traffic Insights",
+    href: "/seo/keyword-research/organic-traffic-insights",
+  },
 ];
 
 export default function KeywordResearchPage() {
@@ -39,7 +51,9 @@ export default function KeywordResearchPage() {
 
       {/* Render the selected sub-page */}
       <div className="bg-white p-4 rounded shadow">
-        <p>Content for the selected keyword research sub-tab will render here.</p>
+        <p>
+          Content for the selected keyword research sub-tab will render here.
+        </p>
       </div>
     </div>
   );
