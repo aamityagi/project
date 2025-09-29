@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import CurrencySelector from "../CurrencySelector";
 import {
   Select,
   SelectContent,
@@ -24,7 +25,7 @@ interface KeywordFilterProps {
 export default function KeywordFilter({ onFilterChange }: KeywordFilterProps) {
   const [keywordType, setKeywordType] = useState<KeywordType>("All");
   const [matchType, setMatchType] = useState<MatchType>("All Keyword");
-
+  const [sfCurrencyRate, setSfCurrencyRate] = useState<number>(1);
   // Radix Select onValueChange gives string directly
   const handleKeywordTypeChange = (value: string) => {
     const typedValue = value as KeywordType;
@@ -69,6 +70,12 @@ export default function KeywordFilter({ onFilterChange }: KeywordFilterProps) {
             <SelectItem value="Related">Related</SelectItem>
           </SelectContent>
         </Select>
+      </div>
+      <div className="flex flex-col w-full sm:w-48 ">
+        <CurrencySelector
+          baseCurrency="USD"
+          onCurrencyChange={(currency, rate) => setSfCurrencyRate(rate)}
+        />
       </div>
     </div>
   );

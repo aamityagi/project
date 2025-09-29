@@ -111,7 +111,7 @@ export default function SeoPage() {
             : "bg-gray-100 text-gray-800 hover:bg-gradient-to-r hover:from-indigo-600 hover:to-purple-600 hover:text-white"
         }
         ${
-          index !== primary.secondary.length - 1 ? "border border-gray-300" : ""
+          index !== primary.secondary.length - 1 ? "" : ""
         }
       `}
             onClick={() => setActiveSecondary(index)}

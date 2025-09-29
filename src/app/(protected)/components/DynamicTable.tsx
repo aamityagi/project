@@ -123,16 +123,31 @@ export default function DynamicTable({ data }: DynamicTableProps) {
 
       // Volume filter
       if (volumeFilter) {
+        const volumeValue = row.Volume as number;
         if (typeof volumeFilter === "string" && volumeFilter !== "custom") {
+          // parse predefined ranges like "101-1000" or single value
           const [min, max] = volumeFilter.includes("-")
             ? volumeFilter.split("-").map(Number)
             : [Number(volumeFilter), Number.MAX_SAFE_INTEGER];
-          if ((row.Volume as number) < min || (row.Volume as number) > max) return false;
+          
+          // ensure max does not exceed table data max
+          const tableMax = Math.max(...data.map(d => (d.Volume as number) || 0));
+          const adjustedMax = Math.min(max, tableMax);
+
+          if (volumeValue < min || volumeValue > adjustedMax) return false;
         } else if (typeof volumeFilter === "object") {
-          if ((row.Volume as number) < volumeFilter.from || (row.Volume as number) > volumeFilter.to)
-            return false;
+          // custom range from the user
+          const from = volumeFilter.from;
+          const to = volumeFilter.to;
+          
+          // make sure to cap max to table max
+          const tableMax = Math.max(...data.map(d => (d.Volume as number) || 0));
+          const adjustedTo = Math.min(to, tableMax);
+
+          if (volumeValue < from || volumeValue > adjustedTo) return false;
         }
       }
+
 
       // KD filter
       if (kdFilter) {
@@ -193,6 +208,16 @@ export default function DynamicTable({ data }: DynamicTableProps) {
     pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
     pdf.save("table.pdf");
   };
+  // Info Icon Information 
+  const columnInfo: Record<string, string> = {
+    KD: "KD means Keyword Difficulty. It indicates how hard it is to rank for this keyword. Factors include competition, backlinks, and content quality.",
+    Volume: "Volume indicates the estimated monthly search traffic for this keyword.",
+    CPC: "CPC is the average cost per click if you run an ad for this keyword.",
+    SF: "SF shows the number of search results or pages competing for this keyword.",
+    Intent: "Intent indicates user intent: Informational, Navigational, Commercial, or Transactional.",
+    UpdateDate: "UpdateDate shows when this keyword data was last updated (format: dd/mm/yyyy).",
+    Keyword: "Keyword is the search term that users are looking for.",
+  };
 
   return (
     <div>
@@ -209,7 +234,6 @@ export default function DynamicTable({ data }: DynamicTableProps) {
             { label: "101–1,000", value: "101-1000" },
             { label: "11–100", value: "11-100" },
             { label: "1–10", value: "1-10" },
-            { label: "Custom Range", value: "custom" },
           ]}
           onApply={(value) => {
             setVolumeFilter(value);
@@ -227,16 +251,12 @@ export default function DynamicTable({ data }: DynamicTableProps) {
             { label: "Possible", value: "30-49", range: "30–49%", tooltip: "Possible to rank with good SEO strategy" },
             { label: "Easy", value: "15-29", range: "15–29%", tooltip: "Relatively easy to rank" },
             { label: "Very easy", value: "0-14", range: "0–14%", tooltip: "Very low competition keywords" },
-            { label: "Custom Range", value: "custom" },
           ]}
           onApply={(value) => {
             setKdFilter(value);
             setPage(1);
           }}
         />
-
-
-
         <FilterDropdown
           title="Intent"
           type="multi"
@@ -247,10 +267,11 @@ export default function DynamicTable({ data }: DynamicTableProps) {
             { label: "Transactional" },
           ]}
           onApply={(value) => {
-            setIntentFilter(value || []);
+            setIntentFilter(value || []); // store selected intents
             setPage(1);
           }}
         />
+
 
       </div>
       {/* Header */}
@@ -310,7 +331,7 @@ export default function DynamicTable({ data }: DynamicTableProps) {
         </div>
       </div>
       {/* Start table */}
-      <div id="table-container" className="overflow-x-auto max-h-[500px] overflow-y-scroll relative">
+      <div id="table-container" className="overflow-x-auto text-sm max-h-[500px] overflow-y-scroll relative">
         <table className="min-w-full border-collapse">
           <thead className="sticky top-0 bg-gray-100 z-10">
             <tr>
@@ -337,23 +358,66 @@ export default function DynamicTable({ data }: DynamicTableProps) {
             </tr>
           </thead>
           <tbody>
-            {pagedData.map((row, idx) => (
-              <tr key={idx} className="hover:bg-gray-50">
-                <td className="p-2 border">
-                  <input
-                    type="checkbox"
-                    checked={selectedRows.has((page - 1) * rowsPerPage + idx)}
-                    onChange={() => toggleRow((page - 1) * rowsPerPage + idx)}
-                  />
-                </td>
-                {visibleCols.map((col) => (
+          {pagedData.map((row, idx) => (
+            <tr key={idx} className="hover:bg-gray-50">
+              <td className="p-2 border">
+                <input
+                  type="checkbox"
+                  checked={selectedRows.has((page - 1) * rowsPerPage + idx)}
+                  onChange={() => toggleRow((page - 1) * rowsPerPage + idx)}
+                />
+              </td>
+
+              {visibleCols.map((col) => {
+              if (col === "KD") {
+                const kdValue = row[col] as number | undefined;
+                let color = "bg-gray-300"; // default for no KD
+
+                if (kdValue !== undefined && kdValue !== null) {
+                  if (kdValue >= 85) color = "bg-red-800";       // Very Hard
+                  else if (kdValue >= 70) color = "bg-red-500";  // Hard
+                  else if (kdValue >= 50) color = "bg-orange-500"; // Difficult
+                  else if (kdValue >= 30) color = "bg-yellow-400"; // Possible
+                  else if (kdValue >= 15) color = "bg-green-300";  // Easy
+                  else color = "bg-green-700";                     // Very Easy
+                }
+
+                return (
                   <td key={col} className="p-2 border">
-                    {row[col]?.toString()}
+                    <div className="flex items-center justify-between">
+                      <span>{kdValue ?? "—"}</span>
+                      <span className={`w-3 h-3 rounded-full ${color}`}></span>
+                    </div>
                   </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
+                );
+              }
+
+              if (col === "UpdateDate") {
+                const dateValue = row[col] ? new Date(row[col] as string | Date) : null;
+                const formattedDate = dateValue
+                  ? `${String(dateValue.getDate()).padStart(2, "0")}/${
+                      String(dateValue.getMonth() + 1).padStart(2, "0")
+                    }/${dateValue.getFullYear()}`
+                  : "—";
+                return (
+                  <td key={col} className="p-2 border">
+                    {formattedDate}
+                  </td>
+                );
+              }
+
+              // default render
+              return (
+                <td key={col} className="p-2 border">
+                  {row[col]?.toString() ?? "—"}
+                </td>
+              );
+            })}
+
+            </tr>
+          ))}
+        </tbody>
+
         </table>
       </div>
 
