@@ -9,6 +9,8 @@ export default async function AffiliationOnboardingPage() {
     redirect("/api/auth/signin?callbackUrl=/onboarding/affiliation");
   }
 
+
+
   const initial = {
     email: session.user?.email || "",
     fullName: session.user?.name || "",
