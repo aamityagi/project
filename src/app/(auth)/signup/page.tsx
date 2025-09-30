@@ -79,8 +79,14 @@ export default function SignupPage() {
       </div>
 
       {/* Right side form */}
-      <div className="w-full lg:w-1/2 h-screen overflow-y-auto flex flex-col items-center p-6 bg-gray-200">
-        <div className="w-full h-full lg:h-auto max-w-md bg-white shadow-lg p-6">
+      <div
+        className="
+          w-full lg:w-1/2 h-screen 
+          flex flex-col lg:justify-center items-center 
+          p-6 bg-gray-200 overflow-y-auto
+        "
+      >
+        <div className="w-full max-w-md bg-white shadow-lg p-6 lg:h-auto">
           {/* Logo */}
           <div className="flex justify-center mb-4">
             <Image
@@ -115,22 +121,18 @@ export default function SignupPage() {
                 {...register("email", { required: "Email is required" })}
                 type="email"
                 placeholder="Email"
-                className="w-full p-2 "
+                className="w-full p-2"
               />
-              {errors.email && (
-                <p className="text-red-500">{errors.email.message}</p>
-              )}
+              {errors.email && <p className="text-red-500">{errors.email.message}</p>}
             </div>
 
             <div>
               <Input
                 {...register("phone", { required: "Phone is required" })}
                 placeholder="Phone"
-                className="w-full p-2 "
+                className="w-full p-2"
               />
-              {errors.phone && (
-                <p className="text-red-500">{errors.phone.message}</p>
-              )}
+              {errors.phone && <p className="text-red-500">{errors.phone.message}</p>}
             </div>
 
             <div>
@@ -138,7 +140,7 @@ export default function SignupPage() {
                 {...register("password", { required: "Password is required" })}
                 type="password"
                 placeholder="Password"
-                className="w-full p-2 "
+                className="w-full p-2"
               />
               {errors.password && (
                 <p className="text-red-500">{errors.password.message}</p>
@@ -152,22 +154,19 @@ export default function SignupPage() {
                 })}
                 type="password"
                 placeholder="Confirm Password"
-                className="w-full p-2 "
+                className="w-full p-2"
               />
               {errors.confirmPassword && (
                 <p className="text-red-500">{errors.confirmPassword.message}</p>
               )}
             </div>
 
-            {/* Conditional Input based on profession */}
             {(profession === "business" ||
               profession === "social" ||
               profession === "company") && (
               <div>
                 <Input
-                  {...register("professionLink", {
-                    required: "Link is required",
-                  })}
+                  {...register("professionLink", { required: "Link is required" })}
                   placeholder={
                     profession === "business"
                       ? "Enter your website link"
@@ -175,45 +174,37 @@ export default function SignupPage() {
                       ? "Enter your social media link"
                       : "Enter your company website link"
                   }
-                  className="w-full p-2 "
+                  className="w-full p-2"
                 />
               </div>
             )}
 
             <div className="flex items-center space-x-2 cursor-pointer">
               <label className="flex items-center gap-2 cursor-pointer">
-                <Checkbox
-                  {...register("terms", { required: "You must accept terms" })}
-                />
+                <Checkbox {...register("terms", { required: "You must accept terms" })} />
                 <span>I accept the terms and conditions</span>
               </label>
             </div>
-            {errors.terms && (
-              <p className="text-red-500">{errors.terms.message}</p>
-            )}
+            {errors.terms && <p className="text-red-500">{errors.terms.message}</p>}
 
-            <Button type="submit" className="w-full mt-2 cursor-pointer">
+            <Button type="submit" className="w-full mt-2 text-white">
               Sign Up
             </Button>
 
-            {message && (
-              <p className="mt-2 text-center text-red-500">{message}</p>
-            )}
+            {message && <p className="mt-2 text-center text-red-500">{message}</p>}
 
             <div className="flex justify-between w-full">
               <Link href="/login" className="text-blue-600 hover:underline">
                 Login
               </Link>
-              <Link
-                href="/forgot-password"
-                className="text-blue-600 hover:underline"
-              >
+              <Link href="/forgot-password" className="text-blue-600 hover:underline">
                 Forgot Password?
               </Link>
             </div>
           </form>
         </div>
       </div>
+
     </div>
   );
 }

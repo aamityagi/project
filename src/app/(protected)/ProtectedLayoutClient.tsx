@@ -85,10 +85,6 @@ export default function ProtectedLayoutClient({
           <main className="flex-1 overflow-auto transition-all duration-300 shadow-inner bg-gray-200 flex flex-col">
             <div className="flex-1 bg-white m-6 shadow-xl">{children}</div>
 
-            {/* Footer inside main */}
-            <footer className="bg-white p-4 text-center text-sm text-gray-500 shadow-inner mt-4">
-              © {new Date().getFullYear()} Your Company
-            </footer>
           </main>
         </div>
       </div>

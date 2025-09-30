@@ -72,9 +72,15 @@ export default function LoginPage() {
       </div>
 
       {/* Right side form */}
-      <div className="w-full lg:w-1/2 h-screen overflow-y-auto flex flex-col items-center p-6 bg-gray-200">
+      <div
+        className="
+          w-full lg:w-1/2 h-screen overflow-y-auto 
+          flex flex-col lg:justify-center items-center p-6 bg-gray-200
+        "
+      >
         <div className="w-full relative max-w-md bg-white p-8 shadow-lg space-y-6">
-          <div className="flex justify-center ">
+          {/* Logo */}
+          <div className="flex justify-center">
             <Image
               width={40}
               height={40}
@@ -84,10 +90,12 @@ export default function LoginPage() {
             />
           </div>
 
+          {/* Heading */}
           <div className="text-center space-y-1">
             <h1 className="text-2xl font-bold">Welcome Back</h1>
           </div>
 
+          {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-4">
             <Input
               type="email"
@@ -95,6 +103,7 @@ export default function LoginPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              className="h-10 px-2 py-1"
             />
             <Input
               type="password"
@@ -102,16 +111,16 @@ export default function LoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              className="h-10 px-2 py-1"
             />
 
             {error && <p className="text-red-500 text-sm">{error}</p>}
 
-            <Button type="submit" className="w-full">
+            <Button type="submit" className="w-full text-white">
               Login
             </Button>
 
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between text-sm mt-2 gap-3 sm:gap-0">
-              {/* Top: Remember me (always full width on mobile) */}
               <label className="flex items-center gap-2 cursor-pointer">
                 <Checkbox
                   checked={remember}
@@ -120,7 +129,6 @@ export default function LoginPage() {
                 <span>Remember me</span>
               </label>
 
-              {/* Links section */}
               <div className="flex justify-between sm:justify-end w-full sm:w-auto">
                 <Link href="/signup" className="text-blue-600 hover:underline">
                   Get Started
@@ -134,9 +142,11 @@ export default function LoginPage() {
               </div>
             </div>
           </form>
+
           <SocialAuth />
         </div>
       </div>
+
     </div>
   );
 }

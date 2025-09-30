@@ -283,8 +283,8 @@ export default function DynamicTable({ data }: DynamicTableProps) {
           {/* Columns Dropdown */}
           <div ref={columnsDropdownRef} className="relative">
             <Button
-              variant="outline"
               size="sm"
+              className="shadow-lg border border-gray-300 bg-white text-gray-500 hover:bg-gray-800 hover:text-gray-100"
               onClick={() => setColumnsDropdownOpen(!columnsDropdownOpen)}
             >
               <Settings className="w-4 h-4" />
@@ -315,8 +315,8 @@ export default function DynamicTable({ data }: DynamicTableProps) {
           {/* Export Dropdown */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm">
-                <FileDown className="w-4 h-4 mr-1" />
+              <Button className="shadow-lg border border-gray-300 bg-white text-gray-500 hover:bg-gray-800 hover:text-gray-100" size="sm">
+                <FileDown className="w-4 h-4" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
@@ -332,93 +332,126 @@ export default function DynamicTable({ data }: DynamicTableProps) {
       </div>
       {/* Start table */}
       <div id="table-container" className="overflow-x-auto text-sm max-h-[500px] overflow-y-scroll relative">
-        <table className="min-w-full border-collapse">
-          <thead className="sticky top-0 bg-gray-100 z-10">
-            <tr>
-              <th className="p-2 border">
-                <input
-                  type="checkbox"
-                  checked={selectedRows.size === data.length}
-                  onChange={(e) =>
-                    e.target.checked
-                      ? setSelectedRows(new Set(data.map((_, i) => i)))
-                      : setSelectedRows(new Set())
-                  }
-                />
-              </th>
-              {visibleCols.map((col) => (
-                <th key={col} className="p-2 border text-left cursor-pointer">
-                  <div className="flex items-center gap-1" onClick={() => handleSort(col)}>
-                    {col}
-                    <ArrowUpDown className="w-3 h-3 text-gray-500" />
-                    <Info className="w-3 h-3 text-gray-400" />
-                  </div>
+        <div className="overflow-x-auto shadow-lg border border-gray-300">
+          <table className="min-w-full border-collapse text-gray-700 bg-gray-50">
+            {/* Table Head */}
+            <thead className="sticky top-0 bg-gray-200 z-10 shadow-sm">
+              <tr>
+                <th className="p-3 border-b border-gray-200">
+                  <input
+                    type="checkbox"
+                    checked={selectedRows.size === data.length}
+                    onChange={(e) =>
+                      e.target.checked
+                        ? setSelectedRows(new Set(data.map((_, i) => i)))
+                        : setSelectedRows(new Set())
+                    }
+                    className="accent-blue-500 w-4 h-4"
+                  />
                 </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-          {pagedData.map((row, idx) => (
-            <tr key={idx} className="hover:bg-gray-50">
-              <td className="p-2 border">
-                <input
-                  type="checkbox"
-                  checked={selectedRows.has((page - 1) * rowsPerPage + idx)}
-                  onChange={() => toggleRow((page - 1) * rowsPerPage + idx)}
-                />
-              </td>
-
-              {visibleCols.map((col) => {
-              if (col === "KD") {
-                const kdValue = row[col] as number | undefined;
-                let color = "bg-gray-300"; // default for no KD
-
-                if (kdValue !== undefined && kdValue !== null) {
-                  if (kdValue >= 85) color = "bg-red-800";       // Very Hard
-                  else if (kdValue >= 70) color = "bg-red-500";  // Hard
-                  else if (kdValue >= 50) color = "bg-orange-500"; // Difficult
-                  else if (kdValue >= 30) color = "bg-yellow-400"; // Possible
-                  else if (kdValue >= 15) color = "bg-green-300";  // Easy
-                  else color = "bg-green-700";                     // Very Easy
-                }
-
-                return (
-                  <td key={col} className="p-2 border">
-                    <div className="flex items-center justify-between">
-                      <span>{kdValue ?? "—"}</span>
-                      <span className={`w-3 h-3 rounded-full ${color}`}></span>
+                {visibleCols.map((col) => (
+                  <th
+                    key={col}
+                    className="p-3 border-b border-gray-200 text-left cursor-pointer select-none"
+                    onClick={() => handleSort(col)}
+                  >
+                    <div className="flex items-center gap-1">
+                      {col}
+                      <ArrowUpDown className="w-3 h-3 text-gray-500" />
+                      <Info className="w-3 h-3 text-gray-400" />
                     </div>
-                  </td>
-                );
-              }
+                  </th>
+                ))}
+              </tr>
+            </thead>
 
-              if (col === "UpdateDate") {
-                const dateValue = row[col] ? new Date(row[col] as string | Date) : null;
-                const formattedDate = dateValue
-                  ? `${String(dateValue.getDate()).padStart(2, "0")}/${
-                      String(dateValue.getMonth() + 1).padStart(2, "0")
-                    }/${dateValue.getFullYear()}`
-                  : "—";
+            {/* Table Body */}
+            <tbody>
+              {pagedData.map((row, idx) => {
+                const globalIdx = (page - 1) * rowsPerPage + idx;
+                const isSelected = selectedRows.has(globalIdx);
+
                 return (
-                  <td key={col} className="p-2 border">
-                    {formattedDate}
-                  </td>
+                  <tr
+                    key={idx}
+                    className={`
+                      transition-all duration-200
+                      ${isSelected ? "bg-blue-100 shadow-inner" : "hover:bg-gray-100"}
+                      ${isSelected ? "font-semibold text-gray-800" : "text-gray-700"}
+                      ${isSelected ? "scale-[1.01]" : ""}
+                    `}
+                  >
+                    <td className="p-2 border-b border-gray-200">
+                      <input
+                        type="checkbox"
+                        checked={isSelected}
+                        onChange={() => toggleRow(globalIdx)}
+                        className="accent-blue-500 w-4 h-4"
+                      />
+                    </td>
+
+                    {visibleCols.map((col) => {
+                      if (col === "KD") {
+                        const kdValue = row[col] as number | undefined;
+                        let color = "bg-gray-300";
+
+                        if (kdValue !== undefined && kdValue !== null) {
+                          if (kdValue >= 85) color = "bg-red-800";
+                          else if (kdValue >= 70) color = "bg-red-500";
+                          else if (kdValue >= 50) color = "bg-orange-500";
+                          else if (kdValue >= 30) color = "bg-yellow-400";
+                          else if (kdValue >= 15) color = "bg-green-300";
+                          else color = "bg-green-700";
+                        }
+
+                        return (
+                          <td key={col} className="p-2 border-b border-gray-200">
+                            <div className="flex items-center justify-between">
+                              <span>{kdValue ?? "—"}</span>
+                              <span className={`w-3 h-3 rounded-full ${color}`}></span>
+                            </div>
+                          </td>
+                        );
+                      }
+
+                      if (col === "UpdateDate") {
+                        const dateValue = row[col] ? new Date(row[col] as string | Date) : null;
+                        const formattedDate = dateValue
+                          ? `${String(dateValue.getDate()).padStart(2, "0")}/${
+                              String(dateValue.getMonth() + 1).padStart(2, "0")
+                            }/${dateValue.getFullYear()}`
+                          : "—";
+                        return (
+                          <td key={col} className="p-2 border-b border-gray-200">
+                            {formattedDate}
+                          </td>
+                        );
+                      }
+
+                      return (
+                        <td key={col} className="p-2 border-b border-gray-200">
+                          {row[col]?.toString() ?? "—"}
+                        </td>
+                      );
+                    })}
+                  </tr>
                 );
-              }
+              })}
+            </tbody>
 
-              // default render
-              return (
-                <td key={col} className="p-2 border">
-                  {row[col]?.toString() ?? "—"}
+            {/* Table Footer */}
+            <tfoot className="bg-gray-200 font-medium text-gray-700 sticky bottom-0 shadow-inner">
+              <tr>
+                <td className="p-3 border-t border-gray-200" colSpan={visibleCols.length + 1}>
+                  Showing {pagedData.length} of {data.length} entries
                 </td>
-              );
-            })}
+              </tr>
+            </tfoot>
+          </table>
+        </div>
 
-            </tr>
-          ))}
-        </tbody>
 
-        </table>
+
       </div>
 
       {/* Show Related Data Not Found below the table */}

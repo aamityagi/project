@@ -1,0 +1,92 @@
+{
+  "marketingPage": {
+    "title": "Namakwala - Best Digital Marketing Services",
+    "description": "Namakwala provides top-notch marketing solutions including SEO, affiliate programs, and web development.",
+    "keywords": ["marketing", "SEO", "affiliate", "digital services", "web development"],
+    "canonical": "/",
+    "ogImage": "/og/marketing.jpg",
+    "ogType": "website",
+    "twitterCard": "summary_large_image",
+    "robots": "index, follow",
+    "author": "Namakwala",
+    "analytics": {
+      "googleAnalyticsId": "GA-XXXXXXX",
+      "facebookPixelId": "FB-XXXXXXX",
+      "clarityId": "CL-XXXXXXX"
+    }
+  },
+  "blogPage": {
+    "title": "Namakwala Blog - Latest Updates & Insights",
+    "description": "Read the latest articles and insights on SEO, digital marketing, and affiliate programs.",
+    "keywords": ["blog", "SEO tips", "digital marketing", "affiliate"],
+    "canonical": "/blog",
+    "ogImage": "/og/blog.jpg",
+    "ogType": "website",
+    "twitterCard": "summary_large_image",
+    "robots": "index, follow",
+    "author": "Namakwala",
+    "analytics": {
+      "googleAnalyticsId": "GA-XXXXXXX",
+      "facebookPixelId": "FB-XXXXXXX",
+      "clarityId": "CL-XXXXXXX"
+    }
+  },
+  "blogs": [
+    {
+      "slug": "how-to-rank-on-google",
+      "title": "How to Rank on Google in 2025",
+      "excerpt": "Learn step-by-step strategies to rank your website on Google and drive organic traffic effectively.",
+      "content": "<h2>Introduction</h2><p>Ranking on Google...</p><h2>Keyword Research</h2><p>...</p>",
+      "publishedAt": "2025-09-30T10:00:00Z",
+      "image": "/blogs/google-rank.jpg",
+      "seo": {
+        "title": "How to Rank on Google - Namakwala Blog",
+        "description": "Discover advanced SEO strategies to rank your website on Google in 2025.",
+        "keywords": ["SEO", "Google ranking", "digital marketing", "organic traffic"],
+        "canonical": "/blog/how-to-rank-on-google",
+        "ogImage": "/og/google-rank.jpg",
+        "ogType": "article",
+        "twitterCard": "summary_large_image",
+        "robots": "index, follow",
+        "author": "Namakwala",
+        "structuredData": {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": "How to Rank on Google in 2025",
+          "datePublished": "2025-09-30T10:00:00Z",
+          "author": { "@type": "Person", "name": "Namakwala" },
+          "image": "/blogs/google-rank.jpg",
+          "publisher": { "@type": "Organization", "name": "Namakwala" }
+        }
+      }
+    },
+    {
+      "slug": "affiliate-marketing-tips",
+      "title": "Top Affiliate Marketing Tips",
+      "excerpt": "Boost your affiliate earnings with these top marketing strategies and tips.",
+      "content": "<h2>Introduction</h2><p>Affiliate marketing...</p><h2>Strategies</h2><p>...</p>",
+      "publishedAt": "2025-09-28T08:00:00Z",
+      "image": "/blogs/affiliate-tips.jpg",
+      "seo": {
+        "title": "Top Affiliate Marketing Tips - Namakwala Blog",
+        "description": "Learn actionable affiliate marketing tips to maximize your online revenue.",
+        "keywords": ["affiliate marketing", "tips", "digital marketing", "monetization"],
+        "canonical": "/blog/affiliate-marketing-tips",
+        "ogImage": "/og/affiliate-tips.jpg",
+        "ogType": "article",
+        "twitterCard": "summary_large_image",
+        "robots": "index, follow",
+        "author": "Namakwala",
+        "structuredData": {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": "Top Affiliate Marketing Tips",
+          "datePublished": "2025-09-28T08:00:00Z",
+          "author": { "@type": "Person", "name": "Namakwala" },
+          "image": "/blogs/affiliate-tips.jpg",
+          "publisher": { "@type": "Organization", "name": "Namakwala" }
+        }
+      }
+    }
+  ]
+}

@@ -10,18 +10,17 @@ interface Country {
   name: string;
   code: string;
   flag: string;
-  location_code: number; // added for DataForSEO
+  location_code: number; // used for DataForSEO
 }
 
 const countriesData: Country[] = countriesDataJson;
 
-export default function CountrySelect({
-  value,
-  onChange,
-}: {
+interface CountrySelectProps {
   value: string;
-  onChange: (selection: { code: string; location_code: number }) => void; // return code + location
-}) {
+  onChange: (selection: { code: string; location_code: number }) => void;
+}
+
+export default function CountrySelect({ value, onChange }: CountrySelectProps) {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
 
@@ -32,10 +31,10 @@ export default function CountrySelect({
 
   return (
     <div className="relative min-w-[80px]">
-      {/* Selected country */}
+      {/* Selected country button */}
       <Button
         type="button"
-        className="flex items-center border bg-white bg-gray-800 hover:bg-white"
+        className="flex items-center border bg-white hover:bg-gray-100"
         onClick={() => setOpen(!open)}
       >
         {selected ? (
@@ -47,12 +46,10 @@ export default function CountrySelect({
               alt={selected.code}
               className="w-4 h-4 mr-1"
             />
-            <span className="text-sm text-gray-800 font-medium">
-              {selected.code}
-            </span>
+            <span className="text-sm text-gray-800 font-medium">{selected.code}</span>
           </>
         ) : (
-          <span className="text-sm">Select</span>
+          <span className="text-sm text-gray-800">Select</span>
         )}
 
         <svg
@@ -61,12 +58,7 @@ export default function CountrySelect({
           stroke="currentColor"
           viewBox="0 0 24 24"
         >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M19 9l-7 7-7-7"
-          />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
         </svg>
       </Button>
 
@@ -85,28 +77,28 @@ export default function CountrySelect({
           </div>
 
           {/* Country list */}
-          {filtered.map((c) => (
-            <div
-              key={c.code}
-              onClick={() => {
-                onChange({ code: c.code, location_code: c.location_code }); // return code + location_code
-                setOpen(false);
-                setSearch("");
-              }}
-              className="flex items-center p-2 cursor-pointer hover:bg-gray-100 text-sm"
-            >
-              <Image
-                width={60}
-                height={60}
-                src={c.flag}
-                alt={c.code}
-                className="w-4 h-4 mr-2"
-              />
-              <span>{c.name}</span>
-            </div>
-          ))}
-
-          {filtered.length === 0 && (
+          {filtered.length > 0 ? (
+            filtered.map((c) => (
+              <div
+                key={c.code}
+                onClick={() => {
+                  onChange({ code: c.code, location_code: c.location_code });
+                  setOpen(false);
+                  setSearch("");
+                }}
+                className="flex items-center p-2 cursor-pointer hover:bg-gray-100 text-sm"
+              >
+                <Image
+                  width={60}
+                  height={60}
+                  src={c.flag}
+                  alt={c.code}
+                  className="w-4 h-4 mr-2"
+                />
+                <span>{c.name}</span>
+              </div>
+            ))
+          ) : (
             <div className="p-2 text-gray-500 text-sm">No countries found</div>
           )}
         </div>

@@ -14,6 +14,7 @@ export default function Header() {
         <a href="#about" className="hover:text-blue-600">About</a>
         <a href="#pricing" className="hover:text-blue-600">Pricing</a>
         <a href="#affiliation" className="hover:text-blue-600">Affiliation</a>
+        <a href="/blog" className="hover:text-blue-600">Blog</a>
       </nav>
 
       {/* Right: Buttons */}

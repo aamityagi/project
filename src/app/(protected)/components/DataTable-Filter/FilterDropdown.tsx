@@ -2,7 +2,6 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { Button } from "../ui/button";
-import { Info } from "lucide-react";
 import InfoTooltip from "../InfoTooltip";
 import { Input } from "../ui/input";
 
@@ -133,23 +132,52 @@ export default function FilterDropdown<T extends FilterType>({
   };
 
   return (
-    <div className="relative" ref={dropdownRef}>
-      <Button variant="outline" size="sm" onClick={() => setOpen(!open)}>
+    <div className="relative text-gray-800" ref={dropdownRef}>
+      {/* Trigger Button */}
+      <Button
+        variant="outline"
+        size="sm"
+        onClick={() => setOpen(!open)}
+        className="
+          flex items-center justify-between w-full gap-2
+          bg-white/400 backdrop-blur-md border border-gray-300
+          text-gray-500 font-medium
+          hover:bg-white/800 hover:border-gray-400
+          transition-colors duration-300 
+          rounded-lg shadow-lg
+          px-3 py-2
+        "
+      >
         {renderButtonContent()}
+
+        {/* Dropdown arrow */}
+        <svg
+          className={`w-3 h-3 transition-transform duration-200  text-gray-500 ${
+            open ? "rotate-180" : ""
+          }`}
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+        </svg>
       </Button>
+
+
+      {/* Dropdown Content */}
       {open && (
-        <div className="absolute top-full mt-1 w-60 bg-white border shadow-md z-50 p-3 flex flex-col gap-1">
+        <div className="absolute top-full mt-1 w-60 backdrop-blur-md bg-white/30 border border-white/40 shadow-lg z-50 p-3 flex flex-col gap-1 rounded-lg">
           {options.map((opt) => (
             <div
               key={opt.label}
-              className={`flex items-center justify-between cursor-pointer px-1 py-1 text-sm ${
+              className={`flex items-center justify-between cursor-pointer px-2 py-1 text-sm rounded-md transition-colors ${
                 type === "single"
                   ? selectedValue === (opt.value || opt.label)
-                    ? "bg-blue-100 font-semibold"
-                    : "hover:bg-gray-100"
+                    ? "bg-blue-100/50 font-semibold"
+                    : "hover:bg-white/20"
                   : selectedValues.includes(opt.value || opt.label)
-                  ? "bg-blue-100 font-semibold"
-                  : "hover:bg-gray-100"
+                  ? "bg-blue-100/50 font-semibold"
+                  : "hover:bg-white/20"
               }`}
               onClick={() => {
                 if (type === "single") handleSingleSelect(opt.value || opt.label);
@@ -158,55 +186,57 @@ export default function FilterDropdown<T extends FilterType>({
             >
               <span>{opt.label}</span>
               <div className="flex items-center gap-1">
-                {opt.range && <span className="text-sm text-gray-600">{opt.range}</span>}
+                {opt.range && <span className="text-sm text-gray-800">{opt.range}</span>}
                 {opt.tooltip && <InfoTooltip content={opt.tooltip} />}
               </div>
             </div>
           ))}
 
-          {/* Custom Range */}
-          <div className="flex flex-col gap-2 mt-2">
-            <hr className="border-gray-300" />
-            <label className="font-semibold">Custom Range</label>
-            <div className="flex gap-2">
-              <Input
-                type="number"
-                placeholder="Min"
-                className="border p-1 w-1/2"
-                value={range.from}
-                onChange={(e) => handleRangeChange("from", e.target.value)}
-              />
-              <Input
-                type="number"
-                placeholder="Max"
-                className="border p-1 w-1/2"
-                value={range.to}
-                onChange={(e) => handleRangeChange("to", e.target.value)}
-              />
+          {/* Custom Range (skip for Intent dropdown) */}
+          {title !== "Intent" && (
+            <div className="flex flex-col gap-2 mt-2 text-gray-800">
+              <hr className="border-gray/30" />
+              <label className="font-semibold">Custom Range</label>
+              <div className="flex gap-2">
+                <Input
+                  type="number"
+                  placeholder="Min"
+                  className="border border-gray/600 p-1 w-1/2 bg-white/20 text-gray-800 placeholder-gray/600"
+                  value={range.from}
+                  onChange={(e) => handleRangeChange("from", e.target.value)}
+                />
+                <Input
+                  type="number"
+                  placeholder="Max"
+                  className="border border-gray/600 p-1 w-1/2 bg-white/20 text-gray-800 placeholder-gray/600"
+                  value={range.to}
+                  onChange={(e) => handleRangeChange("to", e.target.value)}
+                />
+              </div>
             </div>
-          </div>
+          )}
 
-          {/* Apply & Cancel */}
-          <div className="flex justify-between mt-2">
+          {/* Apply & Cancel Buttons */}
+          <div className="flex justify-between mt-2 gap-2">
             <Button
               size="sm"
-              variant="outline"
               onClick={handleApply}
-              className="w-1/2 bg-blue-500 text-white hover:bg-blue-700 transition-colors"
+              className="flex-1 bg-blue-500/80 text-white hover:bg-blue-600 transition-colors"
             >
               Apply
             </Button>
             <Button
               size="sm"
-              variant="ghost"
               onClick={handleCancel}
-              className="w-1/2 bg-gray-400 text-gray-700 hover:bg-gray-500 hover:text-gray-100 transition-colors"
+              className="flex-1 bg-gray-300 text-gray-800 hover:bg-gray-500/90 hover:text-white transition-colors"
             >
               Cancel
             </Button>
           </div>
         </div>
       )}
+
     </div>
+
   );
 }

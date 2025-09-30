@@ -1,17 +1,19 @@
-import Header from "./components/Header";
-import Hero from "./components/Hero";
-import About from "./components/About";
-import Pricing from "./components/Pricing";
-import Affiliation from "./components/Affiliation";
+// src/app/marketing/page.tsx
+import { generateSEOServer } from "../../../lib/seoServer";
+import pageData from "../data/pages.json";
+import type { Metadata } from "next";
+import MarketingContent from "./MarketingContent";
+
+
+// ✅ Typecast JSON if needed
+interface PagesJSON {
+  marketingPage: any;
+}
+const pageDataTyped = pageData as PagesJSON;
+
+// ✅ Export metadata safely
+export const metadata: Metadata = generateSEOServer(pageDataTyped.marketingPage);
 
 export default function MarketingPage() {
-  return (
-    <main className="bg-gray-50 text-gray-800">
-      <Header />
-      <Hero />
-      <About />
-      <Pricing />
-      <Affiliation />
-    </main>
-  );
+  return <MarketingContent />;
 }
