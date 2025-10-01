@@ -1,0 +1,29 @@
+[
+  {
+    "title": "Enter your competitors",
+    "points": [
+      "Specify up to 5 any domains, subdomains, folders or exact URLs. Get a list containing all common and unique keywords they rank for."
+    ],
+    "image": "/assets/keyword-gap-1.svg"
+  },
+  {
+    "title": "Choose keyword types",
+    "points": [
+      "Switch between the keywords for organic, paid search, and PLA. Mix the types, see how they intersect, and assess your SEO and PPC efforts."
+    ],
+    "image": "/assets/keyword-gap-2.svg"
+  },
+  {
+    "title": "Get insights to stay ahead",
+    "points": [
+      "Find out the competitors with the largest keyword profile. Create your own keyword masterlist helping you beat your competitors."
+    ],
+    "image": "/assets/keyword-gap-3.svg"
+  },
+  {
+    "title": "CTA",
+    "points": ["Get 7-day unlimited access to all Semrush tools and reports"],
+    "button": "Get Free Trial",
+    "image": "/assets/cta-keyword-gap.svg"
+  }
+]

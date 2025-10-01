@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import countriesDataJson from "../components/data/countries.json"; // adjust path
+import { useState, useRef, useEffect } from "react";
+import countriesDataJson from "../components/data/countries.json";
 import Image from "next/image";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
@@ -10,7 +10,7 @@ interface Country {
   name: string;
   code: string;
   flag: string;
-  location_code: number; // used for DataForSEO
+  location_code: number;
 }
 
 const countriesData: Country[] = countriesDataJson;
@@ -23,14 +23,26 @@ interface CountrySelectProps {
 export default function CountrySelect({ value, onChange }: CountrySelectProps) {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const selected = countriesData.find((c) => c.code === value);
   const filtered = countriesData.filter((c) =>
     c.name.toLowerCase().includes(search.toLowerCase())
   );
 
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   return (
-    <div className="relative min-w-[80px]">
+    <div className="relative min-w-[80px]" ref={dropdownRef}>
       {/* Selected country button */}
       <Button
         type="button"

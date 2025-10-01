@@ -1,0 +1,38 @@
+[
+  {
+    "title": "Discover Your Competitors’ Best Keywords",
+    "image": "/assets/keywords.svg",
+    "points": [
+      "Explore your rivals' keyword rankings on desktop and mobile.",
+      "View their landing pages displayed in the SERPs for a given keyword.",
+      "See how much traffic a search term is bringing organically."
+    ]
+  },
+  {
+    "title": "Identify the Topics That Bring Them the Most Organic Traffic",
+    "image": "/assets/topics.svg",
+    "points": [
+      "Get a snapshot of the key topics driving non-branded organic traffic to your competitors’ domains.",
+      "Uncover content gaps and build keyword lists for content briefs.",
+      "Prepare client pitches with actionable content opportunities."
+    ]
+  },
+  {
+    "title": "Find New Organic Competitors",
+    "image": "/assets/competitors.svg",
+    "points": [
+      "Keep close tabs on the dynamic organic competitive landscape.",
+      "Get a visual representation of where your site stands amongst other organic search players.",
+      "See a list of domains you are battling against for the top positions in Google and Bing."
+    ]
+  },
+  {
+    "title": "Observe a Domain’s Position Changes",
+    "image": "/assets/position.svg",
+    "points": [
+      "Find out where your rivals’ keyword rankings are changing in organic results and SERP features.",
+      "Identify keywords and URLs that have gained or lost traffic.",
+      "Understand where your own tactics are winning and if there's room for improvement."
+    ]
+  }
+]

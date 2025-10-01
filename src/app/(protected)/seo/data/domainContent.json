@@ -1,0 +1,39 @@
+[
+  {
+    "title": "Get a Complete Analysis",
+    "image": "/assets/analysis.svg",
+    "points": [
+      "Get a full overview of a domain and its online visibility.",
+      "Analyze a domain’s growth trend over time.",
+      "See the markets where a domain has the leading representation.",
+      "Discover the topics and keywords that bring organic and paid search traffic to a domain."
+    ]
+  },
+  {
+    "title": "Compare Domains",
+    "image": "/assets/compare.svg",
+    "points": [
+      "Save time spent on summary analysis. Compare up to five competitors within one report.",
+      "Uncover and analyze the key metrics either for a specific country or globally: organic search traffic, paid search traffic, and number of backlinks.",
+      "Choose domain type: root domain, subdomain, subfolder."
+    ]
+  },
+  {
+    "title": "Growth Report",
+    "image": "/assets/growth.svg",
+    "points": [
+      "Save time on reporting by getting the key data on a domain’s growth trend in one place.",
+      "Evaluate a domain’s progress for organic traffic, paid traffic, and backlinks for a specific period: three months, a quarter, 6 months, a season, or 1 year.",
+      "Easily export the report to XLS or CSV."
+    ]
+  },
+  {
+    "title": "Compare by Countries",
+    "image": "/assets/countries.svg",
+    "points": [
+      "Compare organic and paid performance of a domain in different countries.",
+      "See the organic share of a domain for specific markets.",
+      "Export the trends to XLS or CSV."
+    ]
+  }
+]
