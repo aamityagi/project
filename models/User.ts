@@ -1,7 +1,27 @@
-// src/models/User.ts
-import mongoose, { Schema } from "mongoose";
+// models/User.ts
+import mongoose, { Schema, model, models, Document } from "mongoose";
 
-const UserSchema = new Schema({
+export interface IUser extends Document {
+  _id: mongoose.Types.ObjectId;  // ✅ include _id
+  id: string;
+  fullName: string;
+  email: string;
+  phone: string;
+  password: string;
+  role?: string;
+  extraInfo?: string;
+  terms?: boolean;
+  profession: string;
+  professionLink?: string;
+  isVerified?: boolean;
+  verificationToken?: string;
+  resetPasswordToken?: string;
+  resetPasswordExpires?: Date;
+  createdAt?: Date;
+}
+
+// Schema definition
+const UserSchema = new Schema<IUser>({
   id: { type: String, required: true, unique: true },
   fullName: { type: String, required: true },
   email: { type: String, required: true, unique: true },
@@ -14,20 +34,12 @@ const UserSchema = new Schema({
   professionLink: { type: String, default: "" },
   isVerified: { type: Boolean, default: false },
   verificationToken: { type: String, default: "" },
+  resetPasswordToken: { type: String, default: "" },
+  resetPasswordExpires: { type: Date },
   createdAt: { type: Date, default: () => new Date() },
 });
 
-// ✅ Suggestions / Notes:
-// 1. For social login, you can optionally store:
-//    - provider: 'google' | 'github' | 'facebook'
-//    - providerId: string (OAuth user id)
-//    Example: { provider: 'google', providerId: '1234567890' }
-//    This allows linking social accounts to this User model.
-// 2. Passwords should be hashed when using credentials login.
-//    Use bcrypt or argon2 to hash before saving.
-// 3. `verificationToken` can be used for email verification flow.
-// 4. You already handle unique constraints for id, email, and phone — good practice.
-// 5. `createdAt` uses a default function to always store creation time.
+// ✅ Use existing model if it exists (prevents HMR issues in Next.js)
+const User = (models.User as mongoose.Model<IUser>) || model<IUser>("User", UserSchema);
 
-// Exporting model safely without overwriting existing models in dev
-export default mongoose.models.User || mongoose.model("User", UserSchema);
+export default User;

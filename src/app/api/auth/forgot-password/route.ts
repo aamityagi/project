@@ -1,13 +1,35 @@
+"use server";
 import { NextResponse } from "next/server";
 import { connectMongo } from "../../../../../lib/mongoose";
 import User from "../../../../../models/User";
 import crypto from "crypto";
 import nodemailer from "nodemailer";
 
+// ✅ Safe JSON parser
+async function safeJson(req: Request) {
+  try {
+    const text = await req.text();
+    if (!text) return {};
+    return JSON.parse(text);
+  } catch {
+    return {};
+  }
+}
+
 export async function POST(req: Request) {
   try {
     await connectMongo();
-    const { email } = await req.json();
+
+    // ✅ Parse JSON safely
+    const body = await safeJson(req);
+    const { email } = body;
+
+    if (!email) {
+      return NextResponse.json(
+        { message: "Email is required" },
+        { status: 400 }
+      );
+    }
 
     const user = await User.findOne({ email });
     if (!user) {
@@ -44,7 +66,10 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ message: "Reset link sent to email" });
   } catch (error) {
-    console.error(error);
-    return NextResponse.json({ message: "Internal server error" }, { status: 500 });
+    console.error("Forgot Password API error:", error);
+    return NextResponse.json(
+      { message: "Internal server error" },
+      { status: 500 }
+    );
   }
 }

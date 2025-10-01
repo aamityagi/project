@@ -1,12 +1,37 @@
+"use server";
 import { NextResponse } from "next/server";
 import { connectMongo } from "../../../../../../lib/mongoose";
 import User from "../../../../../../models/User";
 import bcrypt from "bcryptjs";
 
-export async function POST(req: Request, context: { params: Promise<{ token: string }> }) {
+// ✅ Safe JSON parser
+async function safeJson(req: Request) {
+  try {
+    const text = await req.text();
+    if (!text) return {};
+    return JSON.parse(text);
+  } catch {
+    return {};
+  }
+}
+
+export async function POST(
+  req: Request,
+  context: { params: Promise<{ token: string }> }
+) {
   try {
     await connectMongo();
-    const { password, confirmPassword } = await req.json();
+
+    // ✅ Use safe JSON parsing
+    const body = await safeJson(req);
+    const { password, confirmPassword } = body;
+
+    if (!password || !confirmPassword) {
+      return NextResponse.json(
+        { message: "Password and confirmPassword are required" },
+        { status: 400 }
+      );
+    }
 
     // ✅ await params
     const { token } = await context.params;
@@ -43,7 +68,7 @@ export async function POST(req: Request, context: { params: Promise<{ token: str
       { status: 200 }
     );
   } catch (error) {
-    console.error(error);
+    console.error("Reset Password API error:", error);
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 }

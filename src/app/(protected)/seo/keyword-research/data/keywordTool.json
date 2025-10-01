@@ -1,0 +1,98 @@
+{
+  "banner": {
+    "image": "/d12124469b48fadd50c9.svg",
+    "alt": "Keyword Research Banner"
+  },
+  "intro": {
+    "left": {
+      "title": "What Is the Keyword Magic Tool?",
+      "paragraphs": [
+        "Our Keyword Magic Tool helps you discover the best keyword ideas. Unlike basic generators, it uses data, filters, and AI to find real opportunities for growth.",
+        "It’s also a better alternative to Google Keyword Planner — no ads needed, just keyword insights."
+      ]
+    },
+    "right": {
+      "title": "Why Use Our Keyword Tool?",
+      "paragraphs": [
+        "Because it’s built on billions of real, fresh keywords and offers advanced filters to refine your SEO strategy.",
+        "We use real data, not guesses, so your research stays accurate and useful.",
+        "Plus, our AI insights make it simple to uncover hidden keyword opportunities."
+      ]
+    }
+  },
+  "metrics": {
+    "title": "Stay on Top of Key Metrics with Our Free Keyword Tool",
+    "left": [
+      "Keyword search volume: Avg monthly searches.",
+      "Search intent: Why users search.",
+      "12-month trend: Popularity changes.",
+      "Keyword difficulty: How hard it is to rank."
+    ],
+    "right": [
+      "CPC: Average ad cost per click.",
+      "SERP features: Extra Google results.",
+      "Competitive density: Ad competition.",
+      "Number of results: Total ranking pages."
+    ],
+    "footer": "These keyword metrics, with our filters, help you find hidden high-value keywords for SEO and PPC."
+  },
+  "steps": {
+    "title": "How to Use This Keyword Tool",
+    "items": [
+      "Enter a seed keyword related to your business.",
+      "Check keyword suggestions and pick relevant ones.",
+      "Look at search volume, difficulty, and intent to choose wisely.",
+      "Add your chosen keywords to content, titles, and tags."
+    ]
+  },
+  "features": {
+    "title": "What You Can Do with Our Keyword Research Tool",
+    "items": [
+      {
+        "title": "Search Keyword Variations",
+        "desc": "Find broad, exact, long-tail, and question keywords."
+      },
+      {
+        "title": "Sort and Refine",
+        "desc": "Filter keywords by volume, length, or custom rules."
+      },
+      {
+        "title": "Target the Right Intent",
+        "desc": "Match keywords to what users really want."
+      },
+      {
+        "title": "Upgrade Your Strategy",
+        "desc": "Send selected keywords into projects and track rankings."
+      },
+      {
+        "title": "Discover Content Ideas",
+        "desc": "Explore trending topics and create resonating content."
+      },
+      {
+        "title": "Analyze Real Results",
+        "desc": "See actual Google SERPs and find ranking gaps."
+      }
+    ]
+  },
+  "faqs": {
+    "title": "Semrush Keyword Magic Tool FAQs",
+    "items": [
+      {
+        "q": "What is a seed keyword?",
+        "a": "A seed keyword is a simple base word, like 'shoes', from which you generate ideas."
+      },
+      {
+        "q": "Do I need to pay to use this tool?",
+        "a": "No, we offer both free and paid versions with different levels of access."
+      },
+      {
+        "q": "How accurate is the data?",
+        "a": "We use real search data, not guesses, so the results are highly reliable."
+      },
+      {
+        "q": "Can I export keyword lists?",
+        "a": "Yes, you can save and export your keyword research for SEO planning."
+      }
+    ]
+  }
+}
