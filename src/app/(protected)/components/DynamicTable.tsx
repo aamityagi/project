@@ -9,7 +9,10 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from "./ui/dropdown-menu";
-import KeywordFilter, { MatchType, KeywordType } from "./DataTable-Filter/KeywordFilter";
+import KeywordFilter, {
+  MatchType,
+  KeywordType,
+} from "./DataTable-Filter/KeywordFilter";
 import * as XLSX from "xlsx";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
@@ -25,7 +28,15 @@ interface DynamicTableProps {
   data: TableRow[];
 }
 
-const defaultColumns = ["Keyword", "Intent", "Volume", "KD", "CPC", "SF", "UpdateDate"];
+const defaultColumns = [
+  "Keyword",
+  "Intent",
+  "Volume",
+  "KD",
+  "CPC",
+  "SF",
+  "UpdateDate",
+];
 
 export default function DynamicTable({ data }: DynamicTableProps) {
   const [visibleCols, setVisibleCols] = useState<string[]>(defaultColumns);
@@ -40,8 +51,12 @@ export default function DynamicTable({ data }: DynamicTableProps) {
   // Filter states
   const [keywordType, setKeywordType] = useState<KeywordType>("All");
   const [matchType, setMatchType] = useState<MatchType>("All Keyword");
-  const [volumeFilter, setVolumeFilter] = useState<string | { from: number; to: number } | null>(null);
-  const [kdFilter, setKdFilter] = useState<string | { from: number; to: number } | null>(null);
+  const [volumeFilter, setVolumeFilter] = useState<
+    string | { from: number; to: number } | null
+  >(null);
+  const [kdFilter, setKdFilter] = useState<
+    string | { from: number; to: number } | null
+  >(null);
   const [intentFilter, setIntentFilter] = useState<string[]>([]);
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -59,13 +74,23 @@ export default function DynamicTable({ data }: DynamicTableProps) {
   if (!data || data.length === 0)
     return <p className="text-center mt-4">No data found</p>;
 
-  const allColumns = Array.from(new Set(data.flatMap((row) => Object.keys(row))));
+  const allColumns = Array.from(
+    new Set(data.flatMap((row) => Object.keys(row)))
+  );
 
   const toggleCol = (col: string) => {
     if (col === "Keyword") return;
-    setVisibleCols((prev) =>
-      prev.includes(col) ? prev.filter((c) => c !== col) : [...prev, col]
-    );
+    setVisibleCols((prev) => {
+      if (prev.includes(col)) {
+        // Remove the column
+        return prev.filter((c) => c !== col);
+      } else {
+        // Add column but keep original order
+        return defaultColumns.filter(
+          (c) => c === "Keyword" || prev.includes(c) || c === col
+        );
+      }
+    });
   };
 
   const toggleRow = (idx: number) => {
@@ -77,7 +102,6 @@ export default function DynamicTable({ data }: DynamicTableProps) {
     }
     setSelectedRows(copy);
   };
-
 
   const handleSort = (col: string) => {
     if (sortCol === col) setSortAsc(!sortAsc);
@@ -94,77 +118,86 @@ export default function DynamicTable({ data }: DynamicTableProps) {
   };
 
   const filteredData = data.filter((row) => {
-      // Keyword type filter
-      if (keywordType === "Questions") {
-        const keyword = row.Keyword?.toString().toLowerCase() || "";
+    // Keyword type filter
+    if (keywordType === "Questions") {
+      const keyword = row.Keyword?.toString().toLowerCase() || "";
+      if (
+        !keyword.startsWith("how") &&
+        !keyword.startsWith("what") &&
+        !keyword.startsWith("why") &&
+        !keyword.endsWith("?")
+      )
+        return false;
+    }
+
+    // Match type filter
+    // Match type filter
+    switch (matchType) {
+      case "Broad Match":
+        if (row.MatchType !== "Broad Match") return false;
+        break;
+      case "Phrase Match":
+        if (row.MatchType !== "Phrase Match") return false;
+        break;
+      case "Exact Match":
+        if (row.MatchType !== "Exact Match") return false;
+        break;
+      case "Related":
+        if (row.MatchType !== "Related") return false;
+        break;
+    }
+
+    // Volume filter
+    if (volumeFilter) {
+      const volumeValue = row.Volume as number;
+      if (typeof volumeFilter === "string" && volumeFilter !== "custom") {
+        // parse predefined ranges like "101-1000" or single value
+        const [min, max] = volumeFilter.includes("-")
+          ? volumeFilter.split("-").map(Number)
+          : [Number(volumeFilter), Number.MAX_SAFE_INTEGER];
+
+        // ensure max does not exceed table data max
+        const tableMax = Math.max(
+          ...data.map((d) => (d.Volume as number) || 0)
+        );
+        const adjustedMax = Math.min(max, tableMax);
+
+        if (volumeValue < min || volumeValue > adjustedMax) return false;
+      } else if (typeof volumeFilter === "object") {
+        // custom range from the user
+        const from = volumeFilter.from;
+        const to = volumeFilter.to;
+
+        // make sure to cap max to table max
+        const tableMax = Math.max(
+          ...data.map((d) => (d.Volume as number) || 0)
+        );
+        const adjustedTo = Math.min(to, tableMax);
+
+        if (volumeValue < from || volumeValue > adjustedTo) return false;
+      }
+    }
+
+    // KD filter
+    if (kdFilter) {
+      if (typeof kdFilter === "string" && kdFilter !== "custom") {
+        const [min, max] = kdFilter.split("-").map(Number);
+        if ((row.KD as number) < min || (row.KD as number) > max) return false;
+      } else if (typeof kdFilter === "object") {
         if (
-          !keyword.startsWith("how") &&
-          !keyword.startsWith("what") &&
-          !keyword.startsWith("why") &&
-          !keyword.endsWith("?")
-        ) return false;
+          (row.KD as number) < kdFilter.from ||
+          (row.KD as number) > kdFilter.to
+        )
+          return false;
       }
+    }
 
-      // Match type filter
-      switch (matchType) {
-        case "Broad Match":
-          if (row.MatchType !== "Broad Match") return false;
-          break;
-        case "Phrase Match":
-          if (row.MatchType !== "Phrase Match") return false;
-          break;
-        case "Exact Match":
-          if (row.MatchType !== "Exact Match") return false;
-          break;
-        case "Related":
-          if (row.MatchType !== "Related") return false;
-          break;
-      }
+    // Intent filter
+    if (intentFilter.length > 0 && !intentFilter.includes(row.Intent as string))
+      return false;
 
-      // Volume filter
-      if (volumeFilter) {
-        const volumeValue = row.Volume as number;
-        if (typeof volumeFilter === "string" && volumeFilter !== "custom") {
-          // parse predefined ranges like "101-1000" or single value
-          const [min, max] = volumeFilter.includes("-")
-            ? volumeFilter.split("-").map(Number)
-            : [Number(volumeFilter), Number.MAX_SAFE_INTEGER];
-          
-          // ensure max does not exceed table data max
-          const tableMax = Math.max(...data.map(d => (d.Volume as number) || 0));
-          const adjustedMax = Math.min(max, tableMax);
-
-          if (volumeValue < min || volumeValue > adjustedMax) return false;
-        } else if (typeof volumeFilter === "object") {
-          // custom range from the user
-          const from = volumeFilter.from;
-          const to = volumeFilter.to;
-          
-          // make sure to cap max to table max
-          const tableMax = Math.max(...data.map(d => (d.Volume as number) || 0));
-          const adjustedTo = Math.min(to, tableMax);
-
-          if (volumeValue < from || volumeValue > adjustedTo) return false;
-        }
-      }
-
-
-      // KD filter
-      if (kdFilter) {
-        if (typeof kdFilter === "string" && kdFilter !== "custom") {
-          const [min, max] = kdFilter.split("-").map(Number);
-          if ((row.KD as number) < min || (row.KD as number) > max) return false;
-        } else if (typeof kdFilter === "object") {
-          if ((row.KD as number) < kdFilter.from || (row.KD as number) > kdFilter.to) return false;
-        }
-      }
-
-      // Intent filter
-      if (intentFilter.length > 0 && !intentFilter.includes(row.Intent as string)) return false;
-
-      return true;
-    });
-
+    return true;
+  });
 
   const sortedData = [...filteredData].sort((a, b) => {
     if (!sortCol) return 0;
@@ -181,16 +214,22 @@ export default function DynamicTable({ data }: DynamicTableProps) {
   });
 
   const totalPages = Math.ceil(sortedData.length / rowsPerPage);
-  const pagedData = sortedData.slice((page - 1) * rowsPerPage, page * rowsPerPage);
+  const pagedData = sortedData.slice(
+    (page - 1) * rowsPerPage,
+    page * rowsPerPage
+  );
 
   const exportExcel = () => {
-    const exportData = (selectedRows.size ? Array.from(selectedRows).map((i) => sortedData[i]) : sortedData)
-      .map((row) =>
-        visibleCols.reduce((acc, col) => {
-          acc[col] = row[col];
-          return acc;
-        }, {} as TableRow)
-      );
+    const exportData = (
+      selectedRows.size
+        ? Array.from(selectedRows).map((i) => sortedData[i])
+        : sortedData
+    ).map((row) =>
+      visibleCols.reduce((acc, col) => {
+        acc[col] = row[col];
+        return acc;
+      }, {} as TableRow)
+    );
     const ws = XLSX.utils.json_to_sheet(exportData);
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
@@ -208,21 +247,29 @@ export default function DynamicTable({ data }: DynamicTableProps) {
     pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
     pdf.save("table.pdf");
   };
-  // Info Icon Information 
+  // Info Icon Information
   const columnInfo: Record<string, string> = {
     KD: "KD means Keyword Difficulty. It indicates how hard it is to rank for this keyword. Factors include competition, backlinks, and content quality.",
-    Volume: "Volume indicates the estimated monthly search traffic for this keyword.",
+    Volume:
+      "Volume indicates the estimated monthly search traffic for this keyword.",
     CPC: "CPC is the average cost per click if you run an ad for this keyword.",
     SF: "SF shows the number of search results or pages competing for this keyword.",
-    Intent: "Intent indicates user intent: Informational, Navigational, Commercial, or Transactional.",
-    UpdateDate: "UpdateDate shows when this keyword data was last updated (format: dd/mm/yyyy).",
+    Intent:
+      "Intent indicates user intent: Informational, Navigational, Commercial, or Transactional.",
+    UpdateDate:
+      "UpdateDate shows when this keyword data was last updated (format: dd/mm/yyyy).",
     Keyword: "Keyword is the search term that users are looking for.",
   };
 
   return (
     <div>
       {/* Filter Component */}
-      <KeywordFilter onFilterChange={handleFilterChange} />
+      <KeywordFilter
+        keywordType={keywordType}
+        matchType={matchType}
+        onFilterChange={handleFilterChange}
+      />
+
       <div className="flex gap-2 mb-2">
         <FilterDropdown
           title="Volume"
@@ -245,12 +292,42 @@ export default function DynamicTable({ data }: DynamicTableProps) {
           title="KD"
           type="single"
           options={[
-            { label: "Very hard", value: "85-100", range: "85–100%", tooltip: "Extremely difficult, highly competitive keywords" },
-            { label: "Hard", value: "70-84", range: "70–84%", tooltip: "Hard competition, strong SEO needed" },
-            { label: "Difficult", value: "50-69", range: "50–69%", tooltip: "Moderately competitive keywords" },
-            { label: "Possible", value: "30-49", range: "30–49%", tooltip: "Possible to rank with good SEO strategy" },
-            { label: "Easy", value: "15-29", range: "15–29%", tooltip: "Relatively easy to rank" },
-            { label: "Very easy", value: "0-14", range: "0–14%", tooltip: "Very low competition keywords" },
+            {
+              label: "Very hard",
+              value: "85-100",
+              range: "85–100%",
+              tooltip: "Extremely difficult, highly competitive keywords",
+            },
+            {
+              label: "Hard",
+              value: "70-84",
+              range: "70–84%",
+              tooltip: "Hard competition, strong SEO needed",
+            },
+            {
+              label: "Difficult",
+              value: "50-69",
+              range: "50–69%",
+              tooltip: "Moderately competitive keywords",
+            },
+            {
+              label: "Possible",
+              value: "30-49",
+              range: "30–49%",
+              tooltip: "Possible to rank with good SEO strategy",
+            },
+            {
+              label: "Easy",
+              value: "15-29",
+              range: "15–29%",
+              tooltip: "Relatively easy to rank",
+            },
+            {
+              label: "Very easy",
+              value: "0-14",
+              range: "0–14%",
+              tooltip: "Very low competition keywords",
+            },
           ]}
           onApply={(value) => {
             setKdFilter(value);
@@ -271,8 +348,6 @@ export default function DynamicTable({ data }: DynamicTableProps) {
             setPage(1);
           }}
         />
-
-
       </div>
       {/* Header */}
       <div className="flex justify-between items-center mb-2">
@@ -305,7 +380,9 @@ export default function DynamicTable({ data }: DynamicTableProps) {
                       readOnly
                       className="w-4 h-4"
                     />
-                    <span className={col === "Keyword" ? "font-bold" : ""}>{col}</span>
+                    <span className={col === "Keyword" ? "font-bold" : ""}>
+                      {col}
+                    </span>
                   </div>
                 ))}
               </div>
@@ -315,7 +392,10 @@ export default function DynamicTable({ data }: DynamicTableProps) {
           {/* Export Dropdown */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button className="shadow-lg border border-gray-300 bg-white text-gray-500 hover:bg-gray-800 hover:text-gray-100" size="sm">
+              <Button
+                className="shadow-lg border border-gray-300 bg-white text-gray-500 hover:bg-gray-800 hover:text-gray-100"
+                size="sm"
+              >
                 <FileDown className="w-4 h-4" />
               </Button>
             </DropdownMenuTrigger>
@@ -331,7 +411,10 @@ export default function DynamicTable({ data }: DynamicTableProps) {
         </div>
       </div>
       {/* Start table */}
-      <div id="table-container" className="overflow-x-auto text-sm max-h-[500px] overflow-y-scroll relative">
+      <div
+        id="table-container"
+        className="overflow-x-auto text-sm max-h-[500px] overflow-y-scroll relative"
+      >
         <div className="overflow-x-auto shadow-lg border border-gray-300">
           <table className="min-w-full border-collapse text-gray-700 bg-gray-50">
             {/* Table Head */}
@@ -376,8 +459,16 @@ export default function DynamicTable({ data }: DynamicTableProps) {
                     key={idx}
                     className={`
                       transition-all duration-200
-                      ${isSelected ? "bg-blue-100 shadow-inner" : "hover:bg-gray-100"}
-                      ${isSelected ? "font-semibold text-gray-800" : "text-gray-700"}
+                      ${
+                        isSelected
+                          ? "bg-blue-100 shadow-inner"
+                          : "hover:bg-gray-100"
+                      }
+                      ${
+                        isSelected
+                          ? "font-semibold text-gray-800"
+                          : "text-gray-700"
+                      }
                       ${isSelected ? "scale-[1.01]" : ""}
                     `}
                   >
@@ -405,24 +496,38 @@ export default function DynamicTable({ data }: DynamicTableProps) {
                         }
 
                         return (
-                          <td key={col} className="p-2 border-b border-gray-200">
+                          <td
+                            key={col}
+                            className="p-2 border-b border-gray-200"
+                          >
                             <div className="flex items-center justify-between">
                               <span>{kdValue ?? "—"}</span>
-                              <span className={`w-3 h-3 rounded-full ${color}`}></span>
+                              <span
+                                className={`w-3 h-3 rounded-full ${color}`}
+                              ></span>
                             </div>
                           </td>
                         );
                       }
 
                       if (col === "UpdateDate") {
-                        const dateValue = row[col] ? new Date(row[col] as string | Date) : null;
+                        const dateValue = row[col]
+                          ? new Date(row[col] as string | Date)
+                          : null;
                         const formattedDate = dateValue
-                          ? `${String(dateValue.getDate()).padStart(2, "0")}/${
-                              String(dateValue.getMonth() + 1).padStart(2, "0")
-                            }/${dateValue.getFullYear()}`
+                          ? `${String(dateValue.getDate()).padStart(
+                              2,
+                              "0"
+                            )}/${String(dateValue.getMonth() + 1).padStart(
+                              2,
+                              "0"
+                            )}/${dateValue.getFullYear()}`
                           : "—";
                         return (
-                          <td key={col} className="p-2 border-b border-gray-200">
+                          <td
+                            key={col}
+                            className="p-2 border-b border-gray-200"
+                          >
                             {formattedDate}
                           </td>
                         );
@@ -442,16 +547,16 @@ export default function DynamicTable({ data }: DynamicTableProps) {
             {/* Table Footer */}
             <tfoot className="bg-gray-200 font-medium text-gray-700 sticky bottom-0 shadow-inner">
               <tr>
-                <td className="p-3 border-t border-gray-200" colSpan={visibleCols.length + 1}>
+                <td
+                  className="p-3 border-t border-gray-200"
+                  colSpan={visibleCols.length + 1}
+                >
                   Showing {pagedData.length} of {data.length} entries
                 </td>
               </tr>
             </tfoot>
           </table>
         </div>
-
-
-
       </div>
 
       {/* Show Related Data Not Found below the table */}
@@ -469,8 +574,6 @@ export default function DynamicTable({ data }: DynamicTableProps) {
           </span>
         </div>
       )}
-
-
 
       {/* Pagination */}
       <div className="flex justify-between items-center mt-2">
@@ -492,13 +595,21 @@ export default function DynamicTable({ data }: DynamicTableProps) {
           </select>
         </div>
         <div>
-          <Button size="sm" disabled={page === 1} onClick={() => setPage((p) => p - 1)}>
+          <Button
+            size="sm"
+            disabled={page === 1}
+            onClick={() => setPage((p) => p - 1)}
+          >
             Prev
           </Button>
           <span className="mx-2">
             {page} / {totalPages}
           </span>
-          <Button size="sm" disabled={page === totalPages} onClick={() => setPage((p) => p + 1)}>
+          <Button
+            size="sm"
+            disabled={page === totalPages}
+            onClick={() => setPage((p) => p + 1)}
+          >
             Next
           </Button>
         </div>

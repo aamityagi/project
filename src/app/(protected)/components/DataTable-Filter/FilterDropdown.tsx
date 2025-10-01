@@ -10,21 +10,23 @@ export type FilterType = "single" | "multi" | "range";
 export interface FilterOption {
   label: string;
   value?: string;
-  range?: string;   // e.g. "85–100%"
+  range?: string; // e.g. "85–100%"
   tooltip?: string;
 }
 
-type FilterValue<T extends FilterType> =
-  T extends "single" ? string | null | { from: number; to: number } :
-  T extends "multi" ? string[] :
-  T extends "range" ? { from: string; to: string } :
-  never;
+type FilterValue<T extends FilterType> = T extends "single"
+  ? string | null | { from: number; to: number }
+  : T extends "multi"
+  ? string[]
+  : T extends "range"
+  ? { from: string; to: string }
+  : never;
 
 interface FilterDropdownProps<T extends FilterType> {
   title: string;
   type: T;
   options?: FilterOption[];
-  onApply: (value: FilterValue<T>) => void;
+  onApply: (value: FilterValue<T> | null) => void; // allow null
 }
 
 export default function FilterDropdown<T extends FilterType>({
@@ -35,14 +37,20 @@ export default function FilterDropdown<T extends FilterType>({
 }: FilterDropdownProps<T>) {
   const [selectedValue, setSelectedValue] = useState<string | null>(null);
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
-  const [range, setRange] = useState<{ from: string; to: string }>({ from: "", to: "" });
+  const [range, setRange] = useState<{ from: string; to: string }>({
+    from: "",
+    to: "",
+  });
   const [open, setOpen] = useState(false);
 
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setOpen(false);
       }
     };
@@ -62,7 +70,10 @@ export default function FilterDropdown<T extends FilterType>({
   const handleApply = () => {
     if (type === "single") {
       if (range.from || range.to) {
-        onApply({ from: Number(range.from), to: Number(range.to) } as FilterValue<T>);
+        onApply({
+          from: Number(range.from),
+          to: Number(range.to),
+        } as FilterValue<T>);
       } else {
         onApply(selectedValue as FilterValue<T>);
       }
@@ -74,7 +85,7 @@ export default function FilterDropdown<T extends FilterType>({
     setSelectedValue(null);
     setSelectedValues([]);
     setRange({ from: "", to: "" });
-    onApply(null as any);
+    onApply(null); // ✅ now TS is happy
     setOpen(false);
   };
 
@@ -111,8 +122,7 @@ export default function FilterDropdown<T extends FilterType>({
           <span className="font-semibold">{title}:</span>
           <span className="flex items-center gap-1 bg-blue-100 text-blue-800 px-2 py-1 text-sm">
             {selectedValue}
-            <button
-              type="button"
+            <span
               className="ml-1 font-bold text-blue-600 hover:text-red-600 cursor-pointer"
               onClick={(e) => {
                 e.stopPropagation();
@@ -121,7 +131,7 @@ export default function FilterDropdown<T extends FilterType>({
               }}
             >
               ×
-            </button>
+            </span>
           </span>
         </div>
       );
@@ -159,10 +169,14 @@ export default function FilterDropdown<T extends FilterType>({
           stroke="currentColor"
           viewBox="0 0 24 24"
         >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M19 9l-7 7-7-7"
+          />
         </svg>
       </Button>
-
 
       {/* Dropdown Content */}
       {open && (
@@ -180,13 +194,17 @@ export default function FilterDropdown<T extends FilterType>({
                   : "hover:bg-white/20"
               }`}
               onClick={() => {
-                if (type === "single") handleSingleSelect(opt.value || opt.label);
-                else if (type === "multi") handleMultiSelect(opt.value || opt.label);
+                if (type === "single")
+                  handleSingleSelect(opt.value || opt.label);
+                else if (type === "multi")
+                  handleMultiSelect(opt.value || opt.label);
               }}
             >
               <span>{opt.label}</span>
               <div className="flex items-center gap-1">
-                {opt.range && <span className="text-sm text-gray-800">{opt.range}</span>}
+                {opt.range && (
+                  <span className="text-sm text-gray-800">{opt.range}</span>
+                )}
                 {opt.tooltip && <InfoTooltip content={opt.tooltip} />}
               </div>
             </div>
@@ -235,8 +253,6 @@ export default function FilterDropdown<T extends FilterType>({
           </div>
         </div>
       )}
-
     </div>
-
   );
 }
