@@ -21,7 +21,7 @@ const keywordTabs = [
   },
 ];
 
-export default function CompetitiveResearch() {
+export default function ContentWriting() {
   const pathname = usePathname();
     const router = useRouter();
   

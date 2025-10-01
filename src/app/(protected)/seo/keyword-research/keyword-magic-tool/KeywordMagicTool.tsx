@@ -78,9 +78,14 @@ export default function KeywordMagicTool() {
         {tableData.length > 0 && <DynamicTable data={tableData} />}
       </div>
       <div className="w-full">
-        {/* Banner */}
         <div className="w-full">
-          <Image src={content.banner.image} alt={content.banner.alt} width={1920} height={400} className="w-full h-72 object-cover" />
+          <Image
+            src={content.banner.image} // "/assets/Keyword-magic-tool.svg"
+            alt={content.banner.alt}
+            width={1920}
+            height={400}
+            className="w-full h-72 object-cover"
+          />
         </div>
 
         {/* Sections */}
