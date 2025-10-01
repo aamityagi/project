@@ -1,8 +1,7 @@
-// src/lib/nextauth.options.ts
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import User, { IUser } from "../models/User";
 import { connectMongo } from "./mongoose";
-import User from "../models/User";
 import bcrypt from "bcryptjs";
 
 export const authOptions: NextAuthOptions = {
@@ -15,14 +14,16 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         await connectMongo();
-        const user = await User.findOne({ email: credentials?.email });
+
+        // ✅ Use .exec() to get full typing
+        const user: IUser | null = await User.findOne({ email: credentials?.email }).exec();
         if (!user) throw new Error("No user found");
 
         const isValid = await bcrypt.compare(credentials!.password, user.password);
         if (!isValid) throw new Error("Invalid password");
 
         return {
-          id: user._id.toString(),
+          id: user._id.toString(), // ✅ works now
           name: user.fullName,
           email: user.email,
           role: user.role ?? "user",

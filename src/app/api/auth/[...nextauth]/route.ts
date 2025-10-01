@@ -1,4 +1,4 @@
-// src/app/api/auth/[...nextauth]/route.ts
+"use server";
 import NextAuth from "next-auth";
 import { authOptions } from "../../../../../lib/nextauth.options"; // ✅ import from shared lib
 

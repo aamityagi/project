@@ -1,3 +1,4 @@
+"use server";
 import { NextResponse } from "next/server";
 import { connectMongo } from "../../../../../lib/mongoose";
 import Affiliation from "../../../../../models/Affiliation";
@@ -12,6 +13,17 @@ interface AffiliationBody {
   userId?: string;
 }
 
+// ✅ Safe JSON parser
+async function safeJson(req: Request) {
+  try {
+    const text = await req.text();
+    if (!text) return {};
+    return JSON.parse(text);
+  } catch {
+    return {};
+  }
+}
+
 export async function POST(req: Request) {
   await connectMongo();
 
@@ -21,7 +33,8 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
     }
 
-    const body = (await req.json()) as AffiliationBody;
+    // ✅ Use safe JSON parsing
+    const body = (await safeJson(req)) as AffiliationBody;
 
     // Basic server-side validation
     if (!body.fullName) {

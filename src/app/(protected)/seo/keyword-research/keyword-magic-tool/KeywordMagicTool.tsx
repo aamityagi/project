@@ -6,6 +6,16 @@ import DynamicTable from "../../../components/DynamicTable";
 import { Input } from "@/app/(protected)/components/ui/input";
 import { Button } from "@/app/(protected)/components/ui/button";
 
+import Image from "next/image";
+import content from "../data/keywordTool.json";
+
+import { ContentSection } from "./components/ContentSection";
+import { MetricSection } from "./components/MetricSection";
+import { StepsSection } from "./components/StepsSection";
+import { FeaturesSection } from "./components/FeaturesSection";
+import FaqSection from "./components/FaqSection"; // ✅ Correct
+
+
 // ✅ Define a type for table rows
 export interface TableRow {
   [key: string]: string | number | boolean | Date | undefined;
@@ -33,38 +43,53 @@ export default function KeywordMagicTool() {
   };
 
   return (
-    <div className="max-w-6xl mx-auto">
-      <h1 className="text-2xl md:text-3xl font-bold text-center mb-4">
-        Keyword Re-Search.
-      </h1>
+    <section>
+      <div className="max-w-6xl mx-auto">
+        <h1 className="text-2xl md:text-3xl font-bold text-center mb-4">
+          Keyword Re-Search.
+        </h1>
 
-      <div className="flex flex-col md:flex-row gap-3 items-center justify-center mb-6">
-        <Input
-          type="text"
-          value={keyword}
-          onChange={(e) => setKeyword(e.target.value)}
-          placeholder="Enter keyword"
-          className="flex-1 border p-2 w-full"
-        />
+        <div className="flex flex-col md:flex-row gap-3 items-center justify-center mb-6">
+          <Input
+            type="text"
+            value={keyword}
+            onChange={(e) => setKeyword(e.target.value)}
+            placeholder="Enter keyword"
+            className="flex-1 border p-2 w-full"
+          />
 
-        <CountrySelect
-          value={country}
-          onChange={({ code, location_code }) => {
-            setCountry(code);
-            setLocationCode(location_code);
-          }}
-        />
+          <CountrySelect
+            value={country}
+            onChange={({ code, location_code }) => {
+              setCountry(code);
+              setLocationCode(location_code);
+            }}
+          />
 
-        <Button
-          onClick={handleSearch}
-          className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:bg-gradient-to-r hover:from-purple-600 hover:to-indigo-600"
-        >
-          Search
-        </Button>
+          <Button
+            onClick={handleSearch}
+            className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:bg-gradient-to-r hover:from-purple-600 hover:to-indigo-600"
+          >
+            Search
+          </Button>
+        </div>
+
+        {/* Table */}
+        {tableData.length > 0 && <DynamicTable data={tableData} />}
       </div>
+      <div className="w-full">
+        {/* Banner */}
+        <div className="w-full">
+          <Image src={content.banner.image} alt={content.banner.alt} width={1920} height={400} className="w-full h-72 object-cover" />
+        </div>
 
-      {/* Table */}
-      {tableData.length > 0 && <DynamicTable data={tableData} />}
-    </div>
+        {/* Sections */}
+        <ContentSection left={content.intro.left} right={content.intro.right} />
+        <MetricSection title={content.metrics.title} left={content.metrics.left} right={content.metrics.right} footer={content.metrics.footer} />
+        <StepsSection title={content.steps.title} items={content.steps.items} />
+        <FeaturesSection title={content.features.title} items={content.features.items} />
+        <FaqSection title={content.faqs.title} items={content.faqs.items} />
+      </div>
+    </section>
   );
 }

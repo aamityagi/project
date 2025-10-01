@@ -1,11 +1,31 @@
+"use server";
 import { NextRequest, NextResponse } from "next/server";
 import { connectMongo } from "../../../../../lib/mongoose";
 import User from "../../../../../models/User";
 import bcrypt from "bcryptjs"; // or "bcrypt"
 
+// Helper to safely parse JSON
+async function safeJson(req: NextRequest) {
+  try {
+    const text = await req.text();
+    if (!text) return {};
+    return JSON.parse(text);
+  } catch {
+    return {};
+  }
+}
+
 export async function POST(req: NextRequest) {
   try {
-    const { email, password } = await req.json();
+    const body = await safeJson(req);
+    const { email, password } = body;
+
+    if (!email || !password) {
+      return NextResponse.json(
+        { message: "Email and password are required" },
+        { status: 400 }
+      );
+    }
 
     // Connect to MongoDB
     await connectMongo();
@@ -29,7 +49,6 @@ export async function POST(req: NextRequest) {
     }
 
     // ✅ Successful login
-    // Create a session (you can use a cookie)
     const response = NextResponse.json({ message: "Login successful" });
     response.cookies.set("userEmail", user.email, {
       httpOnly: true,
@@ -39,7 +58,10 @@ export async function POST(req: NextRequest) {
 
     return response;
   } catch (error) {
-    console.error(error);
-    return NextResponse.json({ message: "Server error" }, { status: 500 });
+    console.error("Login API error:", error);
+    return NextResponse.json(
+      { message: "Server error" },
+      { status: 500 }
+    );
   }
 }

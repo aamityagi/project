@@ -1,3 +1,4 @@
+"use server";
 import { NextResponse } from "next/server";
 import { connectMongo } from "../../../../../../lib/mongoose";
 import User from "../../../../../../models/User";

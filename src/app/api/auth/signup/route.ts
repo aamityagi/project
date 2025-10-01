@@ -1,3 +1,4 @@
+"use server";
 import { NextResponse } from "next/server";
 import { connectMongo } from "../../../../../lib/mongoose";
 import User from "../../../../../models/User";
@@ -5,10 +6,23 @@ import { v4 as uuidv4 } from "uuid";
 import { sendVerificationEmail } from "../../../../../lib/sendEmail";
 import bcrypt from "bcryptjs";
 
+// ✅ Safe JSON parser
+async function safeJson(req: Request) {
+  try {
+    const text = await req.text();
+    if (!text) return {};
+    return JSON.parse(text);
+  } catch {
+    return {};
+  }
+}
+
 export async function POST(req: Request) {
   try {
     await connectMongo();
-    const body = await req.json();
+
+    // ✅ Use safe JSON parsing
+    const body = await safeJson(req);
     const {
       fullName,
       email,
