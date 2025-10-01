@@ -10,23 +10,39 @@ import {
   X,
   ChevronDown,
   ChevronRight,
+  ShoppingCart,
+  Share2,
+  TrafficCone,
+  FileBarChart ,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 
-const menu = [
+interface MenuItem {
+  name: string;
+  href: string;
+  icon: any; // Lucide icon type
+  sub?: { name: string; href: string }[]; // optional submenu
+}
+
+const menu: MenuItem[] = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
   { name: "SEO", href: "/seo", icon: Search },
   {
     name: "Website Builder",
     href: "/website-builder",
     icon: Globe,
-    sub: [
-      { name: "Blog", href: "/website-builder/blog" },
-      { name: "Ecommerce", href: "/website-builder/ecommerce" },
-      { name: "Affiliations", href: "/website-builder/affiliations" },
-    ],
+    // sub: [
+    //   { name: "Blog", href: "/website-builder/blog" },
+    //   { name: "Ecommerce", href: "/website-builder/ecommerce" },
+    // ],
   },
+  { name: "Social Auto", href: "/social-auto", icon: Share2 },
+  { name: "E Commerce Platform", href: "/e-comm-platform", icon: ShoppingCart },
+  { name: "Traffic & Market", href: "/traffic-market-trends", icon: TrafficCone },
+  { name: "Reports", href: "/traffic-market-trends", icon: FileBarChart },
+  
 ];
+
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -61,7 +77,7 @@ export default function Sidebar({
   }, [mobileOpen, setMobileOpen]);
 
   const renderMenuItem = (item: (typeof menu)[number], isMobile = false) => {
-    const hasSub = !!item.sub;
+    const hasSub = !!item.sub?.length; // ✅ check if sub exists and has length
     const isActive = openSub === item.name;
     const isCurrent = pathname.startsWith(item.href);
 
@@ -86,17 +102,13 @@ export default function Sidebar({
             {sidebarOpen && <span className="ml-2">{item.name}</span>}
           </Link>
 
-          {/* Dropdown toggle for submenus - only when sidebar is open */}
+          {/* Dropdown toggle for submenus */}
           {hasSub && sidebarOpen && (
             <button
               className="ml-2 p-1 hover:bg-gray-600 flex-shrink-0"
               onClick={() => setOpenSub(isActive ? null : item.name)}
             >
-              {isActive ? (
-                <ChevronDown className="w-4 h-4" />
-              ) : (
-                <ChevronRight className="w-4 h-4" />
-              )}
+              {isActive ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
             </button>
           )}
         </div>
@@ -104,7 +116,7 @@ export default function Sidebar({
         {/* Submenu for expanded sidebar */}
         {hasSub && (sidebarOpen || isMobile) && isActive && (
           <div className="ml-8 mt-1 space-y-1 cursor-pointer">
-            {item.sub!.map((sub) => (
+            {item.sub?.map((sub) => (
               <Link
                 key={sub.name}
                 href={sub.href}
@@ -120,7 +132,7 @@ export default function Sidebar({
         {/* Floating submenu for collapsed sidebar */}
         {hasSub && !sidebarOpen && !isMobile && (
           <div className="absolute left-full top-0 ml-2 bg-gray-800 text-white shadow-lg p-2 w-44 z-50 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-auto">
-            {item.sub!.map((sub) => (
+            {item.sub?.map((sub) => (
               <Link
                 key={sub.name}
                 href={sub.href}
@@ -134,6 +146,7 @@ export default function Sidebar({
       </div>
     );
   };
+
 
   return (
     <div ref={sidebarRef} className="flex flex-col h-full">
