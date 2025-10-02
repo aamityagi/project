@@ -1,0 +1,71 @@
+{
+  "twoColumns": {
+    "left": {
+      "heading": "What Is Keyword Overview?",
+      "paragraph": "Keyword Overview is a keyword checker that instantly reveals the most important SEO and marketing metrics for any term. Just enter a word or phrase. The tool will dig deep into Semrush’s massive database to provide the keyword’s search volume, keyword difficulty, intent, competition level, CPC, 12-month trend, number of results, and more.\n\nThese insights help you assess how difficult it will be to rank for your chosen keyword and fine-tune your SEO strategy with confidence.\n\nKeyword Overview is a free, hassle-free alternative to Google Keyword Planner."
+    },
+    "right": {
+      "heading": "Why Use a Keyword Checker?",
+      "paragraph": "You should use a keyword checker to gain in-depth insights into each keyword's difficulty, search volume, and competition, allowing you to make data-driven marketing decisions.\n\nBy identifying which search terms are realistic to target, you can prioritize the most promising opportunities, drive more organic traffic, and ultimately get better results from your SEO and marketing efforts."
+    }
+  },
+  "imageUrl": "https://your-online-image-url.com/keyword-overview.png",
+  "features": [
+    {
+      "title": "Free & easy to use",
+      "description": "Our keyword checker is free and simple for anyone to use."
+    },
+    {
+      "title": "All-in-one SEO keyword checker",
+      "description": "Provides a complete keyword overview, including difficulty scores, competition metrics, search intent, and search volume trends."
+    },
+    {
+      "title": "Website keyword checker",
+      "description": "Analyze any website’s keywords to gauge keyword difficulty, competition, and targeting for an entire site."
+    },
+    {
+      "title": "Keyword competition checker",
+      "description": "Evaluate how hard it is to outrank competitors by assessing the SEO competition for your target keywords."
+    },
+    {
+      "title": "Bulk keywords",
+      "description": "Check keyword insights for multiple keywords at once to compare and prioritize the best SEO opportunities."
+    },
+    {
+      "title": "Personalized insights",
+      "description": "Keyword Overview leverages AI and machine learning to provide estimates and data for your specific website."
+    },
+    {
+      "title": "Local keywords",
+      "description": "Evaluate the local demand for your target keyword in any specific city or region."
+    },
+    {
+      "title": "Real SERP analysis",
+      "description": "Benchmark your SEO competition using the actual Google search results pages, complete with SERP features."
+    }
+  ],
+  "steps": [
+    { "number": 1, "text": "Enter your target keyword into the text field." },
+    { "number": 2, "text": "Click the “Search” button." },
+    { "number": 3, "text": "View the keyword overview results, including the keyword difficulty score, search volume, competitive density, and related keyword insights." }
+  ],
+  "metrics": [
+    { "title": "Search volume", "description": "The average number of monthly searches over the past 12 months." },
+    { "title": "Keyword difficulty", "description": "A score that estimates how hard it will be to rank in the top 10 for this keyword." },
+    { "title": "Global search volume", "description": "The total number of average monthly searches globally across all databases." },
+    { "title": "Search intent", "description": "The general purpose of or reason behind a search." },
+    { "title": "Search trend", "description": "The interest of searchers in an analyzed keyword over the last 12 months." },
+    { "title": "CPC", "description": "The average price advertisers pay for a user’s click for the keyword in Google Ads." },
+    { "title": "Competitive density", "description": "The level of competition between advertisers bidding on an analyzed keyword within their PPC campaigns." },
+    { "title": "Keyword ideas", "description": "Lists of related keywords, including keyword variations, questions, and keyword clusters." },
+    { "title": "SERP analysis", "description": "An analysis of the search results for query, including SERP features, ranking URLs, and supporting data on the ranking URLs, such as referring domains and search traffic." }
+  ],
+  "faqs": [
+    { "question": "Is Keyword Overview free to use?", "answer": "Yes, Keyword Overview is completely free for anyone to use." },
+    { "question": "Can I see both organic and paid data for keywords?", "answer": "Yes, you can view both organic and paid keyword metrics." },
+    { "question": "How can I use the domain-based feature?", "answer": "You can enter a domain to analyze its keyword metrics across the site." },
+    { "question": "How does the Personal Keyword Difficulty checker work?", "answer": "It estimates how hard it will be to rank for a specific keyword on your website." },
+    { "question": "Can I filter the keyword data based on location and device?", "answer": "Yes, you can filter data by country, city, and device type." },
+    { "question": "How is the Keyword Difficulty score calculated?", "answer": "The score is calculated using search volume, competition, and other SEO factors." }
+  ]
+}

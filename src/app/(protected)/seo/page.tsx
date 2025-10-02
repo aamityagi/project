@@ -47,8 +47,8 @@ const seoTabs = [
     secondary: [
       { name: "Domain Overview", component: <DomainOverview /> },
       { name: "Organic Research", component: <OrganicResearch /> },
-      { name: "Backlink Gap", component: <BacklinkGap /> },
       { name: "Keyword Gap", component: <KeywordGap /> },
+      { name: "Backlink Gap", component: <BacklinkGap /> },
     ],
   },
   // Keyword Research
