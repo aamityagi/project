@@ -24,12 +24,6 @@ export default function KeywordOverview() {
       {/* Form */}
       <KeywordOverviewForm onSubmit={handleFormSubmit} />
 
-      {/* Optional: Show submitted data */}
-      {submittedData && (
-        <div className="mt-6 p-4 border rounded-md bg-gray-50">
-          <pre>{JSON.stringify(submittedData, null, 2)}</pre>
-        </div>
-      )}
     </section>
   );
 }
