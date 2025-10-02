@@ -7,7 +7,7 @@ import { Input } from "@/app/(protected)/components/ui/input";
 import { Button } from "@/app/(protected)/components/ui/button";
 
 import Image from "next/image";
-import content from "../data/keywordTool.json";
+import content from "../../data/keywordTool.json";
 
 import { ContentSection } from "./components/ContentSection";
 import { MetricSection } from "./components/MetricSection";

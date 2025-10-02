@@ -1,0 +1,29 @@
+[
+  {
+    "title": "Compare Domains",
+    "image": "/assets/compare.svg",
+    "points": [
+      "Enter your and your competitor's domains.",
+      "Analyze backlink profiles side by side.",
+      "Discover gaps in link-building opportunities."
+    ]
+  },
+  {
+    "title": "Find Prospects",
+    "image": "/assets/prospects.svg",
+    "points": [
+      "We will analyze these websites' backlink profiles.",
+      "Identify untapped backlink opportunities.",
+      "Target high-quality domains for outreach."
+    ]
+  },
+  {
+    "title": "Receive Domains to Target",
+    "image": "/assets/target.svg",
+    "points": [
+      "You'll receive a list of domains to target in your link-building campaigns.",
+      "Build stronger authority with quality backlinks.",
+      "Grow your visibility in search engines."
+    ]
+  }
+]
