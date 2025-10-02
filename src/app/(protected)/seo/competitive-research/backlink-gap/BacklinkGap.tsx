@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import KeywordGapBacklinkForm, { Competitor } from "../components/KeywordGapBacklinkForm";
+import KeywordGapBacklinkForm, {
+  Competitor,
+} from "../components/KeywordGapBacklinkForm";
 import ContentSection from "../components/ContentSection";
 import contentData from "../../data/backlinkContent.json";
 
@@ -31,7 +33,7 @@ export default function BacklinkGap() {
           console.log("Form Data:", data);
         }}
         onlyRootDomain={true} // custom prop to simplify form
-        hideCountry={true}     // hide country selector
+        hideCountry={true} // hide country selector
       />
 
       {/* Content Section */}
