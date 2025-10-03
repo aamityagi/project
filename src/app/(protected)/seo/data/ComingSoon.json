@@ -1,0 +1,56 @@
+[
+  {
+    "page": "KeywordStrategyBuilder",
+    "mainHeading": "Keyword Strategy Builder 🚀",
+    "paragraph": "Our Keyword Strategy Builder is coming soon! You will be able to analyze your domain, find keyword opportunities, and create effective content strategies.",
+    "imageUrl": "/assets/seo-AI-Banner/1.jpeg",
+    "sections": [
+      {
+        "heading": "Analyze Your Domain",
+        "description": "Get deep insights into your domain's keywords and performance metrics.",
+        "imageUrl": "https://via.placeholder.com/400x250?text=Domain+Analysis"
+      },
+      {
+        "heading": "Create Keyword Strategy",
+        "description": "Plan your content around high-value keywords to boost traffic and conversions.",
+        "imageUrl": "https://via.placeholder.com/400x250?text=Keyword+Strategy"
+      }
+    ]
+  },
+  {
+    "page": "OrganicTrafficInsights",
+    "mainHeading": "Organic Traffic Insights 🌱",
+    "paragraph": "Coming soon! Discover your website's organic traffic trends and uncover growth opportunities.",
+    "imageUrl": "/assets/seo-AI-Banner/banner-1.jpg",
+    "sections": [
+      {
+        "heading": "Traffic Trends",
+        "description": "Visualize your website traffic trends and identify growth opportunities.",
+        "imageUrl": "https://via.placeholder.com/400x250?text=Traffic+Trends"
+      },
+      {
+        "heading": "Top Pages",
+        "description": "Discover which pages drive the most organic traffic and engagement.",
+        "imageUrl": "https://via.placeholder.com/400x250?text=Top+Pages"
+      }
+    ]
+  },
+  {
+    "page": "PositionTracking",
+    "mainHeading": "Position Tracking 📈",
+    "paragraph": "Coming soon! Track keyword rankings and monitor your SEO performance over time.",
+    "imageUrl": "/assets/seo-AI-Banner/banner1f.webp",
+    "sections": [
+      {
+        "heading": "Daily Keyword Tracking",
+        "description": "Keep an eye on your keywords every day to stay ahead of competitors.",
+        "imageUrl": "https://via.placeholder.com/400x250?text=Keyword+Tracking"
+      },
+      {
+        "heading": "Competitor Analysis",
+        "description": "Compare your keyword rankings with competitors and identify opportunities.",
+        "imageUrl": "https://via.placeholder.com/400x250?text=Competitor+Analysis"
+      }
+    ]
+  }
+]
