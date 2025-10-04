@@ -97,12 +97,6 @@ export default function SignupPage() {
               className="h-10 w-10"
             />
           </div>
-
-          {/* Social login buttons */}
-          <div className="w-full mb-4">
-            <SocialAuth />
-          </div>
-
           {/* Signup form */}
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 w-full">
             <div>
@@ -202,6 +196,10 @@ export default function SignupPage() {
               </Link>
             </div>
           </form>
+          {/* Social login buttons */}
+          <div className="w-full mt-4">
+            <SocialAuth />
+          </div>
         </div>
       </div>
 

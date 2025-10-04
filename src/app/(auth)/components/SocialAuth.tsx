@@ -8,6 +8,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "../../(protected)/components/ui/tooltip";
+import { Button } from "@/app/(protected)/components/ui/button";
 
 export default function SocialAuth() {
   return (
@@ -24,36 +25,36 @@ export default function SocialAuth() {
         <div className="flex justify-center gap-4 mb-4">
           <Tooltip>
             <TooltipTrigger asChild>
-              <button
+              <Button
                 onClick={() => signIn("google")}
                 className="w-10 h-10 rounded-full bg-red-500 flex items-center justify-center hover:bg-red-600 transition"
               >
                 <Chrome className="w-5 h-5 text-white" />
-              </button>
+              </Button>
             </TooltipTrigger>
             <TooltipContent>Continue with Google</TooltipContent>
           </Tooltip>
 
           <Tooltip>
             <TooltipTrigger asChild>
-              <button
+              <Button
                 onClick={() => signIn("github")}
-                className="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-gray-900 transition"
+                className="w-10 h-10 rounded-full bg-gray-500 flex items-center justify-center hover:bg-gray-600 transition"
               >
                 <Github className="w-5 h-5 text-white" />
-              </button>
+              </Button>
             </TooltipTrigger>
             <TooltipContent>Continue with GitHub</TooltipContent>
           </Tooltip>
 
           <Tooltip>
             <TooltipTrigger asChild>
-              <button
+              <Button
                 onClick={() => signIn("facebook")}
-                className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center hover:bg-blue-700 transition"
+                className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center hover:bg-blue-600 transition"
               >
                 <Facebook className="w-5 h-5 text-white" />
-              </button>
+              </Button>
             </TooltipTrigger>
             <TooltipContent>Continue with Facebook</TooltipContent>
           </Tooltip>

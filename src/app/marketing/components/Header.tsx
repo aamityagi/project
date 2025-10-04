@@ -10,17 +10,17 @@ export default function Header() {
 
       {/* Middle: Menu */}
       <nav className="hidden md:flex space-x-6 font-medium">
-        <a href="#home" className="hover:text-blue-600">Home</a>
-        <a href="#about" className="hover:text-blue-600">About</a>
+        <a href="#product" className="hover:text-blue-600">Prduct</a>
         <a href="#pricing" className="hover:text-blue-600">Pricing</a>
         <a href="#affiliation" className="hover:text-blue-600">Affiliation</a>
+        <a href="#about" className="hover:text-blue-600">About</a>
         <a href="/blog" className="hover:text-blue-600">Blog</a>
       </nav>
 
       {/* Right: Buttons */}
       <div className="space-x-3">
         <Link href="/login" passHref>
-          <Button variant="ghost" className="cursor-pointer">Login</Button>
+          <Button variant="outline" className="cursor-pointer">Login</Button>
         </Link>
         <Link href="/signup" passHref>
           <Button className="cursor-pointer">Get Started</Button>
