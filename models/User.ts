@@ -1,8 +1,10 @@
 // models/User.ts
+"use server";
+
 import mongoose, { Schema, model, models, Document } from "mongoose";
 
 export interface IUser extends Document {
-  _id: mongoose.Types.ObjectId;  // ✅ include _id
+  _id: mongoose.Types.ObjectId;
   id: string;
   fullName: string;
   email: string;
@@ -20,7 +22,6 @@ export interface IUser extends Document {
   createdAt?: Date;
 }
 
-// Schema definition
 const UserSchema = new Schema<IUser>({
   id: { type: String, required: true, unique: true },
   fullName: { type: String, required: true },
@@ -39,7 +40,7 @@ const UserSchema = new Schema<IUser>({
   createdAt: { type: Date, default: () => new Date() },
 });
 
-// ✅ Use existing model if it exists (prevents HMR issues in Next.js)
-const User = (models.User as mongoose.Model<IUser>) || model<IUser>("User", UserSchema);
+// ✅ Safer null-check
+const User = (models?.User as mongoose.Model<IUser>) || model<IUser>("User", UserSchema);
 
 export default User;

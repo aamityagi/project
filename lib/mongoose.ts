@@ -1,3 +1,4 @@
+// lib/mongodb.ts
 import mongoose from "mongoose";
 
 const MONGODB_URI = process.env.MONGODB_URI;
@@ -16,10 +17,16 @@ type MongooseCache = {
 };
 
 declare global {
+  // allow global var in TS
+  // eslint-disable-next-line no-var
   var mongooseCache: MongooseCache | undefined;
 }
 
-const cached = global.mongooseCache ?? { conn: null, promise: null };
+const cached: MongooseCache = global.mongooseCache ?? {
+  conn: null,
+  promise: null,
+};
+
 global.mongooseCache = cached;
 
 export async function connectMongo(): Promise<typeof mongoose> {
@@ -28,7 +35,7 @@ export async function connectMongo(): Promise<typeof mongoose> {
   if (cached.conn) return cached.conn;
 
   if (!cached.promise) {
-    cached.promise = mongoose.connect(MONGODB_URI).then(m => {
+    cached.promise = mongoose.connect(MONGODB_URI).then((m) => {
       if (process.env.NODE_ENV !== "production") {
         console.log("✅ MongoDB connected successfully");
       }
