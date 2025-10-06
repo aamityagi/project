@@ -27,7 +27,7 @@ export default function SocialAuth() {
             <TooltipTrigger asChild>
               <Button
                 onClick={() => signIn("google")}
-                className="w-10 h-10 rounded-full bg-red-500 flex items-center justify-center hover:bg-red-600 transition"
+                className="w-10 h-10 px-1 rounded-full bg-red-500 flex items-center justify-center hover:bg-red-600 transition"
               >
                 <Chrome className="w-5 h-5 text-white" />
               </Button>

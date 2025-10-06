@@ -9,7 +9,7 @@ import ImageSlider from "../components/ImageSlider";
 import Link from "next/link";
 import { Input } from "../../(protected)/components/ui/input";
 import { Checkbox } from "@/app/(protected)/components/ui/checkbox";
-
+import logo from "../../../../public/logo.png"
 interface FormData {
   fullName: string;
   email: string;
@@ -29,6 +29,7 @@ const sliderImages = [
 ];
 
 export default function SignupPage() {
+  const logoAlt = "Namakwala"
   const {
     register,
     handleSubmit,
@@ -88,17 +89,20 @@ export default function SignupPage() {
       >
         <div className="w-full max-w-md bg-white shadow-lg p-6 lg:h-auto">
           {/* Logo */}
-          <div className="flex justify-center mb-4">
+          <div className="flex justify-center">
             <Image
-              width={40}
-              height={40}
-              src="/logo.png"
-              alt="Logo"
-              className="h-10 w-10"
+              src={logo}
+              alt={logoAlt}
+              width={180}
+              height={180}
+              sizes="90px"
+              quality={90}
+              priority
+              className="h-20 w-20 object-cover"
             />
           </div>
           {/* Signup form */}
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 w-full">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 mt-4 w-full">
             <div>
               <Input
                 {...register("fullName", { required: "Full name is required" })}
@@ -181,7 +185,7 @@ export default function SignupPage() {
             </div>
             {errors.terms && <p className="text-red-500">{errors.terms.message}</p>}
 
-            <Button type="submit" className="w-full mt-2 text-white">
+            <Button type="submit" className="w-full mt-2 text-white bg-green-900 hover:bg-green-700">
               Sign Up
             </Button>
 

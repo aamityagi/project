@@ -4,7 +4,9 @@ import ImageSlider from "../components/ImageSlider";
 import Image from "next/image";
 import { Button } from "@/app/(protected)/components/ui/button";
 import { Input } from "@/app/(protected)/components/ui/input";
+import logo from "../../../../public/logo.png"
 export default function ForgotPasswordPage() {
+  const logoAlt = "Namakwala"
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
@@ -43,13 +45,17 @@ export default function ForgotPasswordPage() {
       {/* Right side form */}
       <div className="w-full lg:w-1/2 h-screen flex justify-center items-center bg-gray-200 p-6 overflow-y-auto">
         <div className="w-full relative max-w-md bg-white p-8 shadow-lg space-y-6">
+          {/* Logo */}
           <div className="flex justify-center">
             <Image
-              width={40}
-              height={40}
-              src="/logo.png"
-              alt="Logo"
-              className="h-10 w-10"
+              src={logo}
+              alt={logoAlt}
+              width={180}
+              height={180}
+              sizes="90px"
+              quality={90}
+              priority
+              className="h-20 w-20 object-cover"
             />
           </div>
 
@@ -75,7 +81,7 @@ export default function ForgotPasswordPage() {
 
             <Button
               type="submit"
-              className="w-full bg-blue-600 text-white p-2 hover:bg-blue-700 cursor-pointer"
+              className="w-full text-white bg-green-900 hover:bg-green-700"
             >
               Send Reset Link
             </Button>

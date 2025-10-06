@@ -1,168 +1,174 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import {
   LayoutDashboard,
   Search,
   Globe,
-  Menu,
-  X,
-  ChevronDown,
-  ChevronRight,
-  ShoppingCart,
   Share2,
+  ShoppingCart,
   TrafficCone,
-  FileBarChart ,
+  FileBarChart,
+  Gem,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
+import { useState, useEffect } from "react";
+import Image from "next/image";
 
-interface MenuItem {
-  name: string;
-  href: string;
-  icon: any; // Lucide icon type
-  sub?: { name: string; href: string }[]; // optional submenu
-}
-
-const menu: MenuItem[] = [
-  { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-  { name: "SEO", href: "/seo", icon: Search },
-  {
-    name: "Website Builder",
-    href: "/website-builder",
-    icon: Globe,
-    // sub: [
-    //   { name: "Blog", href: "/website-builder/blog" },
-    //   { name: "Ecommerce", href: "/website-builder/ecommerce" },
-    // ],
-  },
-  { name: "Social Auto", href: "/social-auto", icon: Share2 },
-  { name: "E Commerce Platform", href: "/e-comm-platform", icon: ShoppingCart },
-  { name: "Traffic & Market", href: "/traffic-market-trends", icon: TrafficCone },
-  { name: "Reports", href: "/traffic-market-trends", icon: FileBarChart },
-  
-];
-
+import logoFull from "../../../../../public/logo.png"; 
+import logoIcon from "../../../../../public/logo-icon.png"; 
 
 interface SidebarProps {
   sidebarOpen: boolean;
-  setSidebarOpen: (open: boolean) => void;
-  mobileOpen: boolean;
-  setMobileOpen: (open: boolean) => void;
+  mobileOpen?: boolean;
+  setMobileOpen?: (open: boolean) => void;
 }
 
-export default function Sidebar({
-  sidebarOpen,
-  setSidebarOpen,
-  mobileOpen,
-  setMobileOpen,
-}: SidebarProps) {
-  const sidebarRef = useRef<HTMLDivElement>(null);
+const menu = [
+  { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
+  { name: "SEO", href: "/seo", icon: Search },
+  { name: "Website Builder", href: "/website-builder", icon: Globe },
+  { name: "Social Auto", href: "/social-auto", icon: Share2 },
+  { name: "E Commerce Platform", href: "/e-comm-platform", icon: ShoppingCart },
+  { name: "Traffic & Market", href: "/traffic-market-trends", icon: TrafficCone },
+  { name: "Reports", href: "/reports", icon: FileBarChart },
+];
+
+export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }: SidebarProps) {
   const pathname = usePathname();
   const [openSub, setOpenSub] = useState<string | null>(null);
+  const logoAlt = "Namakwala";
 
-  // Close mobile sidebar on click outside
+  // Disable body scroll when mobile sidebar open
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        mobileOpen &&
-        sidebarRef.current &&
-        !sidebarRef.current.contains(event.target as Node)
-      ) {
-        setMobileOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [mobileOpen, setMobileOpen]);
+    if (mobileOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+  }, [mobileOpen]);
 
-  const renderMenuItem = (item: (typeof menu)[number], isMobile = false) => {
-    const hasSub = !!item.sub?.length; // ✅ check if sub exists and has length
-    const isActive = openSub === item.name;
-    const isCurrent = pathname.startsWith(item.href);
-
-    return (
-      <div key={item.name} className="relative group mb-2">
-        <div
-          className={`flex items-center p-2 cursor-pointer hover:bg-gradient-to-r from-purple-600 to-indigo-600 hover:text-white ${
-            isCurrent
-              ? "bg-gradient-to-r from-purple-600 to-indigo-600 text-white"
-              : ""
-          }`}
-        >
-          {/* Icon + Text */}
-          <Link
-            href={item.href}
-            className={`flex items-center w-full ${
-              sidebarOpen ? "justify-start" : "justify-center"
-            }`}
-            onClick={() => isMobile && setMobileOpen(false)}
-          >
-            <item.icon className="w-5 h-5" />
-            {sidebarOpen && <span className="ml-2">{item.name}</span>}
+  return (
+    <>
+      {/* Desktop Sidebar */}
+      <div
+        className={`hidden lg:flex flex-col h-screen bg-white shadow-md transition-all duration-300 fixed left-0 top-0 z-40 ${
+          sidebarOpen ? "w-64" : "w-20"
+        }`}
+      >
+        {/* Logo */}
+        <div className="flex flex-col items-center p-4 transition-all duration-300">
+          <Link href="/" className="flex items-center justify-center">
+            {sidebarOpen ? (
+              <Image
+                src={logoFull}
+                alt={logoAlt}
+                width={180}
+                height={180}
+                priority
+                className="h-10 w-auto object-contain transition-all duration-300"
+              />
+            ) : (
+              <Image
+                src={logoIcon}
+                alt={logoAlt}
+                width={40}
+                height={40}
+                priority
+                className="h-10 w-10 object-cover transition-all duration-300"
+              />
+            )}
           </Link>
+        </div>
 
-          {/* Dropdown toggle for submenus */}
-          {hasSub && sidebarOpen && (
-            <button
-              className="ml-2 p-1 hover:bg-gray-600 flex-shrink-0"
-              onClick={() => setOpenSub(isActive ? null : item.name)}
-            >
-              {isActive ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
+        {/* Menu */}
+        <div className="flex-1 overflow-y-auto px-1">
+          {menu.map((item) => {
+            const isActive = pathname.startsWith(item.href);
+            return (
+              <div key={item.name} className="relative group mb-1">
+                <Link
+                  href={item.href}
+                  className={`flex items-center p-2 rounded-md transition-all ${
+                    isActive
+                      ? "bg-gradient-to-r from-purple-600 to-indigo-600 text-white"
+                      : "hover:bg-gray-100 text-gray-700"
+                  } ${sidebarOpen ? "justify-start px-3" : "justify-center"}`}
+                >
+                  <item.icon className="w-5 h-5 flex-shrink-0" />
+                  {sidebarOpen && <span className="ml-3 text-sm truncate">{item.name}</span>}
+                </Link>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Footer */}
+        <div className="p-4 border-t flex items-center justify-center gap-2">
+          <Gem className="w-5 h-5 text-yellow-500" />
+          {sidebarOpen && <span className="font-medium">Upgrade</span>}
+        </div>
+      </div>
+
+      {/* Mobile Overlay */}
+      {mobileOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-30 z-40 lg:hidden"
+          onClick={() => setMobileOpen?.(false)}
+        />
+      )}
+
+      {/* Mobile Sidebar */}
+      <div
+        className={`lg:hidden fixed top-0 left-0 h-full bg-white shadow-md z-50 transform transition-transform duration-300 ${
+          mobileOpen ? "translate-x-0" : "-translate-x-full"
+        } w-64 flex flex-col`}
+      >
+        {/* Header */}
+        <div className="flex items-center justify-between p-4 border-b">
+          <Image
+            src={logoFull}
+            alt={logoAlt}
+            width={140}
+            height={40}
+            priority
+            className="h-8 w-auto object-contain"
+          />
+          {setMobileOpen && (
+            <button onClick={() => setMobileOpen(false)} className="p-2 hover:bg-gray-100 rounded-lg">
+              ✕
             </button>
           )}
         </div>
 
-        {/* Submenu for expanded sidebar */}
-        {hasSub && (sidebarOpen || isMobile) && isActive && (
-          <div className="ml-8 mt-1 space-y-1 cursor-pointer">
-            {item.sub?.map((sub) => (
+        {/* Menu */}
+        <div className="flex-1 overflow-y-auto px-2 py-3">
+          {menu.map((item) => {
+            const isActive = pathname.startsWith(item.href);
+            return (
               <Link
-                key={sub.name}
-                href={sub.href}
-                className="block text-sm p-2 hover:text-yellow-400"
-                onClick={() => isMobile && setMobileOpen(false)}
+                key={item.name}
+                href={item.href}
+                onClick={() => setMobileOpen?.(false)}
+                className={`flex items-center gap-3 p-2 rounded-md transition ${
+                  isActive
+                    ? "bg-gradient-to-r from-purple-600 to-indigo-600 text-white"
+                    : "hover:bg-gray-100 text-gray-700"
+                }`}
               >
-                {sub.name}
+                <item.icon className="w-5 h-5" />
+                <span className="text-sm">{item.name}</span>
               </Link>
-            ))}
-          </div>
-        )}
+            );
+          })}
+        </div>
 
-        {/* Floating submenu for collapsed sidebar */}
-        {hasSub && !sidebarOpen && !isMobile && (
-          <div className="absolute left-full top-0 ml-2 bg-gray-800 text-white shadow-lg p-2 w-44 z-50 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-auto">
-            {item.sub?.map((sub) => (
-              <Link
-                key={sub.name}
-                href={sub.href}
-                className="block text-sm p-2 hover:text-yellow-400"
-              >
-                {sub.name}
-              </Link>
-            ))}
-          </div>
-        )}
+        {/* Footer */}
+        <div className="p-4 border-t flex items-center gap-2">
+          <Gem className="w-5 h-5 text-yellow-500" />
+          <span className="font-medium">Upgrade</span>
+        </div>
       </div>
-    );
-  };
-
-
-  return (
-    <div ref={sidebarRef} className="flex flex-col h-full">
-      {/* Desktop toggle button */}
-      <div className="flex justify-end p-2 lg:block hidden">
-        <button
-          className="p-1 text-gray-700 hover:text-gray-900 cursor-pointer"
-          onClick={() => setSidebarOpen(!sidebarOpen)}
-        >
-          {sidebarOpen ? <X /> : <Menu />}
-        </button>
-      </div>
-
-      <div className="p-2 flex-1 overflow-y-auto">
-        {menu.map((item) => renderMenuItem(item, mobileOpen))}
-      </div>
-    </div>
+    </>
   );
 }

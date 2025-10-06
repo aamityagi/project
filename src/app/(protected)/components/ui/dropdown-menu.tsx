@@ -23,7 +23,7 @@ const DropdownMenuContent = React.forwardRef<
 ));
 DropdownMenuContent.displayName = "DropdownMenuContent";
 
-// ✅ Add standard item
+// ✅ Standard item
 const DropdownMenuItem = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.Item>,
   React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Item>
@@ -31,7 +31,7 @@ const DropdownMenuItem = React.forwardRef<
   <DropdownMenuPrimitive.Item
     ref={ref}
     className={cn(
-      "px-3 py-2 text-sm flex items-center gap-2 cursor-pointer select-none outline-none hover:bg-gray-100",
+      "px-3 py-2 text-sm flex items-left gap-2 cursor-pointer select-none outline-none hover:bg-gray-100",
       className
     )}
     {...props}
@@ -39,7 +39,7 @@ const DropdownMenuItem = React.forwardRef<
 ));
 DropdownMenuItem.displayName = "DropdownMenuItem";
 
-// ✅ Checkbox item already exists
+// ✅ Checkbox item
 const DropdownMenuCheckboxItem = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.CheckboxItem>,
   React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.CheckboxItem>
@@ -47,7 +47,7 @@ const DropdownMenuCheckboxItem = React.forwardRef<
   <DropdownMenuPrimitive.CheckboxItem
     ref={ref}
     className={cn(
-      "px-3 py-2 text-sm flex items-center gap-2 cursor-pointer select-none outline-none hover:bg-gray-100",
+      "px-3 py-2 text-sm flex gap-2 cursor-pointer select-none outline-none hover:bg-gray-100",
       className
     )}
     {...props}
@@ -55,6 +55,7 @@ const DropdownMenuCheckboxItem = React.forwardRef<
 ));
 DropdownMenuCheckboxItem.displayName = "DropdownMenuCheckboxItem";
 
+// ✅ Separator
 const DropdownMenuSeparator = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.Separator>,
   React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Separator>
@@ -67,6 +68,22 @@ const DropdownMenuSeparator = React.forwardRef<
 ));
 DropdownMenuSeparator.displayName = "DropdownMenuSeparator";
 
+// ✅ Label
+const DropdownMenuLabel = React.forwardRef<
+  React.ElementRef<typeof DropdownMenuPrimitive.Label>,
+  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Label>
+>(({ className, ...props }, ref) => (
+  <DropdownMenuPrimitive.Label
+    ref={ref}
+    className={cn(
+      "px-3 py-2 text-sm font-semibold text-gray-700",
+      className
+    )}
+    {...props}
+  />
+));
+DropdownMenuLabel.displayName = "DropdownMenuLabel";
+
 export {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -74,4 +91,5 @@ export {
   DropdownMenuItem,
   DropdownMenuCheckboxItem,
   DropdownMenuSeparator,
+  DropdownMenuLabel, // ✅ add label to exports
 };

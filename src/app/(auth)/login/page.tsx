@@ -10,13 +10,14 @@ import Link from "next/link";
 import ImageSlider from "../components/ImageSlider";
 import SocialAuth from "../components/SocialAuth";
 import Image from "next/image";
-
+import logo from "../../../../public/logo.png"
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(false);
   const [error, setError] = useState("");
   const router = useRouter();
+  const logoAlt = "Namakwala"
   // Image Slider Json
   const sliderImages = [
     "/assets/login-banner/launch.jpg",
@@ -82,11 +83,14 @@ export default function LoginPage() {
           {/* Logo */}
           <div className="flex justify-center">
             <Image
-              width={40}
-              height={40}
-              src="/logo.png"
-              alt="Logo"
-              className="h-10 w-10"
+              src={logo}
+              alt={logoAlt}
+              width={180}
+              height={180}
+              sizes="90px"
+              quality={90}
+              priority
+              className="h-20 w-20 object-cover"
             />
           </div>
 
@@ -116,7 +120,7 @@ export default function LoginPage() {
 
             {error && <p className="text-red-500 text-sm">{error}</p>}
 
-            <Button type="submit" className="w-full text-white">
+            <Button type="submit" size="default" className="w-full text-white bg-green-900 hover:bg-green-700">
               Login
             </Button>
 

@@ -17,7 +17,7 @@ export const Button: React.FC<ButtonProps> = ({
 
   const sizes: Record<NonNullable<ButtonProps["size"]>, string> = {
     sm: "h-8 px-3 text-xs",
-    default: "h-10 px-4 text-sm",
+    default: "h-10 text-sm",
     lg: "h-12 px-6 text-base",
     icon: "h-10 w-10 p-0 flex items-center justify-center",
   };

@@ -1,12 +1,25 @@
 "use client";
 import Link from "next/link";
 import { Button } from "../../(protected)/components/ui/button";
-
+import Image from "next/image";
+import logo from "../../../../public/logo.png"
 export default function Header() {
+  const logoAlt = "Namakwala"
   return (
     <header className="flex justify-between items-center px-6 py-4 bg-white shadow-md">
-      {/* Left: Logo */}
-      <div className="text-2xl font-bold text-blue-600">MyLogo</div>
+      {/* Logo */}
+      <div className="flex justify-center">
+        <Image
+          src={logo}
+          alt={logoAlt}
+          width={90}
+          height={90}
+          sizes="90px"
+          quality={90}
+          priority
+          className="h-15 w-15 object-cover"
+        />
+      </div>
 
       {/* Middle: Menu */}
       <nav className="hidden md:flex space-x-6 font-medium">
@@ -20,10 +33,10 @@ export default function Header() {
       {/* Right: Buttons */}
       <div className="space-x-3">
         <Link href="/login" passHref>
-          <Button variant="outline" className="cursor-pointer">Login</Button>
+          <Button variant="outline" className="cursor-pointer px-4 font-medium text-green-900 border-2 border-green-900 hover:bg-green-700 hover:text-white transition-colors duration-200">Login</Button>
         </Link>
         <Link href="/signup" passHref>
-          <Button className="cursor-pointer">Get Started</Button>
+          <Button className="cursor-pointer text-white px-4 bg-green-900 hover:bg-green-700">Get Started</Button>
         </Link>
       </div>
     </header>
