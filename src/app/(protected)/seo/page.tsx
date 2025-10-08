@@ -161,7 +161,7 @@ export default function SeoPage() {
 
 
   return (
-    <div className="w-full flex flex-col p-4 lg:p-6 overflow-x-hidden bg-white shadow-lg rounded-lg">
+    <div className="w-full flex flex-col overflow-x-hidden">
       <h1 className="text-2xl font-bold mb-6 uppercase text-center lg:text-left">
         We are Here to Help you For Page SEO
       </h1>
@@ -170,22 +170,22 @@ export default function SeoPage() {
       <div className="relative mb-4 w-full overflow-hidden">
         {canScrollPrimaryLeft && (
           <button
-            onClick={() => scrollTabs(primaryRef,-150)}
+            onClick={() => scrollTabs(primaryRef, -150)}
             className="absolute left-0 top-0 z-20 h-full px-2 bg-white/90 backdrop-blur-sm shadow flex items-center justify-center"
           >
             <ChevronLeft className="w-5 h-5 text-gray-600" />
           </button>
         )}
-        
+
         <div
           ref={primaryRef}
-          className="flex flex-nowrap gap-2 w-full px-2 sm:px-6 overflow-x-auto scrollbar-hide touch-pan-x"
+          className="flex flex-nowrap gap-2 w-full px-1 sm:px-6 overflow-x-auto scrollbar-hide touch-pan-x"
           onScroll={() => checkScroll(primaryRef, setCanScrollPrimaryLeft, setCanScrollPrimaryRight)}
         >
           {seoTabs.map((tab, index) => (
             <Button
               key={tab.name}
-              className={`px-4 py-2 text-sm font-medium flex-shrink-0 rounded-lg transition-all
+              className={`flex-shrink-0 min-w-0 px-3 sm:px-4 py-1.5 sm:py-2 text-sm sm:text-base font-medium rounded-lg transition-all
                 ${activePrimary === index
                   ? "bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-md"
                   : "bg-gray-100 text-gray-800 hover:bg-gradient-to-r hover:from-purple-500 hover:to-indigo-500 hover:text-white"
@@ -199,7 +199,7 @@ export default function SeoPage() {
 
         {canScrollPrimaryRight && (
           <button
-            onClick={() => scrollTabs(primaryRef,150)}
+            onClick={() => scrollTabs(primaryRef, 150)}
             className="absolute right-0 top-0 z-20 h-full px-2 bg-white/90 backdrop-blur-sm shadow flex items-center justify-center"
           >
             <ChevronRight className="w-5 h-5 text-gray-600" />
@@ -211,22 +211,22 @@ export default function SeoPage() {
       <div className="relative mb-4 w-full overflow-hidden">
         {canScrollSecondaryLeft && (
           <button
-            onClick={() => scrollTabs(secondaryRef,-150)}
+            onClick={() => scrollTabs(secondaryRef, -150)}
             className="absolute left-0 top-0 z-20 h-full px-2 bg-white/90 backdrop-blur-sm shadow flex items-center justify-center"
           >
             <ChevronLeft className="w-4 h-4 text-gray-600" />
           </button>
         )}
-        
+
         <div
           ref={secondaryRef}
-          className="flex flex-nowrap gap-2 w-full px-2 sm:px-6 overflow-x-auto scrollbar-hide touch-pan-x"
+          className="flex flex-nowrap gap-2 w-full px-1 sm:px-6 overflow-x-auto scrollbar-hide touch-pan-x"
           onScroll={() => checkScroll(secondaryRef, setCanScrollSecondaryLeft, setCanScrollSecondaryRight)}
         >
           {primary.secondary.map((tab, index) => (
             <Button
               key={tab.name}
-              className={`px-4 py-2 text-sm font-medium flex-shrink-0 rounded-lg transition-all
+              className={`flex-shrink-0 min-w-0 px-3 sm:px-4 py-1.5 sm:py-2 text-sm sm:text-base font-medium rounded-lg transition-all
                 ${activeSecondary === index
                   ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-md"
                   : "bg-gray-100 text-gray-800 hover:bg-gradient-to-r hover:from-indigo-500 hover:to-purple-500 hover:text-white"
@@ -240,15 +240,16 @@ export default function SeoPage() {
 
         {canScrollSecondaryRight && (
           <button
-            onClick={() => scrollTabs(secondaryRef,150)}
+            onClick={() => scrollTabs(secondaryRef, 150)}
             className="absolute right-0 top-0 z-20 h-full px-2 bg-white/90 backdrop-blur-sm shadow flex items-center justify-center"
           >
             <ChevronRight className="w-4 h-4 text-gray-600" />
           </button>
         )}
       </div>
+
       {/* Content */}
-      <div className="bg-white shadow-lg rounded-xl p-4 flex-1 overflow-auto">
+      <div className="bg-white flex-1 overflow-auto">
         {secondary.component}
       </div>
     </div>
