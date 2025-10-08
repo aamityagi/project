@@ -93,7 +93,7 @@ export default function Header({
           {/* Mobile Hamburger */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="p-2 hover:bg-gray-100 rounded-lg lg:hidden"
+            className="p-2 hover:bg-gray-100 rounded-lg lg:hidden cursor-pointer"
           >
             <Menu className="w-6 h-6 text-gray-700" />
           </button>
@@ -101,7 +101,7 @@ export default function Header({
           {/* Desktop Sidebar Toggle */}
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="p-2 hover:bg-gray-100 rounded-lg hidden lg:block"
+            className="p-2 hover:bg-gray-100 rounded-lg hidden lg:block cursor-pointer"
           >
             <Menu className="w-6 h-6 text-gray-700" />
           </button>
@@ -164,7 +164,9 @@ export default function Header({
                 onClick={() => toggleDropdown("notif")}
               >
                 <Bell className="w-5 h-5 text-gray-700" />
-                <span className="absolute top-1 right-1 h-2 w-2 bg-red-500 rounded-full" />
+                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-semibold w-5 h-5 flex items-center justify-center rounded-full">
+                  12
+                </span>
               </Button>
               {openDropdown === "notif" && (
                 <div className="absolute right-0 mt-2 w-80 bg-white border shadow-lg z-[999] rounded-md p-2">

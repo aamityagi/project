@@ -68,7 +68,7 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }: Side
     <>
       {/* Desktop Sidebar */}
       <div
-        className={`hidden lg:flex flex-col h-screen bg-white shadow-md transition-all duration-300 fixed left-0 top-0 z-40
+        className={`hidden lg:flex flex-col h-screen bg-white shadow-lg transition-all duration-300 fixed left-0 top-0 z-40
           ${sidebarOpen ? "w-64" : "w-20"}`}
       >
         {/* Logo */}
@@ -98,7 +98,7 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }: Side
         <div className="flex-1 overflow-y-auto px-1">{renderMenuItems()}</div>
 
         {/* Footer */}
-        <div className="p-4 border-t flex items-center justify-center gap-2">
+        <div className="p-4 border-t border-gray-200 flex items-center justify-center gap-2">
           <Gem className="w-5 h-5 text-yellow-500" />
           {sidebarOpen && <span className="font-medium">Upgrade</span>}
         </div>
@@ -138,7 +138,7 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }: Side
             </div>
 
             {/* Footer / Upgrade */}
-            <div className="p-4 border-t flex items-center gap-2">
+            <div className="p-4 border-t border-gray-200 flex items-center gap-2">
               <Gem className="w-5 h-5 text-yellow-500" />
               <span className="font-medium">Upgrade</span>
             </div>

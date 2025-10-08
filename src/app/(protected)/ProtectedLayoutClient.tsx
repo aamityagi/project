@@ -11,12 +11,16 @@ export default function ProtectedLayoutClient({ children }: { children: ReactNod
 
   return (
     <SessionProvider>
-      <div className="flex min-h-screen bg-gray-100 text-gray-800">
-        {/* Sidebar (Desktop + Mobile handled inside Sidebar.tsx) */}
+      <div className="flex min-h-screen bg-gray-100 text-gray-800 overflow-x-hidden">
+        {/* Sidebar */}
         <Sidebar sidebarOpen={sidebarOpen} mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
 
-        {/* Main Right Content */}
-        <div className="flex flex-1 flex-col relative">
+        {/* Right Content: Header + Main + Footer */}
+        <div
+          className={`flex flex-1 flex-col transition-all duration-300 ${
+            sidebarOpen ? "lg:ml-64" : "lg:ml-20"
+          }`}
+        >
           {/* Header */}
           <Header
             sidebarOpen={sidebarOpen}
@@ -26,14 +30,20 @@ export default function ProtectedLayoutClient({ children }: { children: ReactNod
           />
 
           {/* Main Content */}
-          <div className="flex flex-1 mt-16 overflow-hidden">
-            <main className="flex-1 flex flex-col overflow-auto pt-4">
-              <div className="bg-white shadow-lg rounded-lg mx-4 p-2">{children}</div>
-              <footer className="mt-4 bg-white border-t p-4 text-center text-gray-600">
+          <div className="flex-1 flex flex-col mt-16 overflow-hidden">
+            <main className="flex-1 flex flex-col overflow-hidden relative">
+              {/* Page content */}
+              <div className="flex-1 p-6 w-full max-w-full mx-auto overflow-hidden">
+                {children}
+              </div>
+
+              {/* Footer */}
+              <footer className="bg-white border-t border-gray-200 p-4 text-center text-gray-600 flex-shrink-0">
                 © {new Date().getFullYear()} My Company. All rights reserved.
               </footer>
             </main>
           </div>
+
         </div>
       </div>
     </SessionProvider>

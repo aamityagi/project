@@ -1,47 +1,41 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
+import { Button } from "../components/ui/button";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
-// Example: Import components for each secondary tab
-// Competitive Research
+// Import your SEO components
 import DomainOverview from "./competitive-research/domain-overview/DomainOverview";
 import OrganicResearch from "./competitive-research/organic-research/OrganicResearch";
 import BacklinkGap from "./competitive-research/backlink-gap/BacklinkGap";
 import KeywordGap from "./competitive-research/keyword-gap/KeywordGap";
 
-// Keyword Overview
 import KeywordOverview from "./keyword-research/keyword-overview/KeywordOverview";
 import KeywordMagicTool from "./keyword-research/keyword-magic-tool/KeywordMagicTool";
 import KeywordStrategyBuilder from "./keyword-research/keyword-strategy-builder/KeywordStrategyBuilder";
 import OrganicTrafficInsights from "./keyword-research/organic-traffic-insights/OrganicTrafficInsights";
 import PositionTracking from "./keyword-research/position-tracking/PositionTracking";
 
-// Content Writing
 import CreateUrl from "./content-writing/create-url/CreateUrl";
 import GenrateContent from "./content-writing/genrate-content/GenrateContent";
 import KeywordStuffing from "./content-writing/keyword-stuffing/KeywordStuffing";
 
-// On Page and Technical Seo
 import LogFileAnalyzer from "./on-page-tech-seo/log-file-analyzer/LogFileAnalyzer";
 import OnPageSEOChecker from "./on-page-tech-seo/on-page-seo-checker/OnPageSeoChecker";
 import SiteAudit from "./on-page-tech-seo/site-audit/SiteAudit";
 
-// Link Building
 import BacklinkAnalytics from "./link-building/backlink-analytics/BacklinkAnalytics";
 import BacklinkAudit from "./link-building/backlink-audit/BacklinkAudit";
 import BulkAnalysis from "./link-building/bulk-analysis/BulkAnalysis";
 import LinkBuildingTool from "./link-building/link-building-tool/LinkBuildingTool";
 
-// SEO Learn
 import KeywordLearn from "./learn-seo/Keyword-learn/KeywordLearn";
 import ContentWritingLearn from "./learn-seo/content-writing-learn/ContentWritingLearn";
 import OnPageAndTechnicalSEOLearn from "./learn-seo/on-page-and-technical-seo-Learn/OnPageAndTechnicalSEOLearn";
 import OffPageSEOLearn from "./learn-seo/off-page-seo-learn/OffPageSEOLearn";
 
-import { Button } from "../components/ui/button";
-
+// Define tabs
 const seoTabs = [
-  // Competitive Research
   {
     name: "Competitive Research",
     secondary: [
@@ -51,7 +45,6 @@ const seoTabs = [
       { name: "Backlink Gap", component: <BacklinkGap /> },
     ],
   },
-  // Keyword Research
   {
     name: "Keyword Research",
     secondary: [
@@ -62,7 +55,6 @@ const seoTabs = [
       { name: "Position Tracking", component: <PositionTracking /> },
     ],
   },
-  // Content Writing
   {
     name: "Content Writing",
     secondary: [
@@ -71,7 +63,6 @@ const seoTabs = [
       { name: "Genrate Content", component: <GenrateContent /> },
     ],
   },
-  // On Page & Technical Seo
   {
     name: "On Page & Tech SEO",
     secondary: [
@@ -80,7 +71,6 @@ const seoTabs = [
       { name: "Site Audit", component: <SiteAudit /> },
     ],
   },
-  // Link Building
   {
     name: "Link Building",
     secondary: [
@@ -90,7 +80,6 @@ const seoTabs = [
       { name: "Link Building Tool", component: <LinkBuildingTool /> },
     ],
   },
-  // Link Building
   {
     name: "SEO Learn",
     secondary: [
@@ -106,64 +95,160 @@ export default function SeoPage() {
   const [activePrimary, setActivePrimary] = useState(0);
   const [activeSecondary, setActiveSecondary] = useState(0);
 
+  const primaryRef = useRef<HTMLDivElement>(null);
+  const secondaryRef = useRef<HTMLDivElement>(null);
+
+  const [canScrollPrimaryLeft, setCanScrollPrimaryLeft] = useState(false);
+  const [canScrollPrimaryRight, setCanScrollPrimaryRight] = useState(false);
+  const [canScrollSecondaryLeft, setCanScrollSecondaryLeft] = useState(false);
+  const [canScrollSecondaryRight, setCanScrollSecondaryRight] = useState(false);  
+
   const primary = seoTabs[activePrimary];
   const secondary = primary.secondary[activeSecondary];
 
+  const checkScroll = (
+    ref: React.RefObject<HTMLDivElement | null>,
+    setLeft: React.Dispatch<React.SetStateAction<boolean>>,
+    setRight: React.Dispatch<React.SetStateAction<boolean>>
+  ) => {
+    if (!ref.current) return; // null check
+    const { scrollLeft, scrollWidth, clientWidth } = ref.current;
+    setLeft(scrollLeft > 0);
+    setRight(scrollLeft + clientWidth < scrollWidth - 1);
+  };
+
+  useEffect(() => {
+    const updateScroll = () => {
+      checkScroll(primaryRef, setCanScrollPrimaryLeft, setCanScrollPrimaryRight);
+      checkScroll(secondaryRef, setCanScrollSecondaryLeft, setCanScrollSecondaryRight);
+    };
+
+    // Initial check
+    updateScroll();
+
+    window.addEventListener("resize", updateScroll);
+    return () => window.removeEventListener("resize", updateScroll);
+  }, []);
+
+  // ✅ Single scroll function (renamed to avoid conflicts)
+  const scrollTabs = (ref: React.RefObject<HTMLDivElement | null>, distance: number) => {
+    if (!ref.current) return;
+    ref.current.scrollBy({ left: distance, behavior: "smooth" });
+
+    // Re-check scroll position after smooth scroll
+    setTimeout(() => {
+      checkScroll(
+        ref,
+        ref === primaryRef ? setCanScrollPrimaryLeft : setCanScrollSecondaryLeft,
+        ref === primaryRef ? setCanScrollPrimaryRight : setCanScrollSecondaryRight
+      );
+    }, 300);
+  };
+
+  // ✅ Single useEffect to handle resize + initial state
+  useEffect(() => {
+    const updateScroll = () => {
+      if (primaryRef.current)
+        checkScroll(primaryRef, setCanScrollPrimaryLeft, setCanScrollPrimaryRight);
+      if (secondaryRef.current)
+        checkScroll(secondaryRef, setCanScrollSecondaryLeft, setCanScrollSecondaryRight);
+    };
+
+    updateScroll(); // initial check
+    window.addEventListener("resize", updateScroll);
+    return () => window.removeEventListener("resize", updateScroll);
+  }, []);
+
+
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4 uppercase">
-        We are Here to Help you For Page SEO.
+    <div className="w-full flex flex-col p-4 lg:p-6 overflow-x-hidden bg-white shadow-lg rounded-lg">
+      <h1 className="text-2xl font-bold mb-6 uppercase text-center lg:text-left">
+        We are Here to Help you For Page SEO
       </h1>
 
       {/* Primary Tabs */}
-      <div className="flex mb-4 border-b border-gray-300 overflow-x-auto whitespace-nowrap scrollbar-hide">
-        {seoTabs.map((tab, index) => (
-          <Button
-            key={tab.name}
-            className={`
-        px-3 py-1 text-sm font-medium transition-all duration-200 flex-shrink-0
-        ${
-          activePrimary === index
-            ? "bg-gradient-to-r from-purple-600 to-indigo-600 text-white"
-            : "bg-gray-100 text-gray-800 hover:bg-gradient-to-r hover:from-purple-600 hover:to-indigo-600 hover:text-white"
-        }
-        ${index !== seoTabs.length - 1 ? "border-r border-gray-300" : ""}
-      `}
-            onClick={() => {
-              setActivePrimary(index);
-              setActiveSecondary(0); // Reset secondary tab on primary change
-            }}
+      <div className="relative mb-4 w-full overflow-hidden">
+        {canScrollPrimaryLeft && (
+          <button
+            onClick={() => scrollTabs(primaryRef,-150)}
+            className="absolute left-0 top-0 z-20 h-full px-2 bg-white/90 backdrop-blur-sm shadow flex items-center justify-center"
           >
-            {tab.name}
-          </Button>
-        ))}
+            <ChevronLeft className="w-5 h-5 text-gray-600" />
+          </button>
+        )}
+        
+        <div
+          ref={primaryRef}
+          className="flex flex-nowrap gap-2 w-full px-2 sm:px-6 overflow-x-auto scrollbar-hide touch-pan-x"
+          onScroll={() => checkScroll(primaryRef, setCanScrollPrimaryLeft, setCanScrollPrimaryRight)}
+        >
+          {seoTabs.map((tab, index) => (
+            <Button
+              key={tab.name}
+              className={`px-4 py-2 text-sm font-medium flex-shrink-0 rounded-lg transition-all
+                ${activePrimary === index
+                  ? "bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-md"
+                  : "bg-gray-100 text-gray-800 hover:bg-gradient-to-r hover:from-purple-500 hover:to-indigo-500 hover:text-white"
+                }`}
+              onClick={() => { setActivePrimary(index); setActiveSecondary(0); }}
+            >
+              {tab.name}
+            </Button>
+          ))}
+        </div>
+
+        {canScrollPrimaryRight && (
+          <button
+            onClick={() => scrollTabs(primaryRef,150)}
+            className="absolute right-0 top-0 z-20 h-full px-2 bg-white/90 backdrop-blur-sm shadow flex items-center justify-center"
+          >
+            <ChevronRight className="w-5 h-5 text-gray-600" />
+          </button>
+        )}
       </div>
 
       {/* Secondary Tabs */}
-      <div className="flex border-b border-gray-300">
-        {primary.secondary.map((tab, index) => (
-          <Button
-            key={tab.name}
-            className={`
-        px-2 py-1 text-sm font-medium transition-all duration-200
-        ${
-          activeSecondary === index
-            ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white"
-            : "bg-gray-100 text-gray-800 hover:bg-gradient-to-r hover:from-indigo-600 hover:to-purple-600 hover:text-white"
-        }
-        ${
-          index !== primary.secondary.length - 1 ? "" : ""
-        }
-      `}
-            onClick={() => setActiveSecondary(index)}
+      <div className="relative mb-4 w-full overflow-hidden">
+        {canScrollSecondaryLeft && (
+          <button
+            onClick={() => scrollTabs(secondaryRef,-150)}
+            className="absolute left-0 top-0 z-20 h-full px-2 bg-white/90 backdrop-blur-sm shadow flex items-center justify-center"
           >
-            {tab.name}
-          </Button>
-        ))}
-      </div>
+            <ChevronLeft className="w-4 h-4 text-gray-600" />
+          </button>
+        )}
+        
+        <div
+          ref={secondaryRef}
+          className="flex flex-nowrap gap-2 w-full px-2 sm:px-6 overflow-x-auto scrollbar-hide touch-pan-x"
+          onScroll={() => checkScroll(secondaryRef, setCanScrollSecondaryLeft, setCanScrollSecondaryRight)}
+        >
+          {primary.secondary.map((tab, index) => (
+            <Button
+              key={tab.name}
+              className={`px-4 py-2 text-sm font-medium flex-shrink-0 rounded-lg transition-all
+                ${activeSecondary === index
+                  ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-md"
+                  : "bg-gray-100 text-gray-800 hover:bg-gradient-to-r hover:from-indigo-500 hover:to-purple-500 hover:text-white"
+                }`}
+              onClick={() => setActiveSecondary(index)}
+            >
+              {tab.name}
+            </Button>
+          ))}
+        </div>
 
+        {canScrollSecondaryRight && (
+          <button
+            onClick={() => scrollTabs(secondaryRef,150)}
+            className="absolute right-0 top-0 z-20 h-full px-2 bg-white/90 backdrop-blur-sm shadow flex items-center justify-center"
+          >
+            <ChevronRight className="w-4 h-4 text-gray-600" />
+          </button>
+        )}
+      </div>
       {/* Content */}
-      <div className="bg-gray-100 p-4 shadow-xl border-r border-l border-b border-gray-300">
+      <div className="bg-white shadow-lg rounded-xl p-4 flex-1 overflow-auto">
         {secondary.component}
       </div>
     </div>
