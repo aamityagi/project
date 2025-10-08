@@ -12,14 +12,8 @@ export default function ProtectedLayoutClient({ children }: { children: ReactNod
   return (
     <SessionProvider>
       <div className="flex min-h-screen bg-gray-100 text-gray-800">
-        {/* Desktop Sidebar */}
-        <aside
-          className={`hidden lg:flex flex-col bg-white transition-all duration-300 shadow-md h-screen ${
-            sidebarOpen ? "w-64" : "w-20"
-          }`}
-        >
-          <Sidebar sidebarOpen={sidebarOpen} />
-        </aside>
+        {/* Sidebar (Desktop + Mobile handled inside Sidebar.tsx) */}
+        <Sidebar sidebarOpen={sidebarOpen} mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
 
         {/* Main Right Content */}
         <div className="flex flex-1 flex-col relative">
@@ -40,23 +34,6 @@ export default function ProtectedLayoutClient({ children }: { children: ReactNod
               </footer>
             </main>
           </div>
-        </div>
-
-        {/* Mobile Sidebar */}
-        <div
-          className={`fixed inset-0 z-50 lg:hidden transition-transform duration-300 ${
-            mobileOpen ? "translate-x-0" : "-translate-x-full"
-          }`}
-        >
-          {/* Overlay */}
-          <div
-            className="absolute inset-0 bg-black/30"
-            onClick={() => setMobileOpen(false)}
-          />
-          {/* Sidebar */}
-          <aside className="relative w-64 bg-white h-full shadow-lg flex flex-col">
-            <Sidebar sidebarOpen={true} />
-          </aside>
         </div>
       </div>
     </SessionProvider>
