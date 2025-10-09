@@ -167,28 +167,28 @@ export default function SeoPage() {
       </h1>
 
       {/* Primary Tabs */}
-      <div className="relative mb-4 w-full overflow-hidden">
+      <div className="relative mb-2 w-full overflow-hidden">
         {canScrollPrimaryLeft && (
-          <button
+          <Button
             onClick={() => scrollTabs(primaryRef, -150)}
             className="absolute left-0 top-0 z-20 h-full px-2 bg-white/90 backdrop-blur-sm shadow flex items-center justify-center"
           >
             <ChevronLeft className="w-5 h-5 text-gray-600" />
-          </button>
+          </Button>
         )}
 
         <div
           ref={primaryRef}
-          className="flex flex-nowrap gap-2 w-full px-1 sm:px-6 overflow-x-auto scrollbar-hide touch-pan-x"
+          className="flex flex-nowrap w-full px-1 sm:px-6 overflow-x-auto scrollbar-hide touch-pan-x"
           onScroll={() => checkScroll(primaryRef, setCanScrollPrimaryLeft, setCanScrollPrimaryRight)}
         >
           {seoTabs.map((tab, index) => (
             <Button
               key={tab.name}
-              className={`flex-shrink-0 min-w-0 px-3 sm:px-4 py-1.5 sm:py-2 text-sm sm:text-base font-medium rounded-lg transition-all
+              className={`flex-shrink-0 !h-8 min-w-0 px-3 sm:px-4 py-1.5 sm:py-2 text-sm transition-all
                 ${activePrimary === index
                   ? "bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-md"
-                  : "bg-gray-100 text-gray-800 hover:bg-gradient-to-r hover:from-purple-500 hover:to-indigo-500 hover:text-white"
+                  : "bg-gray-200 text-gray-600 hover:bg-gradient-to-r hover:from-purple-500 hover:to-indigo-500 hover:text-white"
                 }`}
               onClick={() => { setActivePrimary(index); setActiveSecondary(0); }}
             >
@@ -198,38 +198,38 @@ export default function SeoPage() {
         </div>
 
         {canScrollPrimaryRight && (
-          <button
+          <Button
             onClick={() => scrollTabs(primaryRef, 150)}
             className="absolute right-0 top-0 z-20 h-full px-2 bg-white/90 backdrop-blur-sm shadow flex items-center justify-center"
           >
             <ChevronRight className="w-5 h-5 text-gray-600" />
-          </button>
+          </Button>
         )}
       </div>
 
       {/* Secondary Tabs */}
       <div className="relative mb-4 w-full overflow-hidden">
         {canScrollSecondaryLeft && (
-          <button
+          <Button
             onClick={() => scrollTabs(secondaryRef, -150)}
             className="absolute left-0 top-0 z-20 h-full px-2 bg-white/90 backdrop-blur-sm shadow flex items-center justify-center"
           >
             <ChevronLeft className="w-4 h-4 text-gray-600" />
-          </button>
+          </Button>
         )}
 
         <div
           ref={secondaryRef}
-          className="flex flex-nowrap gap-2 w-full px-1 sm:px-6 overflow-x-auto scrollbar-hide touch-pan-x"
+          className="flex flex-nowrap text-sm w-full px-1 sm:px-6 overflow-x-auto scrollbar-hide touch-pan-x"
           onScroll={() => checkScroll(secondaryRef, setCanScrollSecondaryLeft, setCanScrollSecondaryRight)}
         >
           {primary.secondary.map((tab, index) => (
             <Button
               key={tab.name}
-              className={`flex-shrink-0 min-w-0 px-3 sm:px-4 py-1.5 sm:py-2 text-sm sm:text-base font-medium rounded-lg transition-all
+              className={`flex-shrink-0 !h-8 min-w-0 px-3 sm:px-4 py-1.5 sm:py-2 text-sm transition-all
                 ${activeSecondary === index
                   ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-md"
-                  : "bg-gray-100 text-gray-800 hover:bg-gradient-to-r hover:from-indigo-500 hover:to-purple-500 hover:text-white"
+                  : "bg-gray-200 text-gray-600 hover:bg-gradient-to-r hover:from-indigo-500 hover:to-purple-500 hover:text-white"
                 }`}
               onClick={() => setActiveSecondary(index)}
             >
@@ -239,12 +239,12 @@ export default function SeoPage() {
         </div>
 
         {canScrollSecondaryRight && (
-          <button
+          <Button
             onClick={() => scrollTabs(secondaryRef, 150)}
             className="absolute right-0 top-0 z-20 h-full px-2 bg-white/90 backdrop-blur-sm shadow flex items-center justify-center"
           >
             <ChevronRight className="w-4 h-4 text-gray-600" />
-          </button>
+          </Button>
         )}
       </div>
 

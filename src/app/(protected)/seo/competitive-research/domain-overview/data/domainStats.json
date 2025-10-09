@@ -1,0 +1,18 @@
+{
+  "aiVisibility": {
+    "title": "AI Visibility",
+    "date": "Today",
+    "country": {
+      "code": "US",
+      "name": "United States"
+    },
+    "total": 42,
+    "mentions": 2900
+  },
+  "aiOverview": [
+    { "name": "ChatGPT", "icon": "/icons/chatgpt.svg", "count": "1.6K" },
+    { "name": "AI Overview", "icon": "/icons/ai.svg", "count": "323" },
+    { "name": "AI Mode", "icon": "/icons/aimode.svg", "count": "971" },
+    { "name": "Gemini", "icon": "/icons/gemini.svg", "count": null }
+  ]
+}

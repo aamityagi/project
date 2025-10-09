@@ -42,11 +42,11 @@ export default function CountrySelect({ value, onChange }: CountrySelectProps) {
   }, []);
 
   return (
-    <div className="relative min-w-[80px]" ref={dropdownRef}>
+    <div className="relative min-w-[80px] flex-1 md:flex-none w-full md:w-auto" ref={dropdownRef}>
       {/* Selected country button */}
       <Button
         type="button"
-        className="flex items-center border bg-white hover:bg-gray-100"
+        className="flex w-full items-center border border-gray-300 bg-white hover:bg-gray-100"
         onClick={() => setOpen(!open)}
       >
         {selected ? (

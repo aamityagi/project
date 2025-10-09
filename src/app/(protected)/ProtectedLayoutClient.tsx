@@ -31,17 +31,16 @@ export default function ProtectedLayoutClient({ children }: { children: ReactNod
 
           {/* Main Content */}
           <div className="flex-1 flex flex-col mt-16 overflow-hidden">
-            <main className="flex-1 flex flex-col overflow-hidden relative">
+            <main className="flex-1 flex flex-col overflow-hidden relative p-4 lg:p-6 md:p-6">
               {/* Page content */}
-              <div className="flex-1 p-6 w-full max-w-full mx-auto overflow-hidden">
+              <div className="flex-1 p-6 w-full max-w-full mx-auto overflow-hidden  bg-white">
                 {children}
               </div>
-
-              {/* Footer */}
-              <footer className="bg-white border-t border-gray-200 p-4 text-center text-gray-600 flex-shrink-0">
-                © {new Date().getFullYear()} My Company. All rights reserved.
-              </footer>
             </main>
+            {/* Footer */}
+            <footer className="bg-white border-t border-gray-200 p-4 text-center text-gray-600 flex-shrink-0">
+              © {new Date().getFullYear()} My Company. All rights reserved.
+            </footer>
           </div>
 
         </div>
