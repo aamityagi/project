@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import contentData from "../../data/domainContent.json";
 import ContentSection from "../components/ContentSection";
 import DomainOrganicForm from "../components/DomainOrganicForm";
@@ -15,6 +15,11 @@ export default function DomainOverview() {
   const handleSearch = (data: { domain: string; country: { code: string; location_code: number } }) => {
     setSearchData(data); // store for showing result component
   };
+  useEffect(() => {
+    if (searchData) {
+      console.log("🔎 Domain search submitted:", searchData);
+    }
+  }, [searchData]);
 
   return (
     <section className="p-4 md:p-8 max-w-6xl mx-auto">

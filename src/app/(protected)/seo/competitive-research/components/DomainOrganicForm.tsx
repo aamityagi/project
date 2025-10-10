@@ -16,56 +16,56 @@ export default function DomainOrganicForm({ onSearch }: DomainFormProps) {
 
   const allowedTlds = [".com", ".in", ".org", ".net", ".uae"];
 
-const validateDomain = (domain: string) => {
-  const trimmed = domain.trim();
+  // Normalize the domain: remove protocol and www
+  const normalizeDomain = (input: string) => {
+    return input
+      .trim()
+      .replace(/^(https?:\/\/)/i, "")
+      .replace(/^www\./i, "");
+  };
 
-  // Must start with http://, https://, or www.
-  const startsCorrectly = /^(https?:\/\/|www\.)/.test(trimmed);
+  const validateDomain = (input: string) => {
+    const normalized = normalizeDomain(input);
 
-  // Must contain a valid TLD somewhere
-  const endsCorrectly = allowedTlds.some((tld) => trimmed.includes(tld));
+    // Check if contains valid TLD
+    const validTld = allowedTlds.some((tld) => normalized.includes(tld));
 
-  // Only allow valid URL characters
-  const invalidChars = /[^a-zA-Z0-9-.:/]/.test(trimmed);
+    // Check if there are invalid characters
+    const invalidChars = /[^a-zA-Z0-9-.:/]/.test(normalized);
 
-  // Ensure at least one character before TLD
-  const tldMatch = allowedTlds.find((tld) => trimmed.includes(tld));
-  const validLength = tldMatch
-    ? trimmed
-        .replace(/^(https?:\/\/|www\.)/, "")
-        .split(tldMatch)[0].length > 0
-    : false;
-
-  return startsCorrectly && endsCorrectly && !invalidChars && validLength;
-};
-
+    return validTld && !invalidChars;
+  };
 
   const handleSubmit = () => {
+    const normalized = normalizeDomain(domain);
     if (!validateDomain(domain)) {
-      setError(
-        'Invalid domain. Example: "https://example.com", "http://example.in", "www.example.org"'
-      );
+      setError('Invalid domain. Example: "example.com", "example.in", "example.org"');
       return;
     }
 
     setError("");
-    onSearch({ domain: domain.trim(), country });
+    onSearch({ domain: normalized, country });
+  };
+
+  // Trigger search on Enter key
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleSubmit();
+    }
   };
 
   return (
     <div className="flex flex-col w-full gap-1">
-      {/* Form Row */}
       <div className="flex flex-col md:flex-row gap-3 items-center justify-center w-full">
-        {/* Domain Input */}
         <Input
           type="text"
-          placeholder="Enter domain (example: https://example.com)"
+          placeholder="Enter domain (example: example.com)"
           value={domain}
           onChange={(e) => setDomain(e.target.value)}
+          onKeyDown={handleKeyDown}
           className="flex-1 border p-2 h-10 w-full"
         />
 
-        {/* Country + Search Wrapper */}
         <div className="flex w-full md:w-auto gap-2">
           <CountrySelect
             value={country.code}
@@ -80,12 +80,7 @@ const validateDomain = (domain: string) => {
         </div>
       </div>
 
-      {/* Error Message (next to form row) */}
-      {error && (
-        <p className="text-red-500 text-sm md:ml-2">
-          {error}
-        </p>
-      )}
+      {error && <p className="text-red-500 text-sm md:ml-2">{error}</p>}
     </div>
   );
 }
