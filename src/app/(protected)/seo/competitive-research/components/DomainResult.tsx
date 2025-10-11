@@ -5,6 +5,7 @@ import ReactCountryFlag from "react-country-flag";
 import Link from "next/link";
 import DomainWhoisData from "./DomainWhoisData";
 import DomainAIStats from "./DomainAIStats";
+import DomainRequiredData from "./DomainRequiredData";
 
 interface DomainResultProps {
   domain: string;       // user input
@@ -87,7 +88,7 @@ export default function DomainResult({ domain, countryCode }: DomainResultProps)
       {/* Content: WHOIS + AI Stats */}
       <div className="mt-4 w-full flex flex-col md:flex-row gap-4 items-stretch">
         {/* Left div */}
-        <div className="w-full md:w-1/4 flex flex-col">
+        <div className="w-full md:w-1/2 flex flex-col">
           <div className="flex-1 flex flex-col justify-between">
             {loading && <p className="text-gray-600 mt-2">Fetching domain info...</p>}
             {error && <p className="text-red-500 mt-2">{error}</p>}
@@ -95,18 +96,16 @@ export default function DomainResult({ domain, countryCode }: DomainResultProps)
           </div>
         </div>
 
-        {/* Center div */}
-        <div className="w-full md:w-1/4 flex flex-col">
+        {/* Right div */}
+        <div className="w-full md:w-1/2 flex flex-col">
           <div className="flex-1 flex flex-col justify-between">
             <DomainAIStats countryCode={countryCode} />
           </div>
         </div>
-
-        {/* Right div */}
-        <div className="w-full md:w-2/4 flex flex-col">
-          <div className="flex-1 flex flex-col justify-between">
-            <DomainAIStats countryCode={countryCode} />
-          </div>
+      </div>
+      <div className="mt-4 w-full flex flex-col md:flex-row gap-4 items-stretch">
+        <div className="flex-1 flex flex-col justify-between">
+          <DomainRequiredData/>
         </div>
       </div>
     </div>

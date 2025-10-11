@@ -14,5 +14,55 @@
     { "name": "AI Overview", "icon": "/icons/ai.svg", "count": "323" },
     { "name": "AI Mode", "icon": "/icons/aimode.svg", "count": "971" },
     { "name": "Gemini", "icon": "/icons/gemini.svg", "count": null }
+  ],
+  "stats": [
+    {
+      "type": "authorityScore",
+      "heading": "Authority Score",
+      "tooltip": "Authority score is 1-100, shows domain quality.",
+      "score": 99,
+      "rank": 11,
+      "rankTooltip": "Semrush rank improved by 11 positions"
+    },
+    {
+      "type": "organicTraffic",
+      "heading": "Organic search traffic",
+      "tooltip": "Estimated organic traffic",
+      "traffic": "211.9M sub (-3%)",
+      "trafficTooltip": "Total organic sessions: 211.9M, change -3%",
+      "viewDetails": "#",
+      "keywords": "9.3M ↓",
+      "keywordsTooltip": "Tracked keywords: 9.3M, trend decreasing"
+    },
+    {
+      "type": "paidTraffic",
+      "heading": "Paid search traffic",
+      "tooltip": "Estimated paid traffic",
+      "traffic": "14.6M sub (-6.9%)",
+      "trafficTooltip": "Total paid traffic: 14.6M, change -6.9%",
+      "keywords": "42.9K ↑",
+      "keywordsTooltip": "Paid keywords: 42.9K, trend increasing"
+    },
+    {
+      "type": "backlinks",
+      "heading": "Backlinks",
+      "tooltip": "Total backlinks",
+      "backlinks": "302.2M",
+      "refDomains": "205.3K",
+      "refTooltip": "Unique referring domains: 205.3K"
+    },
+    {
+      "type": "trafficShare",
+      "heading": "Traffic share",
+      "tooltip": "Share of traffic among top competitors",
+      "competitors": [
+        { "domain": "amazon.in", "pct": "28%", "visits": "211,930,775" },
+        { "domain": "flipkart.com", "pct": "24%", "visits": "184,788,539" },
+        { "domain": "indiamart.com", "pct": "7%", "visits": "52,546,771" },
+        { "domain": "pinterest.com", "pct": "37%", "visits": "281,326,943" },
+        { "domain": "meesho.com", "pct": "4%", "visits": "29,263,329" }
+      ],
+      "totalCompetitors": "1.9M"
+    }
   ]
 }
