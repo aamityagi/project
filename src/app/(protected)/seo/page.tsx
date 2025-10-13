@@ -179,7 +179,7 @@ export default function SeoPage() {
 
         <div
           ref={primaryRef}
-          className="flex flex-nowrap w-full px-1 sm:px-6 overflow-x-auto scrollbar-hide touch-pan-x"
+          className="flex flex-nowrap w-full overflow-x-auto scrollbar-hide touch-pan-x"
           onScroll={() => checkScroll(primaryRef, setCanScrollPrimaryLeft, setCanScrollPrimaryRight)}
         >
           {seoTabs.map((tab, index) => (
@@ -208,7 +208,7 @@ export default function SeoPage() {
       </div>
 
       {/* Secondary Tabs */}
-      <div className="relative mb-4 w-full overflow-hidden">
+      <div className="relative w-full overflow-hidden">
         {canScrollSecondaryLeft && (
           <Button
             onClick={() => scrollTabs(secondaryRef, -150)}
@@ -220,7 +220,7 @@ export default function SeoPage() {
 
         <div
           ref={secondaryRef}
-          className="flex flex-nowrap text-sm w-full px-1 sm:px-6 overflow-x-auto scrollbar-hide touch-pan-x"
+          className="flex flex-nowrap text-sm w-full overflow-x-auto scrollbar-hide touch-pan-x"
           onScroll={() => checkScroll(secondaryRef, setCanScrollSecondaryLeft, setCanScrollSecondaryRight)}
         >
           {primary.secondary.map((tab, index) => (
@@ -229,7 +229,7 @@ export default function SeoPage() {
               className={`flex-shrink-0 !h-8 min-w-0 px-3 sm:px-4 py-1.5 sm:py-2 text-sm transition-all
                 ${activeSecondary === index
                   ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-md"
-                  : "bg-gray-200 text-gray-600 hover:bg-gradient-to-r hover:from-indigo-500 hover:to-purple-500 hover:text-white"
+                  : "bg-gray-100 text-gray-600 hover:bg-gradient-to-r hover:from-indigo-500 hover:to-purple-500 hover:text-white"
                 }`}
               onClick={() => setActiveSecondary(index)}
             >
@@ -249,7 +249,7 @@ export default function SeoPage() {
       </div>
 
       {/* Content */}
-      <div className="bg-white flex-1 overflow-auto">
+      <div className="bg-gray-100 border border-gray-200 flex-1 overflow-auto">
         {secondary.component}
       </div>
     </div>

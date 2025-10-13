@@ -10,10 +10,10 @@
     "mentions": 2900
   },
   "aiOverview": [
-    { "name": "ChatGPT", "icon": "/icons/chatgpt.svg", "count": "1.6K" },
-    { "name": "AI Overview", "icon": "/icons/ai.svg", "count": "323" },
-    { "name": "AI Mode", "icon": "/icons/aimode.svg", "count": "971" },
-    { "name": "Gemini", "icon": "/icons/gemini.svg", "count": null }
+    { "name": "ChatGPT", "icon": "/assets/icons/chatgpt.svg", "count": "1.6K" },
+    { "name": "AI Overview", "icon": "/assets/icons/ai.svg", "count": "323" },
+    { "name": "AI Mode", "icon": "/assets/icons/ai.svg", "count": "971" },
+    { "name": "Gemini", "icon": "/assets/icons/gemini.svg", "count": null }
   ],
   "stats": [
     {

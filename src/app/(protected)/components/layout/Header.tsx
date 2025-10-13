@@ -77,15 +77,35 @@ export default function Header({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  // ✅ Added for header shift with sidebar hover
+  const [hovered, setHovered] = useState(false);
+
+  useEffect(() => {
+    const sidebar = document.querySelector(".sidebar-container");
+    if (!sidebar) return;
+
+    const handleEnter = () => setHovered(true);
+    const handleLeave = () => setHovered(false);
+
+    sidebar.addEventListener("mouseenter", handleEnter);
+    sidebar.addEventListener("mouseleave", handleLeave);
+
+    return () => {
+      sidebar.removeEventListener("mouseenter", handleEnter);
+      sidebar.removeEventListener("mouseleave", handleLeave);
+    };
+  }, []);
+
   return (
     <>
       {/* HEADER BAR */}
       <header
         ref={headerRef}
+        // ✅ Updated header positioning logic
         className={`fixed top-0 left-0 h-16 px-4 py-2 bg-white shadow-md flex items-center justify-between z-[100] transition-all duration-300 w-full ${
-          sidebarOpen
+          sidebarOpen || hovered
             ? "lg:left-64 lg:w-[calc(100%-16rem)]"
-            : "lg:left-20 lg:w-[calc(100%-4rem)]"
+            : "lg:left-20 lg:w-[calc(100%-5rem)]"
         }`}
       >
         {/* LEFT SIDE */}
@@ -93,17 +113,17 @@ export default function Header({
           {/* Mobile Hamburger */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="p-2 hover:bg-gray-100 rounded-lg lg:hidden cursor-pointer"
+            className="p-2 hover:bg-gray-100 border border-gray-300 rounded-lg lg:hidden cursor-pointer"
           >
-            <Menu className="w-6 h-6 text-gray-700" />
+            <Menu className="w-6 h-6 text-gray-500" />
           </button>
 
           {/* Desktop Sidebar Toggle */}
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="p-2 hover:bg-gray-100 rounded-lg hidden lg:block cursor-pointer"
+            className="p-2 hover:bg-gray-100 border border-gray-300 rounded-lg hidden lg:block cursor-pointer"
           >
-            <Menu className="w-6 h-6 text-gray-700" />
+            <Menu className="w-6 h-6 text-gray-500" />
           </button>
 
           {/* Mobile Logo */}
@@ -149,8 +169,12 @@ export default function Header({
                 <div className="absolute right-0 mt-2 w-56 bg-white border shadow-lg z-[999] rounded-md p-2">
                   <h4 className="font-medium text-gray-900">Credits Breakdown</h4>
                   <ul className="mt-2 space-y-1">
-                    <li className="flex justify-between">SEO <span>4000</span></li>
-                    <li className="flex justify-between">Website Builder <span>6000</span></li>
+                    <li className="flex justify-between">
+                      SEO <span>4000</span>
+                    </li>
+                    <li className="flex justify-between">
+                      Website Builder <span>6000</span>
+                    </li>
                   </ul>
                 </div>
               )}
@@ -163,7 +187,7 @@ export default function Header({
                 className="relative w-10 h-10 flex items-center justify-center rounded-full border border-gray-300 hover:bg-gray-100"
                 onClick={() => toggleDropdown("notif")}
               >
-                <Bell className="w-5 h-5 text-gray-700" />
+                <Bell className="w-5 h-5 text-gray-500" />
                 <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-semibold w-5 h-5 flex items-center justify-center rounded-full">
                   12
                 </span>
@@ -177,7 +201,9 @@ export default function Header({
                         NEW
                       </span>
                       <h5 className="font-medium">SEO Report Generated</h5>
-                      <p className="text-sm text-gray-500">Your latest SEO report is ready.</p>
+                      <p className="text-sm text-gray-500">
+                        Your latest SEO report is ready.
+                      </p>
                     </li>
                   </ul>
                 </div>
@@ -186,9 +212,12 @@ export default function Header({
 
             {/* Announcements */}
             <div className="relative">
-              <Button variant="ghost"
-                className="relative w-10 h-10 flex items-center justify-center rounded-full border border-gray-300 hover:bg-gray-100" onClick={() => toggleDropdown("announce")}>
-                <Megaphone className="w-5 h-5 text-gray-700" />
+              <Button
+                variant="ghost"
+                className="relative w-10 h-10 flex items-center justify-center rounded-full border border-gray-300 hover:bg-gray-100"
+                onClick={() => toggleDropdown("announce")}
+              >
+                <Megaphone className="w-5 h-5 text-gray-500" />
               </Button>
               {openDropdown === "announce" && (
                 <div className="absolute right-0 mt-2 w-80 bg-white border shadow-lg z-[999] rounded-md p-2">
@@ -199,7 +228,9 @@ export default function Header({
                         NEW
                       </span>
                       <h5 className="font-medium">AI Builder v2.0 Released</h5>
-                      <p className="text-sm text-gray-500">Explore our latest AI builder.</p>
+                      <p className="text-sm text-gray-500">
+                        Explore our latest AI builder.
+                      </p>
                     </li>
                   </ul>
                 </div>
@@ -222,23 +253,42 @@ export default function Header({
             {openDropdown === "profile" && (
               <div className="absolute right-0 mt-2 w-64 bg-white border shadow-lg z-[999] rounded-md p-1">
                 <div className="p-3 border-b">
-                  <p className="text-sm font-semibold text-gray-900">{session?.user?.name || "User"}</p>
-                  <p className="text-xs text-gray-500 truncate">{session?.user?.email || "user@email.com"}</p>
+                  <p className="text-sm font-semibold text-gray-900">
+                    {session?.user?.name || "User"}
+                  </p>
+                  <p className="text-xs text-gray-500 truncate">
+                    {session?.user?.email || "user@email.com"}
+                  </p>
                 </div>
                 <ul>
-                  <li onClick={() => router.push("/profile")} className="flex items-center gap-2 p-2 hover:bg-gray-100 rounded-md cursor-pointer">
+                  <li
+                    onClick={() => router.push("/profile")}
+                    className="flex items-center gap-2 p-2 hover:bg-gray-100 rounded-md cursor-pointer"
+                  >
                     <User className="w-4 h-4" /> Edit Profile
                   </li>
-                  <li onClick={() => router.push("/account-settings")} className="flex items-center gap-2 p-2 hover:bg-gray-100 rounded-md cursor-pointer">
+                  <li
+                    onClick={() => router.push("/account-settings")}
+                    className="flex items-center gap-2 p-2 hover:bg-gray-100 rounded-md cursor-pointer"
+                  >
                     <Settings className="w-4 h-4" /> Account Settings
                   </li>
-                  <li onClick={() => router.push("/billing")} className="flex items-center gap-2 p-2 hover:bg-gray-100 rounded-md cursor-pointer">
+                  <li
+                    onClick={() => router.push("/billing")}
+                    className="flex items-center gap-2 p-2 hover:bg-gray-100 rounded-md cursor-pointer"
+                  >
                     <CreditCard className="w-4 h-4" /> Billing
                   </li>
-                  <li onClick={() => router.push("/upgrade")} className="flex items-center gap-2 p-2 hover:bg-gray-100 rounded-md cursor-pointer">
+                  <li
+                    onClick={() => router.push("/upgrade")}
+                    className="flex items-center gap-2 p-2 hover:bg-gray-100 rounded-md cursor-pointer"
+                  >
                     <Gem className="w-4 h-4 text-green-700" /> Upgrade
                   </li>
-                  <li onClick={handleLogout} className="flex items-center gap-2 p-2 hover:bg-red-100 rounded-md cursor-pointer text-red-600 border-t mt-1">
+                  <li
+                    onClick={handleLogout}
+                    className="flex items-center gap-2 p-2 hover:bg-red-100 rounded-md cursor-pointer text-red-600 border-t mt-1"
+                  >
                     <LogOut className="w-4 h-4" /> Logout
                   </li>
                 </ul>
@@ -259,8 +309,12 @@ export default function Header({
                     <Gem className="w-4 h-4 text-green-700" /> Credits
                   </h4>
                   <ul className="mt-2 space-y-1">
-                    <li className="flex justify-between">SEO <span>4000</span></li>
-                    <li className="flex justify-between">Website Builder <span>6000</span></li>
+                    <li className="flex justify-between">
+                      SEO <span>4000</span>
+                    </li>
+                    <li className="flex justify-between">
+                      Website Builder <span>6000</span>
+                    </li>
                   </ul>
                 </div>
 
@@ -271,9 +325,13 @@ export default function Header({
                   </h4>
                   <ul className="mt-2 space-y-2">
                     <li>
-                      <span className="text-xs bg-green-100 text-green-800 px-2 py-0.5 rounded-md font-medium">NEW</span>
+                      <span className="text-xs bg-green-100 text-green-800 px-2 py-0.5 rounded-md font-medium">
+                        NEW
+                      </span>
                       <h5 className="font-medium">SEO Report Generated</h5>
-                      <p className="text-sm text-gray-500">Your latest SEO report is ready.</p>
+                      <p className="text-sm text-gray-500">
+                        Your latest SEO report is ready.
+                      </p>
                     </li>
                   </ul>
                 </div>
@@ -285,9 +343,13 @@ export default function Header({
                   </h4>
                   <ul className="mt-2 space-y-2">
                     <li>
-                      <span className="text-xs bg-green-100 text-green-800 px-2 py-0.5 rounded-md font-medium">NEW</span>
+                      <span className="text-xs bg-green-100 text-green-800 px-2 py-0.5 rounded-md font-medium">
+                        NEW
+                      </span>
                       <h5 className="font-medium">AI Builder v2.0 Released</h5>
-                      <p className="text-sm text-gray-500">Explore our latest AI builder.</p>
+                      <p className="text-sm text-gray-500">
+                        Explore our latest AI builder.
+                      </p>
                     </li>
                   </ul>
                 </div>

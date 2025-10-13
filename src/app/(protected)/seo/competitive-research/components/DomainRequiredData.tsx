@@ -26,7 +26,7 @@ export default function DomainRequiredData() {
                         <ScoreCircle score={item.score} tooltipText={`Domain score: ${item.score}`} />
 
                         {/* Semrush Rank */}
-                        <div className="text-sm text-muted-foreground flex items-center gap-2">
+                        <div className="text-[12px] text-muted-foreground flex items-center gap-2">
                             Semrush Domain Rank 
                             <TooltipTrigger label={`${item.rank} ↑`} tooltipText={item.rankTooltip} />
                         </div>
@@ -38,8 +38,8 @@ export default function DomainRequiredData() {
                 {item.type === "organicTraffic" && (
                   <div className="flex flex-col gap-2">
                     <div className="flex items-center gap-2">
-                      <TooltipTrigger label={item.traffic} tooltipText={item.trafficTooltip} />
-                      <a className="text-sm underline" href={item.viewDetails}>View details</a>
+                      <h2><TooltipTrigger label={item.traffic} tooltipText={item.trafficTooltip} /></h2>
+                      <a className="text-[12px] underline" href={item.viewDetails}>View details</a>
                     </div>
                     <TooltipTrigger label={item.keywords} tooltipText={item.keywordsTooltip} />
                   </div>
@@ -70,7 +70,7 @@ export default function DomainRequiredData() {
                             </RadixTooltipTrigger>
                             <TooltipContent side="right" className="max-w-xs p-2">
                             <div className="flex flex-col gap-2">
-                                <div className="flex justify-between text-sm font-medium mb-1">
+                                <div className="flex justify-between text-[12] font-medium mb-1">
                                     <span>Domains</span>
                                     <span>Traffic</span>
                                 </div>
@@ -125,11 +125,12 @@ function TooltipTrigger({ label, tooltipText, small, children }: { label?: strin
         {children ? (
           <>{children}</>
         ) : (
-          <span className={`${small ? "text-xs px-1 py-0.5" : "px-2 py-0.5 text-sm"} cursor-default bg-gray-100 rounded`}>
+          <span className={`${small ? "text-[12px] px-1 py-0.5" : "px-2 py-0.5 text-sm"} cursor-pointer bg-gray-100 rounded`}>
             {label}
           </span>
         )}
       </RadixTooltipTrigger>
+
       <TooltipContent>{tooltipText}</TooltipContent>
     </Tooltip>
   );

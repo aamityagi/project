@@ -12,7 +12,7 @@ import {
   Gem,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 
 import logoFull from "../../../../../public/logo.png";
@@ -22,6 +22,8 @@ interface SidebarProps {
   sidebarOpen: boolean;
   mobileOpen?: boolean;
   setMobileOpen?: (open: boolean) => void;
+  // Added to sync open/close click toggle with header
+  setSidebarOpen?: (open: boolean) => void;
 }
 
 const menu = [
@@ -34,9 +36,17 @@ const menu = [
   { name: "Reports", href: "/reports", icon: FileBarChart },
 ];
 
-export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }: SidebarProps) {
+export default function Sidebar({
+  sidebarOpen,
+  mobileOpen,
+  setMobileOpen,
+  setSidebarOpen,
+}: SidebarProps) {
   const pathname = usePathname();
   const logoAlt = "Namakwala";
+
+  // 🟢 Local hover state
+  const [hovered, setHovered] = useState(false);
 
   // Disable body scroll when mobile sidebar is open
   useEffect(() => {
@@ -44,7 +54,6 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }: Side
     else document.body.style.overflow = "";
   }, [mobileOpen]);
 
-  // Render menu items
   const renderMenuItems = () =>
     menu.map((item) => {
       const isActive = pathname.startsWith(item.href);
@@ -55,11 +64,11 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }: Side
           onClick={() => setMobileOpen?.(false)}
           className={`flex items-center gap-3 p-2 rounded-md transition-all duration-200
             ${isActive ? "bg-gradient-to-r from-purple-600 to-indigo-600 text-white" : "text-gray-700 hover:bg-gray-100"}
-            ${sidebarOpen ? "justify-start px-4" : "justify-center"}
+            ${(sidebarOpen || hovered) ? "justify-start px-4" : "justify-center"}
           `}
         >
           <item.icon className={`w-5 h-5 ${isActive ? "text-white" : "text-gray-700"}`} />
-          {sidebarOpen && <span className="text-sm truncate">{item.name}</span>}
+          {(sidebarOpen || hovered) && <span className="text-sm truncate">{item.name}</span>}
         </Link>
       );
     });
@@ -68,13 +77,20 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }: Side
     <>
       {/* Desktop Sidebar */}
       <div
-        className={`hidden lg:flex flex-col h-screen bg-white shadow-lg transition-all duration-300 fixed left-0 top-0 z-40
-          ${sidebarOpen ? "w-64" : "w-20"}`}
+        className={`sidebar-container hidden lg:flex flex-col h-screen bg-white shadow-lg transition-all duration-300 fixed left-0 top-0 z-40
+          ${(sidebarOpen || hovered) ? "w-64" : "w-20"}
+        `}
+        onMouseEnter={() => {
+          if (!sidebarOpen) setHovered(true);
+        }}
+        onMouseLeave={() => {
+          if (!sidebarOpen) setHovered(false);
+        }}
       >
         {/* Logo */}
         <div className="flex items-center justify-center p-4 transition-all duration-300">
           <Link href="/">
-            {sidebarOpen ? (
+            {(sidebarOpen || hovered) ? (
               <Image
                 src={logoFull}
                 alt={logoAlt}
@@ -100,7 +116,7 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }: Side
         {/* Footer */}
         <div className="p-4 border-t border-gray-200 flex items-center justify-center gap-2">
           <Gem className="w-5 h-5 text-yellow-500" />
-          {sidebarOpen && <span className="font-medium">Upgrade</span>}
+          {(sidebarOpen || hovered) && <span className="font-medium">Upgrade</span>}
         </div>
       </div>
 
@@ -145,8 +161,6 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }: Side
           </aside>
         </div>
       )}
-
-
     </>
   );
 }

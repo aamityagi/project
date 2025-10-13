@@ -72,8 +72,6 @@ export default function DomainResult({ domain, countryCode }: DomainResultProps)
               </svg>
             </a>
           </span>
-
-
           <span className="text-sm flex items-center gap-1">
             <ReactCountryFlag
               countryCode={countryCode}

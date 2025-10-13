@@ -15,7 +15,7 @@ export default function DomainAIStats({ countryCode }: DomainAIStatsProps) {
     <div className="grid gap-6 w-full bg-white p-3 rounded shadow-lg border border-gray-300">
       {/* Heading + Today + Country */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
-        <h4 className="text-sm font-bold flex items-center gap-1">
+        <h4 className="text-md font-bold flex items-center gap-1">
           {aiVisibility.title} - 
           <small className="text-gray-600">
             {aiVisibility.date} 
@@ -67,8 +67,8 @@ export default function DomainAIStats({ countryCode }: DomainAIStatsProps) {
         <div className="mt-2 grid grid-cols-1 md:grid-cols-2 gap-1 items-start">
             {/* Left column: heading + total */}
             <div>
-                <h4 className="text-sm font-semibold">Mentions</h4>
-                <p className="text-2xl font-bold mt-2">
+                <h4 className="text-sm md:text-2xl lg:text-2xl font-semibold">Mentions</h4>
+                <p className="text-1xl md:text-4xl lg:text-5xl font-bold">
                     {(() => {
                     // Calculate total
                     const total = aiOverview.reduce((sum, item) => {
